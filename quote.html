@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bulk Price Calculator — ntagz</title>
+  <title>Order Now</title>
 
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
@@ -14,6 +14,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     /* ── TOKENS ── */
@@ -204,6 +206,17 @@
       background: var(--tagz-dk);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(255, 69, 0, 0.3);
+    }
+
+    .btn-upi {
+      background: #007A6B;
+      color: #fff;
+    }
+
+    .btn-upi:hover {
+      background: #005c51;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 122, 107, 0.3);
     }
 
     .btn-wa {
@@ -457,7 +470,7 @@
       border-top: 1.5px dashed var(--paper);
       padding-top: 20px;
       margin-top: 20px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -474,6 +487,31 @@
       font-size: 28px;
       font-weight: 700;
       color: var(--tagz);
+    }
+
+    /* UPI Visual QR Box Block */
+    .upi-qr-wrapper {
+      background: var(--cream);
+      border: 1px dashed var(--paper);
+      border-radius: var(--r);
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .upi-qr-wrapper p {
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      mix-blend-mode: multiply;
+      /* clean transparency overlay */
     }
 
     .quote-actions {
@@ -602,6 +640,7 @@
       .calc-form-card,
       .page-header,
       .quote-actions,
+      .upi-qr-wrapper,
       .wa-float {
         display: none !important;
       }
@@ -708,8 +747,8 @@
     }
 
     /* =========================================
-   TABLET & DESKTOP (min-width Overrides) 
-   ========================================= */
+     TABLET & DESKTOP (min-width Overrides) 
+     ========================================= */
     @media (min-width: 600px) {
       .footer-top {
         grid-template-columns: 1fr 1fr;
@@ -737,7 +776,8 @@
       }
 
       .quote-actions {
-        flex-direction: row;
+        flex-direction: column;
+        /* Stacked logically for multi-payment layouts */
       }
 
       .footer-top {
@@ -967,17 +1007,31 @@
             <span id="outTotal">₹0</span>
           </div>
 
+          <div class="upi-qr-wrapper no-print">
+            <div id="qrcode"></div>
+            <p>Scan QR to instantly pay via any UPI App</p>
+          </div>
+
           <div class="quote-actions no-print">
+            <a href="#" id="upiLink" class="btn btn-upi btn-lg btn-block">
+              <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+              </svg>
+              Pay via UPI App (Mobile Only)
+            </a>
+
+            <a href="#" id="waLink" target="_blank" class="btn btn-wa btn-lg btn-block">
+              Order via WhatsApp →
+            </a>
+
             <button class="btn btn-outline btn-lg btn-block" onclick="window.print()">
               <svg style="width:16px; height:16px; fill:currentColor;" viewBox="0 0 24 24">
                 <path
                   d="M19 8H5V3H19V8ZM16 5H8V6H16V5ZM21 10C21.5523 10 22 10.4477 22 11V18H19V22H5V18H2V11C2 10.4477 2.44772 10 3 10H21ZM17 16H7V20H17V16ZM19 12C18.4477 12 18 12.4477 18 13C18 13.5523 18.4477 14 19 14C19.5523 14 20 13.5523 20 13C20 12.4477 19.5523 12 19 12Z" />
               </svg>
-              Download PDF
+              Download PDF Quote
             </button>
-            <a href="#" id="waLink" target="_blank" class="btn btn-tagz btn-lg btn-block">
-              Order via WhatsApp →
-            </a>
           </div>
 
         </div>
@@ -1052,6 +1106,15 @@
   </footer>
 
   <script>
+    // Initialize standard QRCode instance container globally
+    const qrcodeContainer = new QRCode(document.getElementById("qrcode"), {
+      width: 160,
+      height: 160,
+      colorDark: "#1A1714",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
     // Format Currency function
     const formatMoney = (amount) => {
       return new Intl.NumberFormat('en-IN', {
@@ -1141,6 +1204,24 @@
       }
 
       document.getElementById('outTotal').textContent = formatMoney(grandTotal);
+
+      /* ── DYNAMIC UPI LOGIC ── */
+      // Configure your merchant parameters here:
+      const upiVpa = "7385856545@ibl"; // Replace with your corporate/business registered VPA ID
+      const merchantName = "Ambivert Electronics";
+      const transactionNote = encodeURIComponent(`Bulk Order - ${qty} ${productName.substring(0, 10)}`);
+
+      // Build dynamic standard deep link payload (Using exactly 2 decimal places for precise standard transactions)
+      const upiString = `upi://pay?pa=${upiVpa}&pn=${encodeURIComponent(merchantName)}&am=${grandTotal.toFixed(2)}&cu=INR&tn=${transactionNote}`;
+
+      // Update Mobile Intent Action Link
+      document.getElementById('upiLink').href = upiString;
+
+      // Update the inline dynamic desktop QR code securely
+      qrcodeContainer.clear();
+      if (grandTotal > 0) {
+        qrcodeContainer.makeCode(upiString);
+      }
 
       // Update WhatsApp Link with pre-filled message
       const waMessage = `Hi ntagz! I have generated a quote from your calculator and would like to proceed with an order:
