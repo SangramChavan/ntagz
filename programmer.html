@@ -1,517 +1,1171 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Smart NFC Programmer — ntagz</title>
-<meta name="description" content="Program your ntagz NFC products directly from your browser. Create smart business cards, payment links, Instagram tags, and more instantly." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart NFC Programmer — ntagz</title>
+  <meta name="description"
+    content="Program your ntagz NFC products directly from your browser. Create smart business cards, payment links, Instagram tags, and more instantly." />
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
-<style>
-/* ── DESIGN TOKENS ── */
-:root {
-  --cream:   #FAF7F2;
-  --warm:    #F2EDE4;
-  --paper:   #ECEADF;
-  --ink:     #1A1714;
-  --ink-2:   #4A4540;
-  --ink-3:   #8A837A;
-  --tagz:    #FF4500;
-  --tagz-lt: #FFF0EB;
-  --tagz-dk: #CC3700;
-  --teal:    #007A6B;
-  --teal-lt: #E6F4F2;
-  --gold:    #C8960C;
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --cream: #FAF7F2;
+      --warm: #F2EDE4;
+      --paper: #ECEADF;
+      --ink: #1A1714;
+      --ink-2: #4A4540;
+      --ink-3: #8A837A;
+      --tagz: #FF4500;
+      --tagz-lt: #FFF0EB;
+      --tagz-dk: #CC3700;
+      --teal: #007A6B;
+      --teal-lt: #E6F4F2;
+      --gold: #C8960C;
 
-  --ff-head: 'Familjen Grotesk', sans-serif;
-  --ff-serif: 'Instrument Serif', serif;
-  --ff-body: 'Manrope', sans-serif;
+      --ff-head: 'Familjen Grotesk', sans-serif;
+      --ff-serif: 'Instrument Serif', serif;
+      --ff-body: 'Manrope', sans-serif;
 
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --r: 14px;
-  --r-lg: 22px;
-  --r-xl: 32px;
-}
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --r: 14px;
+      --r-lg: 22px;
+      --r-xl: 32px;
+    }
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--cream);
-  color:var(--ink);
-  font-family:var(--ff-body);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-a{text-decoration:none;color:inherit;}
-button{border:none;cursor:pointer;font-family:inherit;}
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ── NAV & TOP STRIP (Inherited) ── */
-.top-strip{
-  background:var(--ink); color:#fff; text-align:center; padding:10px; font-size:12px;
-  font-family:var(--ff-head); letter-spacing:0.02em; display:flex; align-items:center;
-  justify-content:center; gap:16px; flex-wrap:wrap;
-}
-.top-strip span{opacity:0.6;font-size:10px;}
-.top-strip b{color:var(--tagz);}
+    html {
+      scroll-behavior: smooth;
+    }
 
-nav{
-  position:sticky; top:0; z-index:800; background:rgba(250,247,242,0.92);
-  backdrop-filter:blur(20px); border-bottom:1px solid var(--paper);
-}
-.nav-inner{
-  max-width:1320px; margin:auto; padding:0 20px; height:60px; display:flex;
-  align-items:center; justify-content:space-between; gap:16px;
-}
-.logo{
-  font-family:var(--ff-head); font-weight:700; font-size:20px; letter-spacing:-0.03em;
-  display:flex; align-items:center; gap:8px;
-}
-.logo-icon{
-  width:30px;height:30px; background:var(--tagz); border-radius:8px;
-  display:flex;align-items:center;justify-content:center; flex-shrink:0;
-}
-.logo-icon svg{width:16px;height:16px;fill:#fff;}
-.logo-text em{color:var(--tagz);font-style:normal;}
-.nav-links{ display:none; gap:32px; align-items:center; }
-.nav-links a{ font-size:14px;font-weight:500; color:var(--ink-2); transition:color 0.2s; }
-.nav-links a:hover{color:var(--ink);}
-.nav-ctas{display:flex;gap:8px;align-items:center;}
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  font-family:var(--ff-head);font-weight:600;font-size:14px;
-  padding:12px 20px;border-radius:var(--r);
-  transition:all 0.25s var(--ease);letter-spacing:0.01em; cursor:pointer; text-align: center;
-}
-.btn-tagz{background:var(--tagz);color:#fff;}
-.btn-tagz:hover{background:var(--tagz-dk);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,69,0,0.3);}
-.btn-outline{background:transparent;border:2px solid var(--paper);color:var(--ink);}
-.btn-outline:hover{border-color:var(--ink); background:var(--warm);}
-.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-/* ── LAYOUT ── */
-.wrap{max-width:1320px;margin:auto;padding:0 20px;}
-section{padding:56px 0;}
-.sec-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--ff-head);font-size:11px;font-weight:600;
-  letter-spacing:0.12em;color:var(--tagz); margin-bottom:12px; text-transform:uppercase;
-}
-.sec-eyebrow::before{content:'';width:16px;height:2px;background:var(--tagz);border-radius:999px;}
-.sec-head{
-  font-family:var(--ff-head); font-size:clamp(32px, 7vw, 54px); font-weight:700;
-  letter-spacing:-0.03em; line-height:1.1; margin-bottom:16px;
-}
-.sec-head em{font-family:var(--ff-serif);font-style:italic;font-weight:400;color:var(--tagz);}
-.sec-desc{font-size:16px;line-height:1.7;color:var(--ink-2);margin-bottom:24px;max-width: 600px;}
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
 
-/* ── NFC PROGRAMMER TOOL ── */
-.tool-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  background: #fff;
-  border: 1px solid var(--paper);
-  border-radius: var(--r-xl);
-  padding: 32px;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.03);
-}
+    /* ── WHATSAPP FLOATING ── */
+    .wa-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s;
+      animation: waPulse 3s ease-in-out infinite;
+    }
 
-@media (min-width: 900px) {
-  .tool-container { grid-template-columns: 1fr 1fr; padding: 48px; }
-}
+    .wa-float:hover {
+      transform: scale(1.15) rotate(-5deg);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+    }
 
-/* Status Banner */
-.status-banner {
-  padding: 16px; border-radius: var(--r); margin-bottom: 24px;
-  font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px;
-}
-.status-banner.unsupported { background: var(--tagz-lt); color: var(--tagz-dk); border: 1px solid rgba(255,69,0,0.2); }
-.status-banner.supported { background: var(--teal-lt); color: var(--teal); border: 1px solid rgba(0,122,107,0.2); }
+    .wa-float svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
 
-/* Form Elements */
-.form-group { margin-bottom: 20px; }
-.form-group label {
-  display: block; font-family: var(--ff-head); font-weight: 600; font-size: 14px;
-  margin-bottom: 8px; color: var(--ink);
-}
-.form-control, .form-select {
-  width: 100%; padding: 14px 16px; font-family: var(--ff-body); font-size: 15px;
-  background: var(--warm); border: 1px solid var(--paper); border-radius: var(--r);
-  color: var(--ink); transition: all 0.2s; outline: none;
-}
-.form-control:focus, .form-select:focus { border-color: var(--tagz); background: #fff; box-shadow: 0 0 0 4px var(--tagz-lt); }
-.form-control::placeholder { color: var(--ink-3); }
-textarea.form-control { resize: vertical; min-height: 100px; }
+    @keyframes waPulse {
 
-/* Preview Card */
-.preview-card {
-  background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: 32px;
-  display: flex; flex-direction: column; justify-content: space-between;
-}
-.preview-header { font-family: var(--ff-head); font-size: 18px; font-weight: 700; margin-bottom: 24px; color: var(--tagz); }
-.payload-display {
-  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-  padding: 20px; border-radius: var(--r); font-family: monospace; font-size: 13px;
-  color: rgba(255,255,255,0.8); word-break: break-all; margin-bottom: 32px;
-  min-height: 120px;
-}
-.payload-type { display: inline-block; background: var(--tagz); color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; margin-bottom: 12px; font-family: var(--ff-head); letter-spacing: 0.05em; text-transform: uppercase;}
+      0%,
+      100% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45), 0 0 0 0 rgba(37, 211, 102, 0.3);
+      }
 
-.action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      50% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45), 0 0 0 12px rgba(37, 211, 102, 0);
+      }
+    }
 
-/* Log Area */
-#action-log {
-  margin-top: 20px; font-size: 13px; padding: 12px; border-radius: 8px; display: none;
-}
-.log-success { background: var(--teal-lt); color: var(--teal); border: 1px solid rgba(0,122,107,0.2); display: block !important; }
-.log-error { background: var(--tagz-lt); color: var(--tagz-dk); border: 1px solid rgba(255,69,0,0.2); display: block !important;}
-.log-wait { background: var(--warm); color: var(--ink-2); border: 1px solid var(--paper); display: block !important;}
+    /* ── TOP STRIP ── */
+    .top-strip {
+      background: var(--ink);
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      font-family: var(--ff-head);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-/* Footer Inherited */
-footer{ background:var(--ink); color:rgba(255,255,255,0.6); padding:48px 0 24px; border-top:1px solid rgba(255,255,255,0.06); }
-.footer-top{ display:grid;grid-template-columns:1fr; gap:40px;margin-bottom:40px; }
-.footer-brand p{font-size:13px;line-height:1.6;margin-top:12px;font-weight:300;}
-@media (min-width: 1024px) { .footer-top { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; } }
-</style>
+    .top-strip span {
+      opacity: 0.6;
+      font-size: 10px;
+    }
+
+    .top-strip b {
+      color: var(--tagz);
+    }
+
+    /* ── STICKY NAVIGATION HEADER ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 800;
+      background: rgba(250, 247, 242, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(236, 234, 223, 0.6);
+    }
+
+    .nav-inner {
+      max-width: 1320px;
+      margin: auto;
+      padding: 0 20px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s var(--ease);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--tagz);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(255, 69, 0, 0.3);
+    }
+
+    .logo-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+
+    .logo-text em {
+      color: var(--tagz);
+      font-style: normal;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-2);
+      transition: color 0.2s, transform 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--tagz);
+      transition: width 0.3s var(--ease);
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-ctas {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* ── GLOBAL ACTIONS BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--ff-head);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: var(--r);
+      transition: all 0.3s var(--ease-bounce);
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn:active {
+      transform: scale(0.96) !important;
+    }
+
+    .btn-tagz {
+      background: var(--tagz);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
+    }
+
+    .btn-tagz:hover {
+      background: var(--tagz-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 69, 0, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--paper);
+      color: var(--ink);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--ink);
+      background: var(--warm);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      max-width: 1320px;
+      margin: auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    section {
+      padding: 80px 0;
+      flex: 1;
+    }
+
+    .sec-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--ff-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--tagz);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .sec-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--tagz);
+      border-radius: 999px;
+    }
+
+    .sec-head {
+      font-family: var(--ff-head);
+      font-size: clamp(36px, 8vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .sec-head em {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--tagz);
+      letter-spacing: -0.02em;
+    }
+
+    .sec-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      margin-bottom: 40px;
+      max-width: 650px;
+      font-weight: 400;
+    }
+
+    /* ── NFC PROGRAMMER TOOL ── */
+    .tool-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      background: #fff;
+      border: 1px solid var(--paper);
+      border-radius: var(--r-xl);
+      padding: 32px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.03);
+    }
+
+    @media (min-width: 900px) {
+      .tool-container {
+        grid-template-columns: 1fr 1fr;
+        padding: 48px;
+      }
+    }
+
+    /* Status Banner */
+    .status-banner {
+      padding: 16px;
+      border-radius: var(--r);
+      margin-bottom: 32px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-banner.unsupported {
+      background: var(--tagz-lt);
+      color: var(--tagz-dk);
+      border: 1px solid rgba(255, 69, 0, 0.2);
+    }
+
+    .status-banner.supported {
+      background: var(--teal-lt);
+      color: var(--teal);
+      border: 1px solid rgba(0, 122, 107, 0.2);
+    }
+
+    /* Form Layout */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: var(--ff-body);
+      font-size: 15px;
+      background: var(--warm);
+      border: 1px solid var(--paper);
+      border-radius: var(--r);
+      color: var(--ink);
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--tagz);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--tagz-lt);
+    }
+
+    .form-control::placeholder {
+      color: var(--ink-3);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Preview Card */
+    .preview-card {
+      background: var(--ink);
+      color: #fff;
+      border-radius: var(--r-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .preview-header {
+      font-family: var(--ff-head);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--tagz);
+    }
+
+    .payload-display {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: var(--r);
+      font-family: monospace;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      word-break: break-all;
+      margin-bottom: 32px;
+      min-height: 120px;
+    }
+
+    .payload-type {
+      display: inline-block;
+      background: var(--tagz);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-family: var(--ff-head);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Log Screen */
+    #action-log {
+      margin-top: 20px;
+      font-size: 13px;
+      padding: 14px;
+      border-radius: var(--r);
+      display: none;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .log-success {
+      background: var(--teal-lt);
+      color: var(--teal);
+      border: 1px solid rgba(0, 122, 107, 0.2);
+      display: block !important;
+    }
+
+    .log-error {
+      background: var(--tagz-lt);
+      color: var(--tagz-dk);
+      border: 1px solid rgba(255, 69, 0, 0.2);
+      display: block !important;
+    }
+
+    .log-wait {
+      background: var(--warm);
+      color: var(--ink-2);
+      border: 1px solid var(--paper);
+      display: block !important;
+    }
+
+    /* ── TRUST BADGES SYSTEM ── */
+    .badges-section {
+      background: var(--ink);
+      padding: 60px 0;
+    }
+
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .badge-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--r-xl);
+      padding: 24px 16px;
+      text-align: center;
+      transition: all 0.3s var(--ease);
+    }
+
+    .badge-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .badge-title {
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .badge-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER SYSTEM ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 80px 0 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 16px;
+      font-weight: 400;
+      max-width: 100%;
+    }
+
+    .footer-address {
+      font-size: 12px;
+      margin-top: 16px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+    }
+
+    .footer-address strong {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--ff-head);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 12px;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+      transition: color 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .wa-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      border-radius: var(--r);
+      padding: 12px 20px;
+      margin-top: 24px;
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: #25D366;
+      transition: all 0.3s var(--ease);
+    }
+
+    .wa-footer:hover {
+      background: rgba(37, 211, 102, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .wa-footer svg {
+      width: 18px;
+      height: 18px;
+      fill: #25D366;
+    }
+
+    .footer-bottom {
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .footer-bottom-l {
+      font-family: var(--ff-head);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-bottom-r {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .footer-bottom-r a {
+      font-family: var(--ff-head);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 600;
+    }
+
+    .footer-bottom-r a:hover {
+      color: #fff;
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (min-width: 600px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+
+      .badges-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .footer-top {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 60px;
+      }
+
+      .footer-brand p {
+        max-width: 320px;
+      }
+
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    @media (hover: hover) {
+      .badge-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 69, 0, 0.4);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="top-strip">
-  <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
-  <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
-</div>
+  <a class="wa-float"
+    href="https://wa.me/919960160016?text=Hi%20ntagz!%20I%20want%20to%20know%20more%20about%20your%20NFC%20products."
+    target="_blank" title="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  </a>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="logo" style="text-decoration:none; color:inherit;">
-      <div class="logo-icon">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        </svg>
-      </div>
-      <div class="logo-text">N<em>tagz</em></div>
-    </a>
-    <div class="nav-links">
-      <a href="index.html#products">Products</a>
-      <a href="quote.html">Bulk Orders</a>
-      <a href="index.html">Use Cases</a>
-      <a href="about.html">About</a>
-    </div>
+  <div class="top-strip">
+    <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
+    <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
   </div>
-</nav>
 
-<section>
-  <div class="wrap">
-    <div class="sec-eyebrow">WEB NFC STUDIO</div>
-    <h1 class="sec-head">Program Your Tags<br><em>Directly from the Browser</em></h1>
-    <p class="sec-desc">
-      Use our free Smart NFC Programmer to write dynamic payloads to your ntagz products. Select a preset, configure your data, and hold your phone near the tag to write. No app required.
-    </p>
-
-    <div id="status-banner" class="status-banner unsupported">
-      <strong>Checking Browser Support...</strong>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
+              stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+          </svg>
+        </div>
+        <div class="logo-text">N<em>tagz</em></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#products">Products</a>
+        <a href="nfc-check.html">NFC Check</a>
+        <a href="programmer.html">NFC Programmer</a>
+        <a href="quote.html">Order Now</a>
+        <a href="track.html">Track Order</a>
+        <a href="about.html">About Us</a>
+      </div>
+      <div class="nav-ctas">
+        <a href="https://wa.me/919960160016?text=Hi%20ntagz!%20I'd%20like%20to%20place%20an%20order." target="_blank"
+          class="btn btn-tagz">Order via WhatsApp →</a>
+      </div>
     </div>
+  </nav>
 
-    <div class="tool-container">
-      
-      <div class="tool-config">
-        <div class="form-group">
-          <label for="preset-selector">Select Action (Preset)</label>
-          <select id="preset-selector" class="form-select">
-            <option value="website">1. Open Website / Custom URL</option>
-            <option value="instagram">2. Instagram Profile</option>
-            <option value="contact">3. Digital Contact Card (Linktree/vCard)</option>
-            <option value="payment">4. Payment Link (PayPal/Venmo)</option>
-            <option value="whatsapp">5. Open WhatsApp Chat</option>
-            <option value="email">6. Send Email</option>
-            <option value="sms">7. Send SMS</option>
-            <option value="phone">8. Make a Phone Call</option>
-            <option value="app">9. Launch Android App</option>
-            <option value="text">10. Plain Text Note</option>
-          </select>
+  <section>
+    <div class="wrap">
+      <div class="sec-eyebrow">WEB NFC STUDIO</div>
+      <h1 class="sec-head">Program Your Tags<br><em>Directly from the Browser</em></h1>
+      <p class="sec-desc">
+        Use our free Smart NFC Programmer to write dynamic payloads to your ntagz products. Select a preset, configure
+        your data, and hold your phone near the tag to write. No app required.
+      </p>
+
+      <div id="status-banner" class="status-banner unsupported">
+        <strong>Checking Browser Support...</strong>
+      </div>
+
+      <div class="tool-container">
+
+        <div class="tool-config">
+          <div class="form-group">
+            <label for="preset-selector">Select Action (Preset)</label>
+            <select id="preset-selector" class="form-select">
+              <option value="website">1. Open Website / Custom URL</option>
+              <option value="instagram">2. Instagram Profile</option>
+              <option value="contact">3. Digital Contact Card (Linktree/vCard)</option>
+              <option value="payment">4. Payment Link (PayPal/Venmo)</option>
+              <option value="whatsapp">5. Open WhatsApp Chat</option>
+              <option value="email">6. Send Email</option>
+              <option value="sms">7. Send SMS</option>
+              <option value="phone">8. Make a Phone Call</option>
+              <option value="app">9. Launch Android App</option>
+              <option value="text">10. Plain Text Note</option>
+            </select>
+          </div>
+
+          <div id="dynamic-inputs-container"></div>
         </div>
 
-        <div id="dynamic-inputs-container">
+        <div class="preview-card">
+          <div>
+            <div class="preview-header">NDEF Payload Preview</div>
+            <div class="payload-display">
+              <span class="payload-type" id="preview-type">URL</span><br>
+              <span id="preview-data">https://example.com</span>
+            </div>
           </div>
-      </div>
 
-      <div class="preview-card">
-        <div>
-          <div class="preview-header">NDEF Payload Preview</div>
-          <div class="payload-display">
-            <span class="payload-type" id="preview-type">URL</span><br>
-            <span id="preview-data">https://example.com</span>
+          <div>
+            <div class="action-buttons">
+              <button id="btn-read" class="btn btn-outline"
+                style="color: #fff; border-color: rgba(255,255,255,0.2);">Read Tag</button>
+              <button id="btn-write" class="btn btn-tagz">Write Tag</button>
+            </div>
+            <div id="action-log"></div>
           </div>
         </div>
 
-        <div>
-          <div class="action-buttons">
-            <button id="btn-read" class="btn btn-outline" style="color: #fff; border-color: rgba(255,255,255,0.2);">Read Tag</button>
-            <button id="btn-write" class="btn btn-tagz">Write Tag</button>
-          </div>
-          <div id="action-log"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="badges-section">
+    <div class="wrap">
+      <div class="badges-grid">
+        <div class="badge-card">
+          <span class="badge-icon">🏭</span>
+          <div class="badge-title">Made in India</div>
+          <div class="badge-sub">Manufactured domestically</div>
+        </div>
+        <div class="badge-card">
+          <span class="badge-icon">📋</span>
+          <div class="badge-title">GST Invoice</div>
+          <div class="badge-sub">Every order, always</div>
+        </div>
+        <div class="badge-card">
+          <span class="badge-icon">🔒</span>
+          <div class="badge-title">ISO 14443-A</div>
+          <div class="badge-sub">Certified NFC chips</div>
+        </div>
+        <div class="badge-card">
+          <span class="badge-icon">🚚</span>
+          <div class="badge-title">Pan-India Shipping</div>
+          <div class="badge-sub">120+ cities covered</div>
         </div>
       </div>
-
     </div>
   </div>
-</section>
 
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="logo" style="text-decoration:none; color:inherit;">
-          <div class="logo-icon">
-            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+  <footer>
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
+                  stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+              </svg>
+            </div>
+            <div class="logo-text">N<em>tagz</em></div>
           </div>
-          <div class="logo-text">N<em>tagz</em></div>
-        </a>
-        <p>India's favourite NFC & RFID product brand.</p>
+          <p>India's favourite NFC & RFID product brand. We sell the physical hardware that makes contactless magic
+            happen — cards, tags, coins, and flex circuits.</p>
+          <div class="footer-address">
+            <strong>Ambivert Technologies Private Limited</strong>
+            Excellaa Plazzo, A107, near Bharat petrol Pump,<br>Ambegaon Budruk, Pune, Maharashtra 411046
+          </div>
+          <a href="https://wa.me/919960160016" target="_blank" class="wa-footer">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            +91 9960 160016
+          </a>
+        </div>
+        <div class="footer-col">
+          <h4>PRODUCTS</h4>
+          <ul>
+            <li><a href="index.html#products">Black & White PVC Cards</a></li>
+            <li><a href="index.html#products">Anti-Metal Tags</a></li>
+            <li><a href="index.html#products">NFC Coins (25mm)</a></li>
+            <li><a href="index.html#products">Micro Flex Tags</a></li>
+            <li><a href="index.html#products">UHF RFID Labels</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>COMPANY</h4>
+          <ul>
+            <li><a href="about.html">About ntagz</a></li>
+            <li><a href="programmer.html">NFC Programmer</a></li>
+            <li><a href="nfc-check.html">NFC Check</a></li>
+            <li><a href="quote.html">Order Now</a></li>
+            <li><a href="quote.html">Bulk Orders</a></li>
+            <li><a href="track.html">Track Order</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>SUPPORT</h4>
+          <ul>
+            <li><a href="https://wa.me/919960160016">WhatsApp Us</a></li>
+            <li><a href="track.html">Track Order</a></li>
+            <li><a href="shipping.html">Shipping Policy</a></li>
+            <li><a href="terms.html">Returns & Refunds</a></li>
+            <li><a href="quote.html">GST / Invoicing</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &middot;&nbsp; GSTIN: 27AAPCA8177N1ZQ
+        </div>
+        <div class="footer-bottom-r">
+          <a href="#">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="shipping.html">Shipping</a>
+        </div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-/**
- * Ntagz Web NFC Programmer Logic
- */
+  <script>
+    /**
+     * Ntagz Web NFC Programmer Logic
+     */
 
-// 1. Define Presets and their required inputs
-const presets = {
-  website: {
-    type: "url",
-    fields: [{ id: "url_input", label: "Website URL", type: "url", placeholder: "https://yourwebsite.com", default: "https://" }],
-    build: (data) => data.url_input
-  },
-  instagram: {
-    type: "url",
-    fields: [{ id: "ig_handle", label: "Instagram Username (without @)", type: "text", placeholder: "ntagz_official", default: "" }],
-    build: (data) => `https://instagram.com/${data.ig_handle}`
-  },
-  contact: {
-    type: "url",
-    fields: [{ id: "contact_url", label: "vCard or Linktree URL", type: "url", placeholder: "https://linktr.ee/yourname", default: "https://" }],
-    build: (data) => data.contact_url
-  },
-  payment: {
-    type: "url",
-    fields: [{ id: "pay_url", label: "Payment Link (PayPal.me, Razorpay, etc.)", type: "url", placeholder: "https://paypal.me/yourusername", default: "https://" }],
-    build: (data) => data.pay_url
-  },
-  whatsapp: {
-    type: "url",
-    fields: [
-      { id: "wa_phone", label: "Phone Number (with Country Code)", type: "text", placeholder: "919960160016", default: "" },
-      { id: "wa_msg", label: "Pre-filled Message (Optional)", type: "text", placeholder: "Hi ntagz!", default: "" }
-    ],
-    build: (data) => `https://wa.me/${data.wa_phone}?text=${encodeURIComponent(data.wa_msg)}`
-  },
-  email: {
-    type: "url",
-    fields: [
-      { id: "email_address", label: "Email Address", type: "email", placeholder: "hello@ntagz.in", default: "" },
-      { id: "email_sub", label: "Subject Line", type: "text", placeholder: "Inquiry", default: "" }
-    ],
-    build: (data) => `mailto:${data.email_address}?subject=${encodeURIComponent(data.email_sub)}`
-  },
-  sms: {
-    type: "url",
-    fields: [
-      { id: "sms_phone", label: "Phone Number", type: "text", placeholder: "+919960160016", default: "" },
-      { id: "sms_body", label: "Message", type: "text", placeholder: "Hello!", default: "" }
-    ],
-    build: (data) => `sms:${data.sms_phone}?body=${encodeURIComponent(data.sms_body)}`
-  },
-  phone: {
-    type: "url",
-    fields: [{ id: "tel_phone", label: "Phone Number", type: "text", placeholder: "+919960160016", default: "" }],
-    build: (data) => `tel:${data.tel_phone}`
-  },
-  app: {
-    type: "android.com:pkg",
-    fields: [{ id: "pkg_name", label: "Android Package Name", type: "text", placeholder: "com.whatsapp", default: "" }],
-    build: (data) => data.pkg_name
-  },
-  text: {
-    type: "text",
-    fields: [{ id: "text_note", label: "Text Note", type: "textarea", placeholder: "Enter your secure note, serial number, or data here...", default: "" }],
-    build: (data) => data.text_note
-  }
-};
+    const presets = {
+      website: {
+        type: "url",
+        fields: [{ id: "url_input", label: "Website URL", type: "url", placeholder: "https://yourwebsite.com", default: "https://" }],
+        build: (data) => data.url_input
+      },
+      instagram: {
+        type: "url",
+        fields: [{ id: "ig_handle", label: "Instagram Username (without @)", type: "text", placeholder: "ntagz_official", default: "" }],
+        build: (data) => `https://instagram.com/${data.ig_handle}`
+      },
+      contact: {
+        type: "url",
+        fields: [{ id: "contact_url", label: "vCard or Linktree URL", type: "url", placeholder: "https://linktr.ee/yourname", default: "https://" }],
+        build: (data) => data.contact_url
+      },
+      payment: {
+        type: "url",
+        fields: [{ id: "pay_url", label: "Payment Link (PayPal.me, Razorpay, etc.)", type: "url", placeholder: "https://paypal.me/yourusername", default: "https://" }],
+        build: (data) => data.pay_url
+      },
+      whatsapp: {
+        type: "url",
+        fields: [
+          { id: "wa_phone", label: "Phone Number (with Country Code)", type: "text", placeholder: "919960160016", default: "" },
+          { id: "wa_msg", label: "Pre-filled Message (Optional)", type: "text", placeholder: "Hi ntagz!", default: "" }
+        ],
+        build: (data) => `https://wa.me/${data.wa_phone}?text=${encodeURIComponent(data.wa_msg)}`
+      },
+      email: {
+        type: "url",
+        fields: [
+          { id: "email_address", label: "Email Address", type: "email", placeholder: "hello@ntagz.in", default: "" },
+          { id: "email_sub", label: "Subject Line", type: "text", placeholder: "Inquiry", default: "" }
+        ],
+        build: (data) => `mailto:${data.email_address}?subject=${encodeURIComponent(data.email_sub)}`
+      },
+      sms: {
+        type: "url",
+        fields: [
+          { id: "sms_phone", label: "Phone Number", type: "text", placeholder: "+919960160016", default: "" },
+          { id: "sms_body", label: "Message", type: "text", placeholder: "Hello!", default: "" }
+        ],
+        build: (data) => `sms:${data.sms_phone}?body=${encodeURIComponent(data.sms_body)}`
+      },
+      phone: {
+        type: "url",
+        fields: [{ id: "tel_phone", label: "Phone Number", type: "text", placeholder: "+919960160016", default: "" }],
+        build: (data) => `tel:${data.tel_phone}`
+      },
+      app: {
+        type: "android.com:pkg",
+        fields: [{ id: "pkg_name", label: "Android Package Name", type: "text", placeholder: "com.whatsapp", default: "" }],
+        build: (data) => data.pkg_name
+      },
+      text: {
+        type: "text",
+        fields: [{ id: "text_note", label: "Text Note", type: "textarea", placeholder: "Enter your secure note, serial number, or data here...", default: "" }],
+        build: (data) => data.text_note
+      }
+    };
 
-// DOM Elements
-const banner = document.getElementById('status-banner');
-const selector = document.getElementById('preset-selector');
-const inputsContainer = document.getElementById('dynamic-inputs-container');
-const previewType = document.getElementById('preview-type');
-const previewData = document.getElementById('preview-data');
-const btnRead = document.getElementById('btn-read');
-const btnWrite = document.getElementById('btn-write');
-const log = document.getElementById('action-log');
+    // DOM Elements
+    const banner = document.getElementById('status-banner');
+    const selector = document.getElementById('preset-selector');
+    const inputsContainer = document.getElementById('dynamic-inputs-container');
+    const previewType = document.getElementById('preview-type');
+    const previewData = document.getElementById('preview-data');
+    const btnRead = document.getElementById('btn-read');
+    const btnWrite = document.getElementById('btn-write');
+    const log = document.getElementById('action-log');
 
-// State
-let currentPayloadData = "";
-let currentRecordType = "url";
-let nfcSupported = false;
+    // State Manager
+    let currentPayloadData = "";
+    let currentRecordType = "url";
+    let nfcSupported = false;
 
-// Initialize
-function init() {
-  checkNfcSupport();
-  renderInputs(selector.value);
-  selector.addEventListener('change', (e) => renderInputs(e.target.value));
-  btnRead.addEventListener('click', handleRead);
-  btnWrite.addEventListener('click', handleWrite);
-}
+    // Bootloader Initialization
+    function init() {
+      checkNfcSupport();
+      renderInputs(selector.value);
+      selector.addEventListener('change', (e) => renderInputs(e.target.value));
+      btnRead.addEventListener('click', handleRead);
+      btnWrite.addEventListener('click', handleWrite);
+    }
 
-// Check Support
-function checkNfcSupport() {
-  if ('NDEFReader' in window) {
-    // Requires HTTPS to be truly active, but the API exists.
-    nfcSupported = true;
-    banner.className = 'status-banner supported';
-    banner.innerHTML = `
+    // Environmental Hardware Check
+    function checkNfcSupport() {
+      if ('NDEFReader' in window) {
+        nfcSupported = true;
+        banner.className = 'status-banner supported';
+        banner.innerHTML = `
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
       <div><strong>Web NFC Supported.</strong> Your browser can read and write NFC tags. Ensure NFC is turned on in your device settings.</div>
     `;
-  } else {
-    nfcSupported = false;
-    banner.className = 'status-banner unsupported';
-    banner.innerHTML = `
+      } else {
+        nfcSupported = false;
+        banner.className = 'status-banner unsupported';
+        banner.innerHTML = `
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
       <div><strong>Simulation Mode.</strong> Web NFC requires Chrome on Android. You can test the interface here, but you cannot write to physical tags on this device.</div>
     `;
-  }
-}
-
-function showLog(msg, type) {
-  log.className = `log-${type}`;
-  log.innerText = msg;
-}
-
-// Render dynamic inputs based on preset
-function renderInputs(presetKey) {
-  const preset = presets[presetKey];
-  currentRecordType = preset.type;
-  inputsContainer.innerHTML = ''; // Clear
-
-  preset.fields.forEach(field => {
-    const group = document.createElement('div');
-    group.className = 'form-group';
-    
-    const label = document.createElement('label');
-    label.htmlFor = field.id;
-    label.innerText = field.label;
-    group.appendChild(label);
-
-    let input;
-    if (field.type === 'textarea') {
-      input = document.createElement('textarea');
-      input.className = 'form-control';
-    } else {
-      input = document.createElement('input');
-      input.type = field.type;
-      input.className = 'form-control';
-    }
-    
-    input.id = field.id;
-    input.placeholder = field.placeholder;
-    input.value = field.default;
-    
-    // Listen for typing to update preview
-    input.addEventListener('input', updatePreview);
-    
-    group.appendChild(input);
-    inputsContainer.appendChild(group);
-  });
-
-  updatePreview();
-}
-
-// Update the dark preview card
-function updatePreview() {
-  const presetKey = selector.value;
-  const preset = presets[presetKey];
-  
-  // Gather data from inputs
-  const dataObj = {};
-  preset.fields.forEach(field => {
-    dataObj[field.id] = document.getElementById(field.id).value;
-  });
-
-  currentPayloadData = preset.build(dataObj);
-  
-  previewType.innerText = `Record Type: ${currentRecordType}`;
-  previewData.innerText = currentPayloadData || "[Empty Payload]";
-}
-
-// Read NFC Tag
-async function handleRead() {
-  if (!nfcSupported) {
-    showLog("Unsupported Device: Cannot read physical tag. (Simulated Read Error)", "error");
-    return;
-  }
-  
-  try {
-    showLog("Scanning... Bring an NFC tag near your phone's antenna.", "wait");
-    const ndef = new NDEFReader();
-    await ndef.scan();
-    
-    ndef.addEventListener("readingerror", () => {
-      showLog("Error reading tag. Try repositioning.", "error");
-    });
-
-    ndef.addEventListener("reading", ({ message, serialNumber }) => {
-      let recordsInfo = `Tag ID: ${serialNumber} | Records: ${message.records.length}\n`;
-      for (const record of message.records) {
-        recordsInfo += `- Type: ${record.recordType}\n`;
       }
-      showLog(`Success! \n${recordsInfo}`, "success");
-    });
-  } catch (error) {
-    showLog(`Read failed: ${error}`, "error");
-  }
-}
+    }
 
-// Write NFC Tag
-async function handleWrite() {
-  if (!currentPayloadData) {
-    showLog("Payload is empty. Please enter data first.", "error");
-    return;
-  }
+    function showLog(msg, type) {
+      log.className = `log-${type}`;
+      log.innerText = msg;
+    }
 
-  if (!nfcSupported) {
-    showLog(`Unsupported Device: (Simulated Write) Wrote [${currentRecordType}] -> ${currentPayloadData}`, "success");
-    return;
-  }
+    // Render dynamic contextual inputs based on layout configurations
+    function renderInputs(presetKey) {
+      const preset = presets[presetKey];
+      currentRecordType = preset.type;
+      inputsContainer.innerHTML = '';
 
-  try {
-    showLog("Ready to write. Hold the NFC tag to your phone now.", "wait");
-    const ndef = new NDEFReader();
-    
-    // Construct NDEF Payload
-    const record = {
-      recordType: currentRecordType,
-      data: currentPayloadData
-    };
+      preset.fields.forEach(field => {
+        const group = document.createElement('div');
+        group.className = 'form-group';
 
-    await ndef.write({ records: [record] });
-    showLog(`Success! Written to tag: ${currentPayloadData}`, "success");
-  } catch (error) {
-    showLog(`Write failed: ${error}. (Is the tag locked or unsupported?)`, "error");
-  }
-}
+        const label = document.createElement('label');
+        label.htmlFor = field.id;
+        label.innerText = field.label;
+        group.appendChild(label);
 
-// Boot up
-window.addEventListener('DOMContentLoaded', init);
+        let input;
+        if (field.type === 'textarea') {
+          input = document.createElement('textarea');
+          input.className = 'form-control';
+        } else {
+          input = document.createElement('input');
+          input.type = field.type;
+          input.className = 'form-control';
+        }
 
-</script>
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        input.value = field.default;
+        input.addEventListener('input', updatePreview);
+
+        group.appendChild(input);
+        inputsContainer.appendChild(group);
+      });
+
+      updatePreview();
+    }
+
+    // Live Node Preview Generator
+    function updatePreview() {
+      const presetKey = selector.value;
+      const preset = presets[presetKey];
+
+      const dataObj = {};
+      preset.fields.forEach(field => {
+        dataObj[field.id] = document.getElementById(field.id).value;
+      });
+
+      currentPayloadData = preset.build(dataObj);
+
+      previewType.innerText = `Record Type: ${currentRecordType}`;
+      previewData.innerText = currentPayloadData || "[Empty Payload]";
+    }
+
+    // Execute Transceiver NDEF Read
+    async function handleRead() {
+      if (!nfcSupported) {
+        showLog("Unsupported Device: Cannot read physical tag. (Simulated Read Error)", "error");
+        return;
+      }
+
+      try {
+        showLog("Scanning... Bring an NFC tag near your phone's antenna.", "wait");
+        const ndef = new NDEFReader();
+        await ndef.scan();
+
+        ndef.addEventListener("readingerror", () => {
+          showLog("Error reading tag. Try repositioning.", "error");
+        });
+
+        ndef.addEventListener("reading", ({ message, serialNumber }) => {
+          let recordsInfo = `Tag ID: ${serialNumber} | Records: ${message.records.length}\n`;
+          for (const record of message.records) {
+            recordsInfo += `- Type: ${record.recordType}\n`;
+          }
+          showLog(`Success! \n${recordsInfo}`, "success");
+        });
+      } catch (error) {
+        showLog(`Read failed: ${error}`, "error");
+      }
+    }
+
+    // Execute Transceiver NDEF Write
+    async function handleWrite() {
+      if (!currentPayloadData) {
+        showLog("Payload is empty. Please enter data first.", "error");
+        return;
+      }
+
+      if (!nfcSupported) {
+        showLog(`Unsupported Device: (Simulated Write) Wrote [${currentRecordType}] -> ${currentPayloadData}`, "success");
+        return;
+      }
+
+      try {
+        showLog("Ready to write. Hold the NFC tag to your phone now.", "wait");
+        const ndef = new NDEFReader();
+
+        const record = {
+          recordType: currentRecordType,
+          data: currentPayloadData
+        };
+
+        await ndef.write({ records: [record] });
+        showLog(`Success! Written to tag: ${currentPayloadData}`, "success");
+      } catch (error) {
+        showLog(`Write failed: ${error}. (Is the tag locked or unsupported?)`, "error");
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
+
 </html>
