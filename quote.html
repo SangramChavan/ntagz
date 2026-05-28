@@ -1,722 +1,1175 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bulk Price Calculator — ntagz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bulk Price Calculator — ntagz</title>
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
-<style>
-/* ── TOKENS ── */
-:root {
-  --cream:   #FAF7F2;
-  --warm:    #F2EDE4;
-  --paper:   #ECEADF;
-  --ink:     #1A1714;
-  --ink-2:   #4A4540;
-  --ink-3:   #8A837A;
-  --tagz:    #FF4500;
-  --tagz-lt: #FFF0EB;
-  --tagz-dk: #CC3700;
-  --teal:    #007A6B;
-  --teal-lt: #E6F4F2;
-  --gold:    #C8960C;
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --cream: #FAF7F2;
+      --warm: #F2EDE4;
+      --paper: #ECEADF;
+      --ink: #1A1714;
+      --ink-2: #4A4540;
+      --ink-3: #8A837A;
+      --tagz: #FF4500;
+      --tagz-lt: #FFF0EB;
+      --tagz-dk: #CC3700;
+      --teal: #007A6B;
+      --teal-lt: #E6F4F2;
+      --gold: #C8960C;
 
-  --ff-head: 'Familjen Grotesk', sans-serif;
-  --ff-serif: 'Instrument Serif', serif;
-  --ff-body: 'Manrope', sans-serif;
+      --ff-head: 'Familjen Grotesk', sans-serif;
+      --ff-serif: 'Instrument Serif', serif;
+      --ff-body: 'Manrope', sans-serif;
 
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --r: 14px;
-  --r-lg: 22px;
-  --r-xl: 32px;
-}
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --r: 14px;
+      --r-lg: 22px;
+      --r-xl: 32px;
+    }
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--cream);
-  color:var(--ink);
-  font-family:var(--ff-body);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-a{text-decoration:none;color:inherit;}
-button{border:none;cursor:pointer;font-family:inherit;}
-img{display:block;max-width:100%;}
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ── TOP STRIP ── */
-.top-strip{
-  background:var(--ink);
-  color:#fff;
-  text-align:center;
-  padding:10px;
-  font-size:12px;
-  font-family:var(--ff-head);
-  letter-spacing:0.02em;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  flex-wrap:wrap;
-}
-.top-strip span{opacity:0.6;font-size:10px;}
-.top-strip b{color:var(--tagz);}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* ── NAV ── */
-nav{
-  position:sticky;
-  top:0;
-  z-index:800;
-  background:rgba(250,247,242,0.92);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--paper);
-}
-.nav-inner{
-  max-width:1320px;
-  margin:auto;
-  padding:0 20px;
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-}
-.logo{
-  font-family:var(--ff-head);
-  font-weight:700;
-  font-size:20px;
-  letter-spacing:-0.03em;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.logo-icon{
-  width:30px;height:30px;
-  background:var(--tagz);
-  border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-.logo-icon svg{width:16px;height:16px;fill:#fff;}
-.logo-text em{color:var(--tagz);font-style:normal;}
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-.nav-links{ display:none; gap:32px; align-items:center; }
-.nav-links a{
-  font-size:14px;font-weight:500;
-  color:var(--ink-2);
-  transition:color 0.2s;
-}
-.nav-links a:hover{color:var(--ink);}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-.nav-ctas{display:flex;gap:8px;align-items:center;}
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
 
-/* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  font-family:var(--ff-head);font-weight:600;font-size:13px;
-  padding:10px 18px;border-radius:var(--r);
-  transition:all 0.25s var(--ease);letter-spacing:0.01em;
-  cursor:pointer;
-  text-align: center;
-}
-.btn-tagz{background:var(--tagz);color:#fff;}
-.btn-tagz:hover{background:var(--tagz-dk);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,69,0,0.3);}
-.btn-wa{background:#25D366;color:#fff;}
-.btn-wa:hover{background:#1EB85A;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,0.3);}
-.btn-outline{background:transparent;border:1.5px solid var(--ink);color:var(--ink);}
-.btn-outline:hover{border-color:var(--tagz);color:var(--tagz);}
-.btn-ghost{background:transparent;color:var(--ink-2);border:1.5px solid var(--paper);}
-.btn-ghost:hover{border-color:var(--tagz-lt);color:var(--tagz);}
-.btn-lg{padding:14px 28px;font-size:15px;border-radius:var(--r-lg);}
-.btn-block{width:100%;}
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-/* ── LAYOUT ── */
-.wrap{max-width:1320px;margin:auto;padding:0 20px;}
-section{padding:40px 0 80px;}
+    /* ── TOP STRIP ── */
+    .top-strip {
+      background: var(--ink);
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      font-family: var(--ff-head);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-/* ── CALCULATOR SPECIFIC STYLES ── */
-.page-header { text-align: center; margin-bottom: 40px; }
-.page-header h1 {
-  font-family: var(--ff-head);
-  font-size: clamp(32px, 6vw, 48px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 12px;
-}
-.page-header p {
-  color: var(--ink-2);
-  font-size: 15px;
-  max-width: 600px;
-  margin: auto;
-  line-height: 1.6;
-}
+    .top-strip span {
+      opacity: 0.6;
+      font-size: 10px;
+    }
 
-.calc-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  align-items: flex-start;
-}
+    .top-strip b {
+      color: var(--tagz);
+    }
 
-/* Form Side */
-.calc-form-card {
-  background: #fff;
-  border: 1px solid var(--paper);
-  border-radius: var(--r-lg);
-  padding: 24px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.04);
-}
-.form-group { margin-bottom: 24px; }
-.form-group label {
-  display: block;
-  font-family: var(--ff-head);
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 8px;
-  color: var(--ink);
-}
-.form-control {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid var(--paper);
-  border-radius: var(--r);
-  font-family: var(--ff-body);
-  font-size: 15px;
-  color: var(--ink);
-  background: var(--cream);
-  transition: all 0.2s;
-  appearance: none;
-}
-.form-control:focus {
-  outline: none;
-  border-color: var(--tagz);
-  background: #fff;
-  box-shadow: 0 0 0 4px var(--tagz-lt);
-}
-select.form-control {
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231A1714%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px top 50%;
-  background-size: 10px auto;
-}
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 800;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--paper);
+    }
 
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-.checkbox-group input {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--tagz);
-  cursor: pointer;
-}
-.checkbox-group span {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ink-2);
-}
+    .nav-inner {
+      max-width: 1320px;
+      margin: auto;
+      padding: 0 20px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-.tier-guide {
-  background: var(--warm);
-  border-radius: var(--r);
-  padding: 16px;
-  margin-top: 24px;
-}
-.tier-guide h4 {
-  font-family: var(--ff-head);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 12px;
-}
-.tier-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  margin-bottom: 8px;
-  color: var(--ink-2);
-}
-.tier-row:last-child { margin-bottom: 0; }
-.tier-row b { color: var(--tagz); font-family: var(--ff-head); font-weight: 700;}
+    .logo {
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.error-msg {
-  color: #DC2626;
-  font-size: 13px;
-  margin-top: 8px;
-  display: none;
-  font-weight: 600;
-}
+    .logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--tagz);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-/* Quote Summary Side */
-.quote-card {
-  background: #fff;
-  border: 1px solid var(--paper);
-  border-radius: var(--r-lg);
-  padding: 32px 24px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-  position: sticky;
-  top: 90px;
-}
-.quote-header {
-  border-bottom: 1.5px dashed var(--paper);
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-.quote-header .print-logo { display: none; }
-.quote-header h2 {
-  font-family: var(--ff-head);
-  font-size: 24px;
-  font-weight: 700;
-}
-.quote-header p {
-  font-size: 12px;
-  color: var(--ink-3);
-  margin-top: 4px;
-}
+    .logo-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
 
-.quote-line {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  margin-bottom: 16px;
-  color: var(--ink-2);
-}
-.quote-line span:last-child { font-weight: 600; color: var(--ink); font-family: var(--ff-head); font-size: 15px;}
-.quote-line.discount span:last-child { color: #16A34A; }
+    .logo-text em {
+      color: var(--tagz);
+      font-style: normal;
+    }
 
-.quote-total {
-  border-top: 1.5px dashed var(--paper);
-  padding-top: 20px;
-  margin-top: 20px;
-  margin-bottom: 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.quote-total span:first-child {
-  font-family: var(--ff-head);
-  font-size: 16px;
-  font-weight: 700;
-}
-.quote-total span:last-child {
-  font-family: var(--ff-head);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--tagz);
-}
+    .nav-links {
+      display: none;
+      gap: 32px;
+      align-items: center;
+    }
 
-.quote-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-2);
+      transition: color 0.2s;
+    }
 
-/* ── FOOTER STYLES ── */
-footer{
-  background:var(--ink);
-  color:rgba(255,255,255,0.6);
-  padding:48px 0 24px;
-  border-top:1px solid rgba(255,255,255,0.06);
-}
-.footer-top{
-  display:grid;grid-template-columns:1fr;
-  gap:40px;margin-bottom:40px;
-}
-.footer-brand p{font-size:13px;line-height:1.6;margin-top:12px;font-weight:300;max-width:100%;}
-.footer-col h4{
-  font-family:var(--ff-head);font-size:11px;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:rgba(255,255,255,0.35);margin-bottom:16px;
-}
-.footer-col ul{list-style:none;}
-.footer-col li{margin-bottom:10px;}
-.footer-col a{
-  font-size:13px;font-weight:400;
-  color:rgba(255,255,255,0.5);transition:color 0.2s;
-}
-.footer-col a:hover{color:#fff;}
-.wa-footer{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(37,211,102,0.12);
-  border:1px solid rgba(37,211,102,0.25);
-  border-radius:var(--r);
-  padding:10px 16px;margin-top:16px;
-  font-family:var(--ff-head);font-size:13px;font-weight:600;color:#25D366;
-  text-decoration:none;
-}
-.wa-footer:hover {background:rgba(37,211,102,0.2);}
-.wa-footer svg{width:16px;height:16px;fill:#25D366;}
-.footer-bottom{
-  padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);
-  display:flex;flex-direction:column;gap:16px;
-  text-align:center;
-}
-.footer-bottom-l{font-family:var(--ff-head);font-size:11px;letter-spacing:0.04em;}
-.footer-bottom-r{display:flex;justify-content:center;gap:16px;}
-.footer-bottom-r a{font-family:var(--ff-head);font-size:11px;color:rgba(255,255,255,0.3);}
-.footer-bottom-r a:hover{color:rgba(255,255,255,0.7);}
+    .nav-links a:hover {
+      color: var(--ink);
+    }
 
-/* ── PRINT STYLES ── */
-@media print {
-  nav, footer, .top-strip, .hero-blob, .hero-blob2, .calc-form-card, .page-header, .quote-actions, .wa-float {
-    display: none !important;
-  }
-  body { background: #fff; color: #000; padding: 0; margin: 0; }
-  .wrap { padding: 0; max-width: 100%; }
-  section { padding: 0; }
-  .calc-grid { display: block; }
-  .quote-card {
-    box-shadow: none; border: none; width: 100%; max-width: 800px;
-    margin: 0 auto; padding: 40px;
-  }
-  .quote-header {
-    text-align: left; display: flex; justify-content: space-between;
-    align-items: flex-end; border-bottom: 2px solid #000;
-    padding-bottom: 24px; margin-bottom: 32px;
-  }
-  .quote-header .print-logo {
-    display: flex; align-items: center; gap: 8px; font-family: var(--ff-head);
-    font-size: 24px; font-weight: 700; letter-spacing: -0.03em;
-  }
-  .quote-header .print-logo .icon {
-    width: 36px; height: 36px; background: #000; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .quote-header .print-logo svg { width: 20px; height: 20px; fill: #fff; }
-  .quote-line { font-size: 16px; margin-bottom: 20px; color: #000; }
-  .quote-line span:last-child { font-size: 18px; }
-  .quote-total { border-top: 2px solid #000; padding-top: 24px; }
-  .quote-total span:first-child { font-size: 20px; }
-  .quote-total span:last-child { font-size: 32px; color: #000; }
-  .quote-card::after {
-    content: "Thank you for choosing ntagz. This is a system generated quotation. Valid for 15 days.";
-    display: block; margin-top: 60px; text-align: center;
-    font-size: 12px; color: #666; border-top: 1px solid #ccc; padding-top: 20px;
-  }
-}
+    .nav-ctas {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
 
-/* =========================================
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--ff-head);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: var(--r);
+      transition: all 0.25s var(--ease);
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-tagz {
+      background: var(--tagz);
+      color: #fff;
+    }
+
+    .btn-tagz:hover {
+      background: var(--tagz-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 69, 0, 0.3);
+    }
+
+    .btn-wa {
+      background: #25D366;
+      color: #fff;
+    }
+
+    .btn-wa:hover {
+      background: #1EB85A;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--ink);
+      color: var(--ink);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--tagz);
+      color: var(--tagz);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1.5px solid var(--paper);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--tagz-lt);
+      color: var(--tagz);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 15px;
+      border-radius: var(--r-lg);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      max-width: 1320px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 40px 0 80px;
+    }
+
+    /* ── CALCULATOR SPECIFIC STYLES ── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-family: var(--ff-head);
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      color: var(--ink-2);
+      font-size: 15px;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    /* Form Side */
+    .calc-form-card {
+      background: #fff;
+      border: 1px solid var(--paper);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--paper);
+      border-radius: var(--r);
+      font-family: var(--ff-body);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--cream);
+      transition: all 0.2s;
+      appearance: none;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--tagz);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--tagz-lt);
+    }
+
+    select.form-control {
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231A1714%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px top 50%;
+      background-size: 10px auto;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--tagz);
+      cursor: pointer;
+    }
+
+    .checkbox-group span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    .tier-guide {
+      background: var(--warm);
+      border-radius: var(--r);
+      padding: 16px;
+      margin-top: 24px;
+    }
+
+    .tier-guide h4 {
+      font-family: var(--ff-head);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 12px;
+    }
+
+    .tier-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: var(--ink-2);
+    }
+
+    .tier-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .tier-row b {
+      color: var(--tagz);
+      font-family: var(--ff-head);
+      font-weight: 700;
+    }
+
+    .error-msg {
+      color: #DC2626;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+      font-weight: 600;
+    }
+
+    /* Quote Summary Side */
+    .quote-card {
+      background: #fff;
+      border: 1px solid var(--paper);
+      border-radius: var(--r-lg);
+      padding: 32px 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      position: sticky;
+      top: 90px;
+    }
+
+    .quote-header {
+      border-bottom: 1.5px dashed var(--paper);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .quote-header .print-logo {
+      display: none;
+    }
+
+    .quote-header h2 {
+      font-family: var(--ff-head);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .quote-header p {
+      font-size: 12px;
+      color: var(--ink-3);
+      margin-top: 4px;
+    }
+
+    .quote-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 16px;
+      color: var(--ink-2);
+    }
+
+    .quote-line span:last-child {
+      font-weight: 600;
+      color: var(--ink);
+      font-family: var(--ff-head);
+      font-size: 15px;
+    }
+
+    .quote-line.discount span:last-child {
+      color: #16A34A;
+    }
+
+    .quote-total {
+      border-top: 1.5px dashed var(--paper);
+      padding-top: 20px;
+      margin-top: 20px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quote-total span:first-child {
+      font-family: var(--ff-head);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .quote-total span:last-child {
+      font-family: var(--ff-head);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--tagz);
+    }
+
+    .quote-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ── FOOTER STYLES ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 48px 0 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 12px;
+      font-weight: 300;
+      max-width: 100%;
+    }
+
+    .footer-col h4 {
+      font-family: var(--ff-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col a {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+    }
+
+    .wa-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37, 211, 102, 0.12);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      border-radius: var(--r);
+      padding: 10px 16px;
+      margin-top: 16px;
+      font-family: var(--ff-head);
+      font-size: 13px;
+      font-weight: 600;
+      color: #25D366;
+      text-decoration: none;
+    }
+
+    .wa-footer:hover {
+      background: rgba(37, 211, 102, 0.2);
+    }
+
+    .wa-footer svg {
+      width: 16px;
+      height: 16px;
+      fill: #25D366;
+    }
+
+    .footer-bottom {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .footer-bottom-l {
+      font-family: var(--ff-head);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+
+    .footer-bottom-r {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .footer-bottom-r a {
+      font-family: var(--ff-head);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .footer-bottom-r a:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+
+      nav,
+      footer,
+      .top-strip,
+      .hero-blob,
+      .hero-blob2,
+      .calc-form-card,
+      .page-header,
+      .quote-actions,
+      .wa-float {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+        color: #000;
+        padding: 0;
+        margin: 0;
+      }
+
+      .wrap {
+        padding: 0;
+        max-width: 100%;
+      }
+
+      section {
+        padding: 0;
+      }
+
+      .calc-grid {
+        display: block;
+      }
+
+      .quote-card {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+      }
+
+      .quote-header {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #000;
+        padding-bottom: 24px;
+        margin-bottom: 32px;
+      }
+
+      .quote-header .print-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--ff-head);
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .quote-header .print-logo .icon {
+        width: 36px;
+        height: 36px;
+        background: #000;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quote-header .print-logo svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
+
+      .quote-line {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #000;
+      }
+
+      .quote-line span:last-child {
+        font-size: 18px;
+      }
+
+      .quote-total {
+        border-top: 2px solid #000;
+        padding-top: 24px;
+      }
+
+      .quote-total span:first-child {
+        font-size: 20px;
+      }
+
+      .quote-total span:last-child {
+        font-size: 32px;
+        color: #000;
+      }
+
+      .quote-card::after {
+        content: "Thank you for choosing ntagz. This is a system generated quotation. Valid for 15 days.";
+        display: block;
+        margin-top: 60px;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        border-top: 1px solid #ccc;
+        padding-top: 20px;
+      }
+    }
+
+    /* =========================================
    TABLET & DESKTOP (min-width Overrides) 
    ========================================= */
-@media (min-width: 600px) {
-  .footer-top { grid-template-columns: 1fr 1fr; }
-}
+    @media (min-width: 600px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
 
-@media (min-width: 768px) {
-  .nav-links { display: flex; }
-  .calc-form-card { padding: 32px; }
-}
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
 
-@media (min-width: 1024px) {
-  section { padding: 60px 0 120px; }
-  .calc-grid { grid-template-columns: 1fr 420px; gap: 60px; }
-  .quote-actions { flex-direction: row; }
-  .footer-top { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
-  .footer-brand p { max-width: 280px; }
-  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
-}
-</style>
+      .calc-form-card {
+        padding: 32px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      section {
+        padding: 60px 0 120px;
+      }
+
+      .calc-grid {
+        grid-template-columns: 1fr 420px;
+        gap: 60px;
+      }
+
+      .quote-actions {
+        flex-direction: row;
+      }
+
+      .footer-top {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 48px;
+      }
+
+      .footer-brand p {
+        max-width: 280px;
+      }
+
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="top-strip no-print">
-  <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
-  <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
-</div>
-
-<nav class="no-print">
-  <div class="nav-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        </svg>
-      </div>
-      <div class="logo-text">N<em>tagz</em></div>
-    </a>
-    <div class="nav-links">
-      <a href="index.html#products">Products</a>
-      <a href="quote.html">Bulk Orders</a>
-      <a href="index.html">Use Cases</a>
-      <a href="about.html">About</a>
-    </div>
-    <div class="nav-ctas">
-      <a href="https://wa.me/919960160016?text=Hi%20ntagz!%20I'd%20like%20to%20place%20an%20order." target="_blank" class="btn btn-tagz">Order via WhatsApp →</a>
-    </div>
+  <div class="top-strip no-print">
+    <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
+    <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
   </div>
-</nav>
 
-<section>
-  <div class="wrap">
-    
-    <div class="page-header no-print">
-      <h1>Bulk Price Calculator</h1>
-      <p>Select your product and required quantity to instantly generate a bulk wholesale quote. The more you order, the more you save.</p>
+  <nav class="no-print">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
+              stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+          </svg>
+        </div>
+        <div class="logo-text">N<em>tagz</em></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#products">Products</a>
+        <a href="quote.html">Bulk Orders</a>
+        <a href="index.html">Use Cases</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="nav-ctas">
+        <a href="https://wa.me/919960160016?text=Hi%20ntagz!%20I'd%20like%20to%20place%20an%20order." target="_blank"
+          class="btn btn-tagz">Order via WhatsApp →</a>
+      </div>
     </div>
+  </nav>
 
-    <div class="calc-grid">
-      
-      <div class="calc-form-card calc-form no-print">
-        <div class="form-group">
-          <label for="productSelect">Select Product</label>
-          <select id="productSelect" class="form-control" onchange="calculateQuote()">
-            <option value="black-card" data-price="30" data-name="Black NFC 215 Card">Black NFC 215 Card (₹30/pc)</option>
-            <option value="white-card" data-price="25" data-name="PVC NFC Business Card NTAG216">PVC NFC Business Card NTAG216 (₹25/pc)</option>
-            <option value="anti-metal" data-price="20" data-name="Anti-Metal NFC Tag">Anti-Metal NFC Tag (₹20/pc)</option>
-            <option value="rfid-tag" data-price="18" data-name="216 NFC RFID Tag">216 NFC RFID Tag (₹18/pc)</option>
-            <option value="nfc-coin" data-price="15" data-name="NTAG 215 Coin 25mm">NTAG 215 Coin 25mm (₹15/pc)</option>
-            <option value="mini-tag" data-price="11" data-name="Mini NFC Tag (3D Print / Jewellery)">Mini NFC Tag for 3D Print / Jewellery (₹11/pc)</option>
-            <option value="flex-nfc" data-price="75" data-name="Micro Flex NFC Tags (FPC)">Micro Flex NFC Tags (FPC) (₹75/pc)</option>
-          </select>
-        </div>
+  <section>
+    <div class="wrap">
 
-        <div class="form-group">
-          <label for="qtyInput">Quantity (Minimum 500)</label>
-          <input type="number" id="qtyInput" class="form-control" value="500" min="1" step="1" oninput="calculateQuote()">
-          <div id="qtyError" class="error-msg">⚠️ Minimum Order Quantity is 500 pieces.</div>
-          <div id="distributorNotice" class="error-msg" style="color:#C8960C;">★ Distributor Volume Detected. Base 40% applied. Contact us for final custom rates.</div>
-        </div>
-
-        <div class="form-group" style="margin-top: 32px;">
-          <label class="checkbox-group">
-            <input type="checkbox" id="gstCheck" checked onchange="calculateQuote()">
-            <span>Include 18% GST (Required for Input Tax Credit)</span>
-          </label>
-        </div>
-
-        <div class="tier-guide">
-          <h4>Auto-Applied Bulk Tiers</h4>
-          <div class="tier-row"><span>500 – 999 pcs</span> <b>10% OFF</b></div>
-          <div class="tier-row"><span>1,000 – 4,999 pcs</span> <b>25% OFF</b></div>
-          <div class="tier-row"><span>5,000 – 9,999 pcs</span> <b>40% OFF</b></div>
-          <div class="tier-row"><span>10,000+ pcs</span> <b>Custom Rate</b></div>
-        </div>
+      <div class="page-header no-print">
+        <h1>Bulk Price Calculator</h1>
+        <p>Select your product and required quantity to instantly generate a bulk wholesale quote. The more you order,
+          the more you save.</p>
       </div>
 
-      <div class="quote-card" id="quote-card">
-        <div class="quote-header">
-          <div class="print-logo">
-            <div class="icon">
+      <div class="calc-grid">
+
+        <div class="calc-form-card calc-form no-print">
+          <div class="form-group">
+            <label for="productSelect">Select Product</label>
+            <select id="productSelect" class="form-control" onchange="calculateQuote()">
+              <option value="black-card" data-price="30" data-name="Black NFC 215 Card">Black NFC 215 Card (₹30/pc)
+              </option>
+              <option value="white-card" data-price="25" data-name="PVC NFC Business Card NTAG216">PVC NFC Business Card
+                NTAG216 (₹25/pc)</option>
+              <option value="anti-metal" data-price="20" data-name="Anti-Metal NFC Tag">Anti-Metal NFC Tag (₹20/pc)
+              </option>
+              <option value="rfid-tag" data-price="18" data-name="216 NFC RFID Tag">216 NFC RFID Tag (₹18/pc)</option>
+              <option value="nfc-coin" data-price="15" data-name="NTAG 215 Coin 25mm">NTAG 215 Coin 25mm (₹15/pc)
+              </option>
+              <option value="mini-tag" data-price="11" data-name="Mini NFC Tag (3D Print / Jewellery)">Mini NFC Tag for
+                3D Print / Jewellery (₹11/pc)</option>
+              <option value="flex-nfc" data-price="75" data-name="Micro Flex NFC Tags (FPC)">Micro Flex NFC Tags (FPC)
+                (₹75/pc)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="qtyInput">Quantity (Minimum 500)</label>
+            <input type="number" id="qtyInput" class="form-control" value="500" min="1" step="1"
+              oninput="calculateQuote()">
+            <div id="qtyError" class="error-msg">⚠️ Minimum Order Quantity is 500 pieces.</div>
+            <div id="distributorNotice" class="error-msg" style="color:#C8960C;">★ Distributor Volume Detected. Base 40%
+              applied. Contact us for final custom rates.</div>
+          </div>
+
+          <div class="form-group" style="margin-top: 32px;">
+            <label class="checkbox-group">
+              <input type="checkbox" id="gstCheck" checked onchange="calculateQuote()">
+              <span>Include 18% GST (Required for Input Tax Credit)</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" class="form-control" placeholder="Enter customer name"
+              oninput="calculateQuote()">
+          </div>
+
+          <div class="form-group">
+            <label for="customerNumber">Customer Number</label>
+            <input type="text" id="customerNumber" class="form-control" placeholder="Enter phone number"
+              oninput="calculateQuote()">
+          </div>
+
+          <div class="form-group">
+            <label for="customerAddress">Address</label>
+            <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter address"
+              oninput="calculateQuote()"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="customerCity">City</label>
+            <input type="text" id="customerCity" class="form-control" placeholder="Enter city"
+              oninput="calculateQuote()">
+          </div>
+
+          <div class="form-group">
+            <label for="customerState">State</label>
+            <input type="text" id="customerState" class="form-control" placeholder="Enter state"
+              oninput="calculateQuote()">
+          </div>
+
+          <div class="form-group">
+            <label for="customerPincode">Pincode</label>
+            <input type="text" id="customerPincode" class="form-control" placeholder="Enter pincode"
+              oninput="calculateQuote()">
+          </div>
+
+          <div class="tier-guide">
+            <h4>Auto-Applied Bulk Tiers</h4>
+            <div class="tier-row"><span>500 – 999 pcs</span> <b>10% OFF</b></div>
+            <div class="tier-row"><span>1,000 – 4,999 pcs</span> <b>25% OFF</b></div>
+            <div class="tier-row"><span>5,000 – 9,999 pcs</span> <b>40% OFF</b></div>
+            <div class="tier-row"><span>10,000+ pcs</span> <b>Custom Rate</b></div>
+          </div>
+        </div>
+
+        <div class="quote-card" id="quote-card">
+          <div class="quote-header">
+            <div class="print-logo">
+              <div class="icon">
+                <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
+                    stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                </svg>
+              </div>
+              Ntagz
+            </div>
+            <div>
+              <h2>Quotation</h2>
+              <p id="quoteDate">Date: --</p>
+            </div>
+          </div>
+
+          <div style="border-bottom:1px solid var(--paper); padding-bottom:16px; margin-bottom:20px;">
+            <div class="quote-line">
+              <span>Customer Name</span>
+              <span id="outCustomerName">-</span>
+            </div>
+            <div class="quote-line">
+              <span>Customer Number</span>
+              <span id="outCustomerNumber">-</span>
+            </div>
+            <div class="quote-line">
+              <span>Address</span>
+              <span id="outCustomerAddress" style="max-width:220px;text-align:right;">-</span>
+            </div>
+            <div class="quote-line">
+              <span>City</span>
+              <span id="outCustomerCity">-</span>
+            </div>
+            <div class="quote-line">
+              <span>State</span>
+              <span id="outCustomerState">-</span>
+            </div>
+            <div class="quote-line">
+              <span>Pincode</span>
+              <span id="outCustomerPincode">-</span>
+            </div>
+          </div>
+
+          <div class="quote-line">
+            <span style="font-weight:600; color:var(--ink);" id="outProductName">Product Name</span>
+          </div>
+
+          <div class="quote-line">
+            <span>Base Price</span>
+            <span id="outBasePrice">₹0</span>
+          </div>
+
+          <div class="quote-line">
+            <span>Quantity</span>
+            <span id="outQty">0 pcs</span>
+          </div>
+
+          <div class="quote-line">
+            <span>Subtotal</span>
+            <span id="outSubtotal">₹0</span>
+          </div>
+
+          <div class="quote-line discount">
+            <span>Bulk Discount <span id="outDiscountLabel"
+                style="font-size:12px;opacity:0.8;font-weight:400;margin-left:4px;">(0%)</span></span>
+            <span id="outDiscountAmt">- ₹0</span>
+          </div>
+
+          <div class="quote-line" style="border-top: 1px solid var(--paper); padding-top:16px; margin-top:16px;">
+            <span>Net Taxable Value</span>
+            <span id="outNet">₹0</span>
+          </div>
+
+          <div class="quote-line" id="gstRow">
+            <span>GST (18%)</span>
+            <span id="outGst">+ ₹0</span>
+          </div>
+
+          <div class="quote-total">
+            <span>Grand Total</span>
+            <span id="outTotal">₹0</span>
+          </div>
+
+          <div class="quote-actions no-print">
+            <button class="btn btn-outline btn-lg btn-block" onclick="window.print()">
+              <svg style="width:16px; height:16px; fill:currentColor;" viewBox="0 0 24 24">
+                <path
+                  d="M19 8H5V3H19V8ZM16 5H8V6H16V5ZM21 10C21.5523 10 22 10.4477 22 11V18H19V22H5V18H2V11C2 10.4477 2.44772 10 3 10H21ZM17 16H7V20H17V16ZM19 12C18.4477 12 18 12.4477 18 13C18 13.5523 18.4477 14 19 14C19.5523 14 20 13.5523 20 13C20 12.4477 19.5523 12 19 12Z" />
+              </svg>
+              Download PDF
+            </button>
+            <a href="#" id="waLink" target="_blank" class="btn btn-tagz btn-lg btn-block">
+              Order via WhatsApp →
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="no-print">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="text-decoration:none; color:inherit;">
+            <div class="logo-icon">
               <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path
+                  d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
+                  stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
               </svg>
             </div>
-            Ntagz
-          </div>
-          <div>
-            <h2>Quotation</h2>
-            <p id="quoteDate">Date: --</p>
-          </div>
-        </div>
-
-        <div class="quote-line">
-          <span style="font-weight:600; color:var(--ink);" id="outProductName">Product Name</span>
-        </div>
-        
-        <div class="quote-line">
-          <span>Base Price</span>
-          <span id="outBasePrice">₹0</span>
-        </div>
-        
-        <div class="quote-line">
-          <span>Quantity</span>
-          <span id="outQty">0 pcs</span>
-        </div>
-
-        <div class="quote-line">
-          <span>Subtotal</span>
-          <span id="outSubtotal">₹0</span>
-        </div>
-
-        <div class="quote-line discount">
-          <span>Bulk Discount <span id="outDiscountLabel" style="font-size:12px;opacity:0.8;font-weight:400;margin-left:4px;">(0%)</span></span>
-          <span id="outDiscountAmt">- ₹0</span>
-        </div>
-
-        <div class="quote-line" style="border-top: 1px solid var(--paper); padding-top:16px; margin-top:16px;">
-          <span>Net Taxable Value</span>
-          <span id="outNet">₹0</span>
-        </div>
-
-        <div class="quote-line" id="gstRow">
-          <span>GST (18%)</span>
-          <span id="outGst">+ ₹0</span>
-        </div>
-
-        <div class="quote-total">
-          <span>Grand Total</span>
-          <span id="outTotal">₹0</span>
-        </div>
-
-        <div class="quote-actions no-print">
-          <button class="btn btn-outline btn-lg btn-block" onclick="window.print()">
-            <svg style="width:16px; height:16px; fill:currentColor;" viewBox="0 0 24 24"><path d="M19 8H5V3H19V8ZM16 5H8V6H16V5ZM21 10C21.5523 10 22 10.4477 22 11V18H19V22H5V18H2V11C2 10.4477 2.44772 10 3 10H21ZM17 16H7V20H17V16ZM19 12C18.4477 12 18 12.4477 18 13C18 13.5523 18.4477 14 19 14C19.5523 14 20 13.5523 20 13C20 12.4477 19.5523 12 19 12Z"/></svg>
-            Download PDF
-          </button>
-          <a href="#" id="waLink" target="_blank" class="btn btn-tagz btn-lg btn-block">
-            Order via WhatsApp →
+            <div class="logo-text">N<em>tagz</em></div>
+          </a>
+          <p>India's favourite NFC & RFID product brand. We sell the physical hardware that makes contactless magic
+            happen — cards, tags, coins, and flex circuits.</p>
+          <a href="https://wa.me/919960160016" target="_blank" class="wa-footer">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            +91 9960 160016
           </a>
         </div>
-
+        <div class="footer-col">
+          <h4>PRODUCTS</h4>
+          <ul>
+            <li><a href="index.html#products">Black & White PVC Cards</a></li>
+            <li><a href="index.html#products">Anti-Metal Tags</a></li>
+            <li><a href="index.html#products">NFC Coins (25mm)</a></li>
+            <li><a href="index.html#products">Micro Flex Tags</a></li>
+            <li><a href="index.html#products">UHF RFID Labels</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>COMPANY</h4>
+          <ul>
+            <li><a href="about.html">About ntagz</a></li>
+            <li><a href="quote.html">Bulk Orders</a></li>
+            <li><a href="#">Reseller Program</a></li>
+            <li><a href="#">Custom Printing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>SUPPORT</h4>
+          <ul>
+            <li><a href="https://wa.me/919960160016">WhatsApp Us</a></li>
+            <li><a href="#">How to Program NFC</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+            <li><a href="#">GST / Invoicing</a></li>
+          </ul>
+        </div>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<footer class="no-print">
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="logo" style="text-decoration:none; color:inherit;">
-          <div class="logo-icon">
-            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-            </svg>
-          </div>
-          <div class="logo-text">N<em>tagz</em></div>
-        </a>
-        <p>India's favourite NFC & RFID product brand. We sell the physical hardware that makes contactless magic happen — cards, tags, coins, and flex circuits.</p>
-        <a href="https://wa.me/919960160016" target="_blank" class="wa-footer">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          +91 9960 160016
-        </a>
-      </div>
-      <div class="footer-col">
-        <h4>PRODUCTS</h4>
-        <ul>
-          <li><a href="index.html#products">Black & White PVC Cards</a></li>
-          <li><a href="index.html#products">Anti-Metal Tags</a></li>
-          <li><a href="index.html#products">NFC Coins (25mm)</a></li>
-          <li><a href="index.html#products">Micro Flex Tags</a></li>
-          <li><a href="index.html#products">UHF RFID Labels</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>COMPANY</h4>
-        <ul>
-          <li><a href="about.html">About ntagz</a></li>
-          <li><a href="quote.html">Bulk Orders</a></li>
-          <li><a href="#">Reseller Program</a></li>
-          <li><a href="#">Custom Printing</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>SUPPORT</h4>
-        <ul>
-          <li><a href="https://wa.me/919960160016">WhatsApp Us</a></li>
-          <li><a href="#">How to Program NFC</a></li>
-          <li><a href="#">Shipping Policy</a></li>
-          <li><a href="#">Returns & Refunds</a></li>
-          <li><a href="#">GST / Invoicing</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &nbsp;·&nbsp; GSTIN: 27AAPCA8177N1ZQ </div>
+        <div class="footer-bottom-r">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Shipping</a>
+        </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &nbsp;·&nbsp; GSTIN: 27AAPCA8177N1ZQ </div>
-      <div class="footer-bottom-r">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Shipping</a>
-      </div>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-// Format Currency function
-const formatMoney = (amount) => {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  }).format(amount);
-};
+  <script>
+    // Format Currency function
+    const formatMoney = (amount) => {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    };
 
-// Set Today's Date
-document.getElementById('quoteDate').textContent = `Date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+    // Set Today's Date
+    document.getElementById('quoteDate').textContent = `Date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
 
-function calculateQuote() {
-  const productSelect = document.getElementById('productSelect');
-  const selectedOption = productSelect.options[productSelect.selectedIndex];
-  
-  const productName = selectedOption.getAttribute('data-name');
-  const unitPrice = parseFloat(selectedOption.getAttribute('data-price'));
-  
-  const qtyInput = document.getElementById('qtyInput');
-  const qtyError = document.getElementById('qtyError');
-  const distNotice = document.getElementById('distributorNotice');
-  let qty = parseInt(qtyInput.value) || 0;
+    function calculateQuote() {
 
-  const includeGst = document.getElementById('gstCheck').checked;
+      const productSelect = document.getElementById('productSelect');
+      const selectedOption = productSelect.options[productSelect.selectedIndex];
 
-  // Handle constraints & UI messaging
-  if (qty < 500) {
-    qtyError.style.display = 'block';
-    distNotice.style.display = 'none';
-  } else {
-    qtyError.style.display = 'none';
-    if(qty >= 10000) {
-      distNotice.style.display = 'block';
-    } else {
-      distNotice.style.display = 'none';
+      const productName = selectedOption.getAttribute('data-name');
+      const unitPrice = parseFloat(selectedOption.getAttribute('data-price'));
+
+      const qtyInput = document.getElementById('qtyInput');
+      const qtyError = document.getElementById('qtyError');
+      const distNotice = document.getElementById('distributorNotice');
+      let qty = parseInt(qtyInput.value) || 0;
+
+      const includeGst = document.getElementById('gstCheck').checked;
+
+      // Input elements
+      const cName = document.getElementById('customerName').value || "-";
+      const cNumber = document.getElementById('customerNumber').value || "-";
+      const cAddress = document.getElementById('customerAddress').value || "-";
+      const cCity = document.getElementById('customerCity').value || "-";
+      const cState = document.getElementById('customerState').value || "-";
+      const cPincode = document.getElementById('customerPincode').value || "-";
+
+      // Handle constraints & UI messaging
+      if (qty < 500) {
+        qtyError.style.display = 'block';
+        distNotice.style.display = 'none';
+      } else {
+        qtyError.style.display = 'none';
+        if (qty >= 10000) {
+          distNotice.style.display = 'block';
+        } else {
+          distNotice.style.display = 'none';
+        }
+      }
+
+      // Determine Discount Tier
+      let discountPercent = 0;
+      if (qty >= 500 && qty <= 999) discountPercent = 10;
+      else if (qty >= 1000 && qty <= 4999) discountPercent = 25;
+      else if (qty >= 5000) discountPercent = 40; // Caps at 40 for the calculator logic
+
+      // Math
+      const subtotal = unitPrice * qty;
+      const discountAmount = subtotal * (discountPercent / 100);
+      const netValue = subtotal - discountAmount;
+      const gstAmount = includeGst ? (netValue * 0.18) : 0;
+      const grandTotal = netValue + gstAmount;
+
+      // Update DOM (Quote Sheet Card)
+      document.getElementById('outCustomerName').textContent = cName;
+      document.getElementById('outCustomerNumber').textContent = cNumber;
+      document.getElementById('outCustomerAddress').textContent = cAddress;
+      document.getElementById('outCustomerCity').textContent = cCity;
+      document.getElementById('outCustomerState').textContent = cState;
+      document.getElementById('outCustomerPincode').textContent = cPincode;
+
+      document.getElementById('outProductName').textContent = productName;
+      document.getElementById('outBasePrice').textContent = formatMoney(unitPrice);
+      document.getElementById('outQty').textContent = qty.toLocaleString('en-IN') + ' pcs';
+      document.getElementById('outSubtotal').textContent = formatMoney(subtotal);
+
+      document.getElementById('outDiscountLabel').textContent = `(${discountPercent}%)`;
+      document.getElementById('outDiscountAmt').textContent = '- ' + formatMoney(discountAmount);
+
+      document.getElementById('outNet').textContent = formatMoney(netValue);
+
+      const gstRow = document.getElementById('gstRow');
+      if (includeGst) {
+        gstRow.style.display = 'flex';
+        document.getElementById('outGst').textContent = '+ ' + formatMoney(gstAmount);
+      } else {
+        gstRow.style.display = 'none';
+      }
+
+      document.getElementById('outTotal').textContent = formatMoney(grandTotal);
+
+      // Update WhatsApp Link with pre-filled message
+      const waMessage = `Hi ntagz! I have generated a quote from your calculator and would like to proceed with an order:
+
+*Customer Details*
+*Name:* ${cName}
+*Phone:* ${cNumber}
+*Address:* ${cAddress}
+*City:* ${cCity}
+*State:* ${cState}
+*Pincode:* ${cPincode}
+
+*Order Details*
+*Product:* ${productName}
+*Quantity:* ${qty} pcs
+*Net Value:* ${formatMoney(netValue)}
+*GST Applied:* ${includeGst ? 'Yes (18%)' : 'No'}
+*Grand Total:* ${formatMoney(grandTotal)}
+
+Please let me know the next steps!`;
+
+      document.getElementById('waLink').href =
+        `https://wa.me/919960160016?text=${encodeURIComponent(waMessage)}`;
     }
-  }
 
-  // Determine Discount Tier
-  let discountPercent = 0;
-  if (qty >= 500 && qty <= 999) discountPercent = 10;
-  else if (qty >= 1000 && qty <= 4999) discountPercent = 25;
-  else if (qty >= 5000) discountPercent = 40; // Caps at 40 for the calculator logic
-
-  // Math
-  const subtotal = unitPrice * qty;
-  const discountAmount = subtotal * (discountPercent / 100);
-  const netValue = subtotal - discountAmount;
-  const gstAmount = includeGst ? (netValue * 0.18) : 0;
-  const grandTotal = netValue + gstAmount;
-
-  // Update DOM
-  document.getElementById('outProductName').textContent = productName;
-  document.getElementById('outBasePrice').textContent = formatMoney(unitPrice);
-  document.getElementById('outQty').textContent = qty.toLocaleString('en-IN') + ' pcs';
-  document.getElementById('outSubtotal').textContent = formatMoney(subtotal);
-  
-  document.getElementById('outDiscountLabel').textContent = `(${discountPercent}%)`;
-  document.getElementById('outDiscountAmt').textContent = '- ' + formatMoney(discountAmount);
-  
-  document.getElementById('outNet').textContent = formatMoney(netValue);
-  
-  const gstRow = document.getElementById('gstRow');
-  if(includeGst) {
-    gstRow.style.display = 'flex';
-    document.getElementById('outGst').textContent = '+ ' + formatMoney(gstAmount);
-  } else {
-    gstRow.style.display = 'none';
-  }
-
-  document.getElementById('outTotal').textContent = formatMoney(grandTotal);
-
-  // Update WhatsApp Link with pre-filled message
-  const waBtn = document.getElementById('waLink');
-  const waMessage = `Hi ntagz! I have generated a quote from your calculator and would like to proceed with an order:\n\n*Product:* ${productName}\n*Quantity:* ${qty} pcs\n*Net Value:* ${formatMoney(netValue)}\n*GST Applied:* ${includeGst ? 'Yes (18%)' : 'No'}\n*Grand Total:* ${formatMoney(grandTotal)}\n\nPlease let me know the next steps!`;
-  waBtn.href = `https://wa.me/919960160016?text=${encodeURIComponent(waMessage)}`;
-}
-
-// Run initially
-calculateQuote();
-</script>
+    // Run initially
+    calculateQuote();
+  </script>
 
 </body>
+
 </html>
