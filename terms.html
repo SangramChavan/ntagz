@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Returns & Refunds — ntagz</title>
+
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ── TOKENS (Preserving ntagz Brand Identity) ── */
+    :root {
+      --cream: #FAF7F2;
+      --warm: #F2EDE4;
+      --paper: #ECEADF;
+      --ink: #1A1714;
+      --ink-2: #4A4540;
+      --ink-3: #8A837A;
+      --tagz: #FF4500;
+      --tagz-lt: #FFF0EB;
+      --tagz-dk: #CC3700;
+      --teal: #007A6B;
+
+      --ff-head: 'Familjen Grotesk', sans-serif;
+      --ff-serif: 'Instrument Serif', serif;
+      --ff-body: 'Manrope', sans-serif;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --r: 14px;
+      --r-lg: 22px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ── TOP STRIP ── */
+    .top-strip {
+      background: var(--ink);
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      font-family: var(--ff-head);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .top-strip span { opacity: 0.6; font-size: 10px; }
+    .top-strip b { color: var(--tagz); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 800;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--paper);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--tagz);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg { width: 16px; height: 16px; fill: #fff; }
+    .logo-text em { color: var(--tagz); font-style: normal; }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-2); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── CONTENT LAYOUT ── */
+    .wrap {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 24px;
+    }
+
+    .policy-container {
+      padding: 60px 0 120px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .policy-container {
+        grid-template-columns: 280px 1fr;
+      }
+    }
+
+    /* Sidebar Navigation */
+    .policy-sidebar {
+      position: Skinner;
+      top: 100px;
+      height: max-content;
+    }
+
+    @media (min-width: 768px) {
+      .policy-sidebar {
+        position: sticky;
+      }
+    }
+
+    .policy-sidebar h3 {
+      font-family: var(--ff-head);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-menu a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-2);
+      transition: all 0.2s var(--ease);
+    }
+
+    .sidebar-menu a:hover {
+      color: var(--tagz);
+      padding-left: 4px;
+    }
+
+    /* Main Content Styling */
+    .policy-content h1 {
+      font-family: var(--ff-head);
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .policy-content .subtitle {
+      font-size: 16px;
+      color: var(--ink-2);
+      margin-bottom: 40px;
+    }
+
+    .policy-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 90px;
+    }
+
+    .policy-section h2 {
+      font-family: var(--ff-head);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    .policy-section p {
+      font-size: 15px;
+      color: var(--ink-2);
+      margin-bottom: 16px;
+    }
+
+    /* Highlights & Cards */
+    .highlight-box {
+      background: #fff;
+      border: 1px solid var(--paper);
+      border-radius: var(--r);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Strict Warning Alert Banner */
+    .block-alert {
+      background: var(--tagz-lt);
+      border-left: 4px solid var(--tagz);
+      padding: 18px;
+      border-radius: 0 var(--r) var(--r) 0;
+      font-size: 14px;
+      color: var(--ink);
+      margin-top: 16px;
+    }
+    
+    .block-alert strong {
+      color: var(--tagz-dk);
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--ff-head);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── FOOTER STYLES ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 48px 0 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    .footer-bottom-r a {
+      margin-left: 16px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-strip">
+    <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
+    <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+          </svg>
+        </div>
+        <div class="logo-text">N<em>tagz</em></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#products">Products</a>
+        <a href="quote.html">Bulk Orders</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div class="policy-container">
+      
+      <!-- Sticky Navigation Left Sidebar -->
+      <aside class="policy-sidebar">
+        <h3>Terms & Protection</h3>
+        <ul class="sidebar-menu">
+          <li><a href="#no-refund">No-Refund Policy</a></li>
+          <li><a href="#wrong-product">Wrong Product Clause</a></li>
+          <li><a href="#unboxing">Unboxing Requirements</a></li>
+          <li><a href="#jurisdiction">Legal Jurisdiction</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content Column -->
+      <article class="policy-content">
+        <h1>Returns & Refunds Policy</h1>
+        <p class="subtitle">Last updated: May 2026. Please read our commercial fulfillment terms carefully before committing to bulk transactions.</p>
+
+        <section id="no-refund" class="policy-section">
+          <h2>Strict No-Refund & No-Return Mandate</h2>
+          <p>At <code>ntagz</code>, we deal extensively in wholesale commercial electronic components, microcircuits, raw tracking hardware, and specific bulk allocations. Due to the high logistics cost of freight management and the nature of sensitive silicon chip storage, <b>all confirmed and processed sales are final.</b></p>
+          
+          <div class="block-alert">
+            <strong>Absolute Terms:</strong>
+            We do not accept returns, offer refunds, or accommodate order cancellations under any circumstances for buyer's remorse, incorrect calculations, internal change-of-mind, or project adjustments post-payment.
+          </div>
+        </section>
+
+        <section id="wrong-product" class="policy-section">
+          <h2>The "Wrong Product Delivered" Exception</h2>
+          <p>A fulfillment correction sequence will <i>only</i> trigger if the inventory arriving at your facility physically contradicts the descriptive attributes specified on your generated receipt (e.g., ordering an NTAG216 high-memory card variant but receiving an NTAG215 coin tag variant instead).</p>
+          <p>In such verified cases, <code>ntagz</code> will arrange a reverse-pickup run entirely at our expense and deliver your correct stock immediately. The wrong item must remain completely clean, unprogrammed, and intact within its original package count.</p>
+        </section>
+
+        <section id="unboxing" class="policy-section">
+          <h2>Mandatory Unboxing Video Requirement</h2>
+          <p>To safely shield our dispatch logs against counterfeit returns or claims of external tampering, buyers must record a continuous, unedited <b>unboxing video</b> starting from the raw, unbroken outer shipping seal until the entire product layout is unpacked and counted.</p>
+          <p>Failure to provide a verifiable unboxing clip within 24 hours of tracking delivery status automatically nullifies any wrong-product exchange claims, with no liability falling on the seller.</p>
+        </section>
+
+        <section id="jurisdiction" class="policy-section">
+          <h2>Governing Law & Exclusive Judicial Jurisdiction</h2>
+          <p>By interacting with our dynamic calculator tools, executing transactions via our UPI portals, or finalizing wholesale orders via our WhatsApp corporate desks, you explicitly agree that all commercial agreements are formed, managed, and executed under the state guidelines of Maharashtra.</p>
+          
+          <div class="highlight-box" style="border-left: 4px solid var(--ink);">
+            <p><strong>Exclusive Legal Jurisdiction:</strong></p>
+            <p style="font-size: 14px; margin-bottom: 0;">Any legal claims, litigations, procedural grievances, or contractual disputes resulting between the buyer and <code>ntagz</code> shall fall exclusively within the domain of the competent <b>civil courts located in Pune, Maharashtra, India</b> only. All other regional or outside-state forums are explicitly waived by the contracting parties.</p>
+          </div>
+        </section>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-bottom">
+        <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &nbsp;·&nbsp; GSTIN: 27AAPCA8177N1ZQ</div>
+        <div class="footer-bottom-r">
+          <a href="index.html">Home</a>
+          <a href="quote.html">Calculator</a>
+          <a href="shipping.html">Shipping Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
