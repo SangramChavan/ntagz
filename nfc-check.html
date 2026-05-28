@@ -4,7 +4,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NFC Capability Tester — ntagz</title>
+  <title>NFC Capability Tester — Check If Your Phone Has NFC | ntagz</title>
+  <meta name="description" content="Quickly test if your smartphone has built-in NFC hardware capabilities. Run our free instant online web tool to detect active contactless antenna chipsets." />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How do I know if my smartphone has NFC built-in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can use an online hardware tool like ntagz NFC Detector, or check your phone settings. On Android, navigate to Settings > Connected Devices > Connection Preferences to find the NFC toggle. On Apple iPhones, premium NFC hardware is embedded natively on all models from iPhone 6 and later."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Why does my browser say Web NFC is not supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Web NFC API architectures require specific environment access. Apple restricts third-party web browsers like Safari or Chrome on iOS from tapping directly into the NFC reader hardware for security reasons. For Android devices, ensure you are utilizing an updated version of Google Chrome and that NFC is toggled ON in your system settings."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I read and write NTAG chip units directly from a website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, compatible mobile browsers natively supporting the Web NFC framework (such as Google Chrome on Android) can safely read and program physical NTAG213, NTAG215, and NTAG216 microchips seamlessly without downloading external apps."
+        }
+      }]
+    }
+  </script>
 
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect width='20' height='20' rx='4' fill='%23FF4500'/><path d='M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14' stroke='white' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>">
@@ -53,7 +83,7 @@
       min-height: 100vh;
     }
 
-    /* ── HIGH-PRO NAVIGATION (RE-ENGINEERED) ── */
+    /* ── HIGH-PRO NAVIGATION ── */
     nav {
       position: sticky;
       top: 0;
@@ -69,12 +99,10 @@
       padding: 0 24px;
       height: 64px;
       display: grid;
-      /* Fixed layout keeping logo mathematically dead-centered */
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
     }
 
-    /* Back Link Micro-interaction */
     .nav-back {
       display: inline-flex;
       align-items: center;
@@ -142,13 +170,17 @@
       letter-spacing: 0.08em;
     }
 
-    /* ── MAIN CARD CONTAINER ── */
-    main {
+    /* ── PAGE WRAPPER & MAIN CARD ── */
+    .page-content {
       flex: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 48px 24px;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
     }
 
     .tester-card {
@@ -157,9 +189,9 @@
       border-radius: var(--r-lg);
       padding: 40px 24px;
       width: 100%;
-      max-width: 440px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
       text-align: center;
+      margin-bottom: 48px;
     }
 
     .icon-wrapper {
@@ -208,7 +240,6 @@
       margin-bottom: 32px;
     }
 
-    /* ── BUTTON STYLING (AWESOME UPDATE) ── */
     .button-group {
       display: flex;
       flex-direction: column;
@@ -239,7 +270,6 @@
       box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
     }
 
-    /* Secondary Soft Button for elegant context exits */
     .btn-secondary {
       background: var(--warm);
       color: var(--ink);
@@ -252,6 +282,64 @@
       box-shadow: none;
     }
 
+    /* ── SEO ACCORDION FAQ SECTION ── */
+    .faq-container {
+      width: 100%;
+      text-align: left;
+    }
+
+    .faq-title {
+      font-family: var(--ff-head);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--paper);
+      padding: 16px 0;
+    }
+
+    .faq-question {
+      font-family: var(--ff-head);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item details summary {
+      list-style: none;
+    }
+
+    .faq-icon {
+      font-size: 18px;
+      color: var(--ink-3);
+      transition: transform 0.25s var(--ease);
+    }
+
+    .faq-item details[open] .faq-icon {
+      transform: rotate(45deg);
+      color: var(--tagz);
+    }
+
+    .faq-answer {
+      font-size: 14px;
+      color: var(--ink-2);
+      line-height: 1.6;
+      padding-top: 12px;
+    }
+
     /* Dynamic Colorway Shifts */
     .state-supported .icon-wrapper { background: var(--teal-lt); }
     .state-supported .icon-wrapper svg { fill: var(--teal); }
@@ -261,15 +349,9 @@
     .state-unsupported .icon-wrapper svg { fill: var(--tagz); }
     .state-unsupported .status-badge { background: var(--tagz-lt); color: var(--tagz); }
 
-    /* Responsive scaling for viewport protection */
     @media (max-width: 520px) {
-      .nav-inner {
-        display: flex;
-        justify-content: space-between;
-      }
-      .nav-meta {
-        display: none;
-      }
+      .nav-inner { display: flex; justify-content: space-between; }
+      .nav-meta { display: none; }
     }
   </style>
 </head>
@@ -299,7 +381,7 @@
     </div>
   </nav>
 
-  <main>
+  <main class="page-content">
     <div class="tester-card" id="testerCard">
       <div class="icon-wrapper" id="statusIcon">
         <svg viewBox="0 0 24 24" id="svgIcon">
@@ -318,6 +400,46 @@
         <button class="btn" id="actionBtn" onclick="verifyNFCHardware()">Check NFC Status</button>
       </div>
     </div>
+
+    <section class="faq-container" aria-label="Frequently Asked Questions">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <details>
+          <summary class="faq-question">
+            How do I know if my smartphone has NFC built-in?
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-answer">
+            You can use an online hardware check tool like the ntagz NFC Detector, or verify manually inside your OS. On Android devices, open Settings &gt; Connected Devices &gt; Connection Preferences to look for an NFC toggle switch. All Apple iPhones starting from iPhone 6 and up feature built-in contactless hardware modules.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary class="faq-question">
+            Why does my browser say Web NFC is not supported?
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-answer">
+            Web NFC API structures rely on secure configuration handshakes. Apple blocks iOS web layouts (Safari, Chrome, Firefox) from querying hardware antennas directly due to proprietary ecosystem guidelines. To safely use web scanning tools, access the module over an updated build of Google Chrome running on an Android platform.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary class="faq-question">
+            Can I read and write NTAG chip units directly from a website?
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-answer">
+            Yes, systems supporting native Web NFC capabilities (like Android Google Chrome) can interactively read, update, and program NTAG213, NTAG215, and NTAG216 coin and card components natively inside your browser without demanding standalone third-party app installations.
+          </div>
+        </details>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -351,7 +473,7 @@
         badge.textContent = "NFC Enabled";
         headline.textContent = "Hardware Detected!";
         desc.textContent = "Excellent news. Your smartphone is perfectly optimized with active contactless hardware configurations. You can smoothly scan, program, and interact with all ntagz card and coin tag units.";
-        showHomeFallbackButton(true); // pass true to use standard primary styling upon success
+        showHomeFallbackButton(true);
       } catch (error) {
         console.error(error);
         if (error.name === "NotAllowedError" || error.name === "PermissionError") {
@@ -371,17 +493,14 @@
       desc.textContent = descriptionText;
     }
 
-    // Dynamic Context Trigger to present a crisp Return CTA in-card
     function showHomeFallbackButton(isPrimaryStyle = false) {
       button.style.display = "none";
-      
-      // Prevent duplicating home CTA buttons if re-run
       if(document.getElementById('cardHomeBtn')) return;
 
       const homeBtn = document.createElement('a');
       homeBtn.href = "/";
       homeBtn.id = "cardHomeBtn";
-      homeBtn.textContent = "Back";
+      homeBtn.textContent = "Return to Dashboard";
       homeBtn.className = isPrimaryStyle ? "btn" : "btn btn-secondary";
       
       btnGroup.appendChild(homeBtn);
