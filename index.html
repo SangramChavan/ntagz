@@ -1286,7 +1286,7 @@
       transition: background 0.4s var(--ease);
     }
 
-    /* ── FIX: Bulletproof Step Arrow Stacking ── */
+    /* ── FIX: Step Arrow Stacking ── */
     .steps-grid .step:nth-child(1) {
       z-index: 30 !important;
     }
@@ -1672,7 +1672,7 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
     }
 
-    /* ── TRUST BADGES ── */
+    /* ── TRUST/FOOTER BADGES ── */
     .badges-section {
       background: var(--ink);
       padding: 60px 0;
@@ -1680,7 +1680,7 @@
 
     .badges-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
     }
 
@@ -1774,123 +1774,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      /* UX trick: Makes the map fit your color palette */
       filter: grayscale(1) opacity(0.8) contrast(1.1);
       transition: all 0.5s var(--ease);
     }
 
     .location-map:hover iframe {
-      /* Restores full color when the user focuses on the map */
       filter: grayscale(0) opacity(1) contrast(1);
-    }
-
-    @media (min-width: 1024px) {
-      .location-section {
-        padding-bottom: 120px;
-      }
-
-      .location-inner {
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-      }
-
-      .location-content {
-        padding: 64px 56px;
-      }
-
-      .location-map {
-        min-height: 100%;
-      }
-    }
-
-    /* ── LOCATION / MAP ── */
-    .location-section {
-      background: var(--cream);
-      padding-bottom: 80px;
-    }
-
-    .location-inner {
-      display: grid;
-      grid-template-columns: 1fr;
-      background: #fff;
-      border: 1px solid var(--paper);
-      border-radius: var(--r-xl);
-      overflow: hidden;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
-    }
-
-    .location-content {
-      padding: 40px 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .location-content .sec-head {
-      margin-bottom: 12px;
-    }
-
-    .location-content .sec-sub {
-      margin-bottom: 24px;
-    }
-
-    .loc-address {
-      font-size: 14px;
-      color: var(--ink-2);
-      line-height: 1.6;
-      padding-left: 16px;
-      border-left: 3px solid var(--tagz-lt);
-    }
-
-    .loc-address strong {
-      color: var(--ink);
-      display: block;
-      font-family: var(--ff-head);
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .location-map {
-      min-height: 350px;
-      background: var(--warm);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .location-map iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      /* UX trick: Makes the map fit your color palette */
-      filter: grayscale(1) opacity(0.8) contrast(1.1);
-      transition: all 0.5s var(--ease);
-    }
-
-    .location-map:hover iframe {
-      /* Restores full color when the user focuses on the map */
-      filter: grayscale(0) opacity(1) contrast(1);
-    }
-
-    @media (min-width: 1024px) {
-      .location-section {
-        padding-bottom: 120px;
-      }
-
-      .location-inner {
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-      }
-
-      .location-content {
-        padding: 64px 56px;
-      }
-
-      .location-map {
-        min-height: 100%;
-      }
     }
 
     /* ── FOOTER ── */
@@ -2034,10 +1923,6 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .badges-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
       .footer-top {
         grid-template-columns: 1fr 1fr;
       }
@@ -2113,6 +1998,23 @@
         padding: 120px 0;
       }
 
+      .location-section {
+        padding-bottom: 120px;
+      }
+
+      .location-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+
+      .location-content {
+        padding: 64px 56px;
+      }
+
+      .location-map {
+        min-height: 100%;
+      }
+
       .hero-blob,
       .hero-blob2 {
         display: block;
@@ -2172,8 +2074,7 @@
         height: 200px;
       }
 
-      .nfc-product-card,
-      .nfc-product-card-white {
+      .nfc-product-card {
         width: 320px;
         height: 200px;
         padding: 28px;
@@ -2203,7 +2104,7 @@
       }
 
       .badges-grid {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 24px;
       }
 
@@ -2299,7 +2200,7 @@
   </a>
 
   <div class="top-strip">
-    <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
+    <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 |
     <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
   </div>
 
@@ -2324,8 +2225,7 @@
         <a href="about.html">About Us</a>
       </div>
       <div class="nav-ctas">
-        <a href="https://ntagz.com/quote.html" target="_blank"
-          class="btn btn-tagz">Order Now →</a>
+        <a href="https://ntagz.com/quote.html" target="_blank" class="btn btn-tagz">Order Now →</a>
       </div>
     </div>
   </nav>
@@ -2881,6 +2781,7 @@
       </div>
     </div>
   </section>
+
   <section class="location-section">
     <div class="wrap">
       <div class="location-inner reveal">
@@ -2910,6 +2811,7 @@
       </div>
     </div>
   </section>
+
   <div class="badges-section">
     <div class="wrap">
       <div class="badges-grid">
@@ -3000,7 +2902,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &nbsp;·&nbsp; GSTIN: 27AAPCA8177N1ZQ </div>
+        <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA · GSTIN: 27AAPCA8177N1ZQ </div>
         <div class="footer-bottom-r">
           <a href="#">Privacy</a>
           <a href="terms.html">Terms</a>
