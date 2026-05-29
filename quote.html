@@ -511,7 +511,6 @@
       justify-content: center;
       align-items: center;
       mix-blend-mode: multiply;
-      /* clean transparency overlay */
     }
 
     .quote-actions {
@@ -777,7 +776,6 @@
 
       .quote-actions {
         flex-direction: column;
-        /* Stacked logically for multi-payment layouts */
       }
 
       .footer-top {
@@ -844,22 +842,24 @@
       <div class="calc-grid">
 
         <div class="calc-form-card calc-form no-print">
+
           <div class="form-group">
             <label for="productSelect">Select Product</label>
             <select id="productSelect" class="form-control" onchange="calculateQuote()">
-              <option value="black-card" data-price="30" data-name="Black NFC 215 Card">Black NFC 215 Card (₹30/pc)
-              </option>
-              <option value="white-card" data-price="25" data-name="PVC NFC Business Card NTAG216">PVC NFC Business Card
-                NTAG216 (₹25/pc)</option>
-              <option value="anti-metal" data-price="20" data-name="Anti-Metal NFC Tag">Anti-Metal NFC Tag (₹20/pc)
-              </option>
-              <option value="rfid-tag" data-price="18" data-name="216 NFC RFID Tag">216 NFC RFID Tag (₹18/pc)</option>
-              <option value="nfc-coin" data-price="15" data-name="NTAG 215 Coin 25mm">NTAG 215 Coin 25mm (₹15/pc)
-              </option>
-              <option value="mini-tag" data-price="11" data-name="Mini NFC Tag (3D Print / Jewellery)">Mini NFC Tag for
-                3D Print / Jewellery (₹11/pc)</option>
-              <option value="flex-nfc" data-price="75" data-name="Micro Flex NFC Tags (FPC)">Micro Flex NFC Tags (FPC)
-                (₹75/pc)</option>
+              <option value="black-card" data-price="30" data-code="BNC30" data-name="Black NFC Card 215">Black NFC Card
+                215 (₹30/pc)</option>
+              <option value="white-card" data-price="25" data-code="WNC25" data-name="White NFC Card 216">White NFC Card
+                216 (₹25/pc)</option>
+              <option value="anti-metal" data-price="20" data-code="MNT20" data-name="Metal NFC Tag 25mm">Anti-Metal NFC
+                Tag 25mm (₹20/pc)</option>
+              <option value="rfid-tag" data-price="18" data-code="RNT18" data-name="Round NFC Tag 216">Round NFC Tag 216
+                (₹18/pc)</option>
+              <option value="nfc-coin" data-price="15" data-code="WNC15" data-name="White NFC Coin 215">White NFC Coin
+                215 (₹15/pc)</option>
+              <option value="mini-tag" data-price="11" data-code="MNT11" data-name="Mini NFC Tag (Jewel)">Mini NFC Tag
+                (Jewel) (₹11/pc)</option>
+              <option value="flex-nfc" data-price="75" data-code="FNT75" data-name="Flex NFC Tag (Micro)">Flex NFC Tag
+                (Micro) (₹75/pc)</option>
             </select>
           </div>
 
@@ -898,21 +898,11 @@
           </div>
 
           <div class="form-group">
-            <label for="customerCity">City</label>
-            <input type="text" id="customerCity" class="form-control" placeholder="Enter city"
-              oninput="calculateQuote()">
-          </div>
-
-          <div class="form-group">
-            <label for="customerState">State</label>
-            <input type="text" id="customerState" class="form-control" placeholder="Enter state"
-              oninput="calculateQuote()">
-          </div>
-
-          <div class="form-group">
             <label for="customerPincode">Pincode</label>
-            <input type="text" id="customerPincode" class="form-control" placeholder="Enter pincode"
-              oninput="calculateQuote()">
+            <input type="text" id="customerPincode" class="form-control" placeholder="Enter 6-digit pincode"
+              oninput="checkPincodeLength(this.value); calculateQuote();">
+            <div id="pincodeLoader" class="error-msg" style="color: var(--teal); font-weight: 500;">🔍 Fetching city and
+              state...</div>
           </div>
 
           <div class="tier-guide">
@@ -1110,7 +1100,6 @@
   </footer>
 
   <script>
-    // Initialize standard QRCode instance container globally
     const qrcodeContainer = new QRCode(document.getElementById("qrcode"), {
       width: 160,
       height: 160,
@@ -1119,7 +1108,6 @@
       correctLevel: QRCode.CorrectLevel.M
     });
 
-    // Format Currency function
     const formatMoney = (amount) => {
       return new Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -1129,33 +1117,110 @@
       }).format(amount);
     };
 
-    // Set Today's Date
     document.getElementById('quoteDate').textContent = `Date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
 
+    // Globally track auto-fetched city and state variables
+    let fetchedCity = '';
+    let fetchedState = '';
+
+    function checkPincodeLength(val) {
+      const cleanPincode = val.replace(/[^0-9]/g, '');
+
+      if (cleanPincode.length === 6) {
+        fetchLocationData(cleanPincode);
+      } else {
+        // Clear out the tracking storage if the pincode becomes incomplete
+        fetchedCity = '';
+        fetchedState = '';
+        calculateQuote();
+      }
+    }
+
+    async function fetchLocationData(pincode) {
+      const loader = document.getElementById('pincodeLoader');
+      loader.style.display = 'block';
+      loader.style.color = 'var(--teal)';
+      loader.textContent = '🔍 Fetching city and state...';
+
+      try {
+        const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+        const data = await response.json();
+
+        if (data[0] && data[0].Status === "Success") {
+          const postOffice = data[0].PostOffice[0];
+
+          // Save into global placeholders
+          fetchedCity = postOffice.District;
+          fetchedState = postOffice.State;
+
+          loader.textContent = '✅ Location updated!';
+          setTimeout(() => { loader.style.display = 'none'; }, 2000);
+
+          calculateQuote();
+        } else {
+          loader.style.color = '#DC2626';
+          loader.textContent = '⚠️ Invalid Pincode. Please verify.';
+          fetchedCity = '';
+          fetchedState = '';
+          calculateQuote();
+        }
+      } catch (error) {
+        console.error("Error fetching pincode info:", error);
+        loader.style.color = '#DC2626';
+        loader.textContent = '⚠️ Network error fetching location info.';
+      }
+    }
+
     function calculateQuote() {
-
       const productSelect = document.getElementById('productSelect');
-      const selectedOption = productSelect.options[productSelect.selectedIndex];
-
-      const productName = selectedOption.getAttribute('data-name');
-      const unitPrice = parseFloat(selectedOption.getAttribute('data-price'));
-
       const qtyInput = document.getElementById('qtyInput');
       const qtyError = document.getElementById('qtyError');
       const distNotice = document.getElementById('distributorNotice');
-      let qty = parseInt(qtyInput.value) || 0;
-
       const includeGst = document.getElementById('gstCheck').checked;
+      const selectedOption = productSelect.options[productSelect.selectedIndex];
 
-      // Input elements
-      const cName = document.getElementById('customerName').value || "-";
-      const cNumber = document.getElementById('customerNumber').value || "-";
-      const cAddress = document.getElementById('customerAddress').value || "-";
-      const cCity = document.getElementById('customerCity').value || "-";
-      const cState = document.getElementById('customerState').value || "-";
-      const cPincode = document.getElementById('customerPincode').value || "-";
+      const sanitizeText = (value, max = 80) => {
+        return String(value || '')
+          .replace(/[^\w\s.,\-/#&()]/gi, '')
+          .trim()
+          .substring(0, max);
+      };
 
-      // Handle constraints & UI messaging
+      const safeNumber = (value) => {
+        const num = parseInt(value, 10);
+        return isNaN(num) ? 0 : num;
+      };
+
+      const formatQty = (value) => {
+        return Number(value).toLocaleString('en-IN');
+      };
+
+      const productName = sanitizeText(
+        selectedOption.getAttribute('data-name') || 'Product',
+        50
+      );
+
+      const prodID = sanitizeText(
+        selectedOption.getAttribute('data-code') || 'PROD',
+        10
+      );
+
+      const unitPrice = parseFloat(
+        selectedOption.getAttribute('data-price') || 0
+      );
+
+      let qty = safeNumber(qtyInput.value);
+
+      const rawCustomerName = document.getElementById('customerName').value;
+      const cName = sanitizeText(rawCustomerName, 60) || '-';
+      const cNumber = sanitizeText(document.getElementById('customerNumber').value, 20) || '-';
+      const cAddress = sanitizeText(document.getElementById('customerAddress').value, 120) || '-';
+      const cPincode = sanitizeText(document.getElementById('customerPincode').value, 10) || '-';
+
+      // Assign mapped state and city strings safely
+      const cCity = fetchedCity ? sanitizeText(fetchedCity, 40) : '-';
+      const cState = fetchedState ? sanitizeText(fetchedState, 40) : '-';
+
       if (qty < 500) {
         qtyError.style.display = 'block';
         distNotice.style.display = 'none';
@@ -1168,20 +1233,21 @@
         }
       }
 
-      // Determine Discount Tier
       let discountPercent = 0;
-      if (qty >= 500 && qty <= 999) discountPercent = 10;
-      else if (qty >= 1000 && qty <= 4999) discountPercent = 25;
-      else if (qty >= 5000) discountPercent = 40; // Caps at 40 for the calculator logic
+      if (qty >= 500 && qty <= 999) {
+        discountPercent = 10;
+      } else if (qty >= 1000 && qty <= 4999) {
+        discountPercent = 25;
+      } else if (qty >= 5000) {
+        discountPercent = 40;
+      }
 
-      // Math
       const subtotal = unitPrice * qty;
       const discountAmount = subtotal * (discountPercent / 100);
       const netValue = subtotal - discountAmount;
-      const gstAmount = includeGst ? (netValue * 0.18) : 0;
-      const grandTotal = netValue + gstAmount;
+      const gstAmount = includeGst ? netValue * 0.18 : 0;
+      const grandTotal = Number((netValue + gstAmount).toFixed(2));
 
-      // Update DOM (Quote Sheet Card)
       document.getElementById('outCustomerName').textContent = cName;
       document.getElementById('outCustomerNumber').textContent = cNumber;
       document.getElementById('outCustomerAddress').textContent = cAddress;
@@ -1191,67 +1257,94 @@
 
       document.getElementById('outProductName').textContent = productName;
       document.getElementById('outBasePrice').textContent = formatMoney(unitPrice);
-      document.getElementById('outQty').textContent = qty.toLocaleString('en-IN') + ' pcs';
+      document.getElementById('outQty').textContent = `${formatQty(qty)} pcs`;
       document.getElementById('outSubtotal').textContent = formatMoney(subtotal);
-
       document.getElementById('outDiscountLabel').textContent = `(${discountPercent}%)`;
-      document.getElementById('outDiscountAmt').textContent = '- ' + formatMoney(discountAmount);
-
+      document.getElementById('outDiscountAmt').textContent = `- ${formatMoney(discountAmount)}`;
       document.getElementById('outNet').textContent = formatMoney(netValue);
 
       const gstRow = document.getElementById('gstRow');
       if (includeGst) {
         gstRow.style.display = 'flex';
-        document.getElementById('outGst').textContent = '+ ' + formatMoney(gstAmount);
+        document.getElementById('outGst').textContent = `+ ${formatMoney(gstAmount)}`;
       } else {
         gstRow.style.display = 'none';
       }
 
       document.getElementById('outTotal').textContent = formatMoney(grandTotal);
 
-      /* ── DYNAMIC UPI LOGIC ── */
-      // Configure your merchant parameters here:
-      const upiVpa = "7385856545@ibl"; // Replace with your corporate/business registered VPA ID
-      const merchantName = "Ambivert Electronics";
-      const transactionNote = encodeURIComponent(`Bulk Order - ${qty} ${productName.substring(0, 10)}`);
+      // ==========================================
+      // UPI GENERATION WITH EXTRACTED DATA-CODE
+      // ==========================================
+      const upiVpa = '7385856545@ibl';
+      const merchantName = 'Ambivert Electronics';
 
-      // Build dynamic standard deep link payload (Using exactly 2 decimal places for precise standard transactions)
-      const upiString = `upi://pay?pa=${upiVpa}&pn=${encodeURIComponent(merchantName)}&am=${grandTotal.toFixed(2)}&cu=INR&tn=${transactionNote}`;
+      let upiSafeName = 'Cust';
+      if (cName !== '-' && cName.trim() !== '') {
+        const filteredName = cName.replace(/[^a-zA-Z0-9 ]/g, '').trim();
+        const nameParts = filteredName.split(/\s+/);
 
-      // Update Mobile Intent Action Link
-      document.getElementById('upiLink').href = upiString;
+        if (nameParts.length > 1) {
+          const firstName = nameParts[0];
+          const lastInitial = nameParts[nameParts.length - 1].charAt(0).toUpperCase();
+          upiSafeName = `${firstName} ${lastInitial}`;
+        } else if (nameParts.length === 1 && nameParts[0] !== '') {
+          upiSafeName = nameParts[0];
+        }
+      }
 
-      // Update the inline dynamic desktop QR code securely
+      const upiSafePincode = cPincode.replace(/[^0-9]/g, '').substring(0, 6);
+      const formattedPincode = upiSafePincode !== '' ? upiSafePincode : '000000';
+
+      const rawNote = `${upiSafeName} ${prodID} ${qty} qty at ${formattedPincode}`;
+      const upiNote = rawNote.substring(0, 50).trim();
+
+      const upiParams = new URLSearchParams({
+        pa: upiVpa,
+        pn: merchantName,
+        am: grandTotal.toFixed(2),
+        cu: 'INR',
+        tn: upiNote
+      });
+
+      const upiString = `upi://pay?${upiParams.toString()}`;
+
+      const upiLink = document.getElementById('upiLink');
+      upiLink.href = upiString;
+
       qrcodeContainer.clear();
       if (grandTotal > 0) {
         qrcodeContainer.makeCode(upiString);
       }
 
-      // Update WhatsApp Link with pre-filled message
-      const waMessage = `Hi ntagz! I have generated a quote from your calculator and would like to proceed with an order:
+      // =========================
+      // WHATSAPP MESSAGE
+      // =========================
+      const waMessage = `Hello Ambivert Electronics,
 
-*Customer Details*
-*Name:* ${cName}
-*Phone:* ${cNumber}
-*Address:* ${cAddress}
-*City:* ${cCity}
-*State:* ${cState}
-*Pincode:* ${cPincode}
+I would like to proceed with the following bulk order quotation.
 
-*Order Details*
-*Product:* ${productName}
-*Quantity:* ${qty} pcs
-*Net Value:* ${formatMoney(netValue)}
-*GST Applied:* ${includeGst ? 'Yes (18%)' : 'No'}
-*Grand Total:* ${formatMoney(grandTotal)}
+CUSTOMER DETAILS
+Name: ${cName}
+Phone: ${cNumber}
+Address: ${cAddress}
+City: ${cCity}
+State: ${cState}
+Pincode: ${cPincode}
 
-Please let me know the next steps!`;
+ORDER DETAILS
+Product: ${productName} (ID: ${prodID})
+Quantity: ${formatQty(qty)} pcs
+Unit Price: ${formatMoney(unitPrice)}
+Discount: ${discountPercent}%
+Net Value: ${formatMoney(netValue)}
+GST: ${includeGst ? '18% Applied' : 'Not Applied'}
+Grand Total: ${formatMoney(grandTotal)}
 
-      document.getElementById('waLink').href =
-        `https://wa.me/919960160016?text=${encodeURIComponent(waMessage)}`;
+Please share the next process for confirmation and dispatch.`;
+
+      document.getElementById('waLink').href = `https://wa.me/919960160016?text=${encodeURIComponent(waMessage)}`;
     }
-
-    // Run initially
     calculateQuote();
   </script>
 
