@@ -1280,23 +1280,24 @@
       const merchantName = 'Ambivert Electronics';
 
       let upiSafeName = 'Cust';
-      if (cName !== '-' && cName.trim() !== '') {
-        const filteredName = cName.replace(/[^a-zA-Z0-9 ]/g, '').trim();
-        const nameParts = filteredName.split(/\s+/);
 
-        if (nameParts.length > 1) {
-          const firstName = nameParts[0];
-          const lastInitial = nameParts[nameParts.length - 1].charAt(0).toUpperCase();
-          upiSafeName = `${firstName} ${lastInitial}`;
-        } else if (nameParts.length === 1 && nameParts[0] !== '') {
-          upiSafeName = nameParts[0];
+      // Check if cNumber is valid and not just a hyphen or empty space
+      if (cNumber !== '-' && cNumber.trim() !== '') {
+        // Remove any character that isn't a digit (keeps it safe for UPI/systems)
+        const filteredNumber = cNumber.replace(/[^0-9]/g, '').trim();
+
+        if (filteredNumber !== '') {
+          upiSafeName = filteredNumber;
         }
       }
+
+      // Update the DOM element with the customer number
+      document.getElementById('outCustomerNumber').textContent = cNumber;
 
       const upiSafePincode = cPincode.replace(/[^0-9]/g, '').substring(0, 6);
       const formattedPincode = upiSafePincode !== '' ? upiSafePincode : '000000';
 
-      const rawNote = `${upiSafeName} ${prodID} ${qty} qty at ${formattedPincode}`;
+      const rawNote = `${upiSafeName} ${prodID} ${qty} qty ${formattedPincode}`;
       const upiNote = rawNote.substring(0, 50).trim();
 
       const upiParams = new URLSearchParams({
