@@ -1095,20 +1095,49 @@
       color: var(--tagz);
     }
 
-    /* State selector */
-    .state-select-wrap {
-      position: relative;
+    /* Required star */
+    .req-star {
+      color: var(--tagz);
+      font-size: 14px;
     }
 
-    .state-select-wrap::after {
-      content: '▾';
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
+    /* Location auto-display */
+    .location-display {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--paper);
+      border-radius: var(--r);
+      font-family: var(--ff-body);
+      font-size: 14px;
+      background: var(--warm);
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .location-display.filled {
+      border-color: var(--teal);
+      background: var(--teal-lt);
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .location-placeholder {
       color: var(--ink-3);
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    .location-city {
+      font-weight: 700;
+      color: var(--teal);
+      font-family: var(--ff-head);
+    }
+
+    .location-state {
+      color: var(--ink-2);
       font-size: 12px;
-      pointer-events: none;
     }
 
     select.form-control {
@@ -1263,8 +1292,12 @@
       }
     }
 
-    /* PRINT */
+    /* PRINT — Professional PDF output */
     @media print {
+      @page {
+        size: A4;
+        margin: 12mm 14mm 14mm 14mm;
+      }
 
       nav,
       footer,
@@ -1273,13 +1306,21 @@
       .page-header,
       .quote-actions,
       .upi-qr-wrapper,
-      .qc-pay .upi-qr-wrapper {
+      .qc-pay {
         display: none !important;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
       }
 
       body {
         background: #fff;
-        color: #000;
+        color: #111;
+        font-family: 'Manrope', sans-serif;
+        font-size: 11pt;
       }
 
       .wrap {
@@ -1296,27 +1337,140 @@
       }
 
       .quote-card {
-        box-shadow: none;
-        border: 1px solid #ddd;
+        box-shadow: none !important;
+        border: none !important;
         width: 100%;
-        max-width: 640px;
-        margin: 0 auto;
-        position: static;
+        max-width: 100%;
+        position: static !important;
+        overflow: visible !important;
+        page-break-inside: avoid;
       }
 
+      /* Print header — dark band */
+      .qc-header {
+        background: #1A1714 !important;
+        color: #fff !important;
+        padding: 18px 24px 16px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .qc-header::before,
+      .qc-header::after {
+        display: none !important;
+      }
+
+      .qc-brand-name,
+      .qc-meta-value,
+      .qc-badge,
+      .quote-num-tag {
+        color: #fff !important;
+      }
+
+      .qc-meta-label {
+        color: rgba(255, 255, 255, 0.5) !important;
+      }
+
+      /* Customer section */
+      .qc-customer {
+        background: #F5F3EF !important;
+        border-bottom: 1px solid #ddd !important;
+        padding: 14px 24px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .qc-field-value {
+        font-size: 11pt !important;
+        color: #111 !important;
+      }
+
+      .qc-field-label {
+        color: #888 !important;
+        font-size: 7.5pt !important;
+      }
+
+      /* Items table */
+      .qc-items {
+        padding: 14px 24px !important;
+      }
+
+      .q-items-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .q-items-table th {
+        font-size: 8pt !important;
+        color: #777 !important;
+        padding: 0 0 7px !important;
+        border-bottom: 1.5px solid #ddd !important;
+      }
+
+      .q-items-table td {
+        font-size: 10pt !important;
+        padding: 7px 0 !important;
+        border-bottom: 1px solid #eee !important;
+        color: #222 !important;
+      }
+
+      .q-items-table .td-name {
+        font-size: 10pt !important;
+        color: #111 !important;
+      }
+
+      .q-items-table .td-sub {
+        font-size: 8pt !important;
+        color: #888 !important;
+      }
+
+      /* Totals */
+      .qc-totals {
+        padding: 10px 24px 0 !important;
+        border-top: 1px solid #ddd !important;
+      }
+
+      .qt-line {
+        font-size: 10pt !important;
+      }
+
+      .qt-separator {
+        border-top: 1.5px dashed #ccc !important;
+        margin: 6px 0 !important;
+      }
+
+      .gst-breakdown {
+        background: #EBF7F5 !important;
+        border: 1px solid #b2dbd6 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Grand total */
       .qc-grand-total {
-        background: #111;
+        background: #1A1714 !important;
+        padding: 14px 24px !important;
+        margin-top: 6px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
+      .qgt-label,
+      .qgt-amount {
+        color: #fff !important;
+      }
+
+      /* Footer note */
       .quote-card::after {
-        content: "Thank you for choosing ntagz. This is a system generated quotation. Valid for 15 days.";
+        content: "Thank you for choosing ntagz. This is a system-generated quotation. Valid for 15 days from the issue date. · GSTIN: 27AAPCA8177N1ZQ · ntagz.in · WhatsApp: +91 9960 160016";
         display: block;
-        margin: 32px 24px 24px;
+        margin: 20px 24px 8px;
         text-align: center;
-        font-size: 11px;
-        color: #888;
-        border-top: 1px dashed #ccc;
-        padding-top: 16px;
+        font-size: 8pt;
+        color: #aaa;
+        border-top: 1px dashed #ddd;
+        padding-top: 14px;
+        font-family: 'Manrope', sans-serif;
       }
     }
   </style>
@@ -1405,75 +1559,38 @@
           <!-- Customer details -->
           <div class="form-row-2">
             <div class="form-group">
-              <label for="customerName">Customer Name</label>
-              <input type="text" id="customerName" class="form-control" placeholder="Full name"
+              <label for="customerName">Customer Name <span class="req-star">*</span></label>
+              <input type="text" id="customerName" class="form-control" placeholder="Full name" required
                 oninput="calculateQuote()">
             </div>
             <div class="form-group">
-              <label for="customerNumber">Phone Number</label>
-              <input type="text" id="customerNumber" class="form-control" placeholder="10-digit number"
+              <label for="customerNumber">Phone Number <span class="req-star">*</span></label>
+              <input type="text" id="customerNumber" class="form-control" placeholder="10-digit number" required
                 oninput="calculateQuote()">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="customerAddress">Delivery Address</label>
+            <label for="customerAddress">Delivery Address <span class="req-star">*</span></label>
             <textarea id="customerAddress" class="form-control" rows="2" placeholder="House / Flat, Street, Area"
-              oninput="calculateQuote()"></textarea>
+              required oninput="calculateQuote()"></textarea>
           </div>
 
           <div class="form-row-2">
             <div class="form-group">
-              <label for="customerPincode">Pincode</label>
+              <label for="customerPincode">Pincode <span class="req-star">*</span></label>
               <input type="text" id="customerPincode" class="form-control" placeholder="6-digit pincode" maxlength="6"
-                oninput="checkPincodeLength(this.value)">
+                required oninput="checkPincodeLength(this.value)">
               <div id="pincodeLoader" class="error-msg" style="color:var(--teal);font-weight:500;display:none;">🔍
                 Fetching location...</div>
             </div>
             <div class="form-group">
-              <label for="customerState">State</label>
-              <div class="state-select-wrap">
-                <select id="customerState" class="form-control" onchange="calculateQuote()">
-                  <option value="">— Select State —</option>
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                  <option value="Assam">Assam</option>
-                  <option value="Bihar">Bihar</option>
-                  <option value="Chhattisgarh">Chhattisgarh</option>
-                  <option value="Goa">Goa</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Haryana">Haryana</option>
-                  <option value="Himachal Pradesh">Himachal Pradesh</option>
-                  <option value="Jharkhand">Jharkhand</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Madhya Pradesh">Madhya Pradesh</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Manipur">Manipur</option>
-                  <option value="Meghalaya">Meghalaya</option>
-                  <option value="Mizoram">Mizoram</option>
-                  <option value="Nagaland">Nagaland</option>
-                  <option value="Odisha">Odisha</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Rajasthan">Rajasthan</option>
-                  <option value="Sikkim">Sikkim</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Telangana">Telangana</option>
-                  <option value="Tripura">Tripura</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="Uttarakhand">Uttarakhand</option>
-                  <option value="West Bengal">West Bengal</option>
-                  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                  <option value="Chandigarh">Chandigarh</option>
-                  <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                  <option value="Daman and Diu">Daman and Diu</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                  <option value="Ladakh">Ladakh</option>
-                  <option value="Lakshadweep">Lakshadweep</option>
-                  <option value="Puducherry">Puducherry</option>
-                </select>
+              <label>Location <span class="req-star">*</span></label>
+              <div id="locationDisplay" class="location-display">
+                <span id="locationText" class="location-placeholder">Auto-filled from pincode</span>
               </div>
+              <!-- Hidden input to carry state value for logic -->
+              <input type="hidden" id="customerState" value="">
               <div id="shippingInfoPill" style="display:none;margin-top:6px;"></div>
             </div>
           </div>
@@ -1545,7 +1662,7 @@
                 <span class="qc-field-value" id="outCustomerPincode">—</span>
               </div>
               <div class="qc-field">
-                <span class="qc-field-label">State</span>
+                <span class="qc-field-label">City / State</span>
                 <span class="qc-field-value" id="outCustomerState">—</span>
               </div>
               <div class="qc-field full-width" id="gstNumberRow" style="display:none;">
@@ -1834,14 +1951,28 @@
     function checkPincodeLength(val) {
       const clean = val.replace(/[^0-9]/g, '');
       if (clean.length === 6) fetchLocationData(clean);
-      else { fetchedCity = ''; fetchedState = ''; calculateQuote(); }
+      else {
+        fetchedCity = ''; fetchedState = '';
+        document.getElementById('customerState').value = '';
+        const locDisplay = document.getElementById('locationDisplay');
+        const locText = document.getElementById('locationText');
+        locDisplay.classList.remove('filled');
+        locText.className = 'location-placeholder';
+        locText.textContent = 'Auto-filled from pincode';
+        calculateQuote();
+      }
     }
 
     async function fetchLocationData(pincode) {
       const loader = document.getElementById('pincodeLoader');
+      const locDisplay = document.getElementById('locationDisplay');
+      const locText = document.getElementById('locationText');
       loader.style.display = 'block';
       loader.style.color = 'var(--teal)';
       loader.textContent = '🔍 Fetching location...';
+      locDisplay.classList.remove('filled');
+      locText.className = 'location-placeholder';
+      locText.textContent = 'Fetching…';
       try {
         const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
         const data = await res.json();
@@ -1849,24 +1980,29 @@
           const po = data[0].PostOffice[0];
           fetchedCity = po.District;
           fetchedState = po.State;
-          // Auto-set state dropdown
-          const sel = document.getElementById('customerState');
-          for (let i = 0; i < sel.options.length; i++) {
-            if (sel.options[i].value === fetchedState) {
-              sel.selectedIndex = i;
-              break;
-            }
-          }
+          // Set hidden state input
+          document.getElementById('customerState').value = fetchedState;
+          // Update location display
+          locDisplay.classList.add('filled');
+          locText.className = '';
+          locText.innerHTML = `<span class="location-city">📍 ${fetchedCity}</span>&nbsp;<span class="location-state">· ${fetchedState}</span>`;
           loader.textContent = `✅ ${fetchedCity}, ${fetchedState}`;
-          setTimeout(() => { loader.style.display = 'none'; }, 2500);
+          setTimeout(() => { loader.style.display = 'none'; }, 2000);
         } else {
           loader.style.color = '#DC2626';
           loader.textContent = '⚠️ Invalid Pincode. Please verify.';
+          locDisplay.classList.remove('filled');
+          locText.className = 'location-placeholder';
+          locText.textContent = 'Auto-filled from pincode';
+          document.getElementById('customerState').value = '';
           fetchedCity = ''; fetchedState = '';
         }
       } catch (e) {
         loader.style.color = '#DC2626';
         loader.textContent = '⚠️ Could not fetch pincode info.';
+        locDisplay.classList.remove('filled');
+        locText.className = 'location-placeholder';
+        locText.textContent = 'Auto-filled from pincode';
       }
       calculateQuote();
     }
@@ -1899,7 +2035,7 @@
       document.getElementById('outCustomerNumber').textContent = cNumber;
       document.getElementById('outCustomerAddress').textContent = cAddress;
       document.getElementById('outCustomerPincode').textContent = cPincode;
-      document.getElementById('outCustomerState').textContent = cState || '—';
+      document.getElementById('outCustomerState').textContent = (fetchedCity && cState) ? `${fetchedCity}, ${cState}` : (cState || '—');
 
       const gstNumRow = document.getElementById('gstNumberRow');
       if (includeGst && cGST.length >= 15) {
