@@ -865,7 +865,7 @@
 
           <div class="form-group">
             <label for="qtyInput">Quantity (Minimum 10)</label>
-            <input type="number" id="qtyInput" class="form-control" value="500" min="1" step="1"
+            <input type="number" id="qtyInput" class="form-control" value="10" min="1" step="1"
               oninput="calculateQuote()">
             <div id="qtyError" class="error-msg">⚠️ Minimum Order Quantity is 10 pieces.</div>
             <div id="distributorNotice" class="error-msg" style="color:#C8960C;">★ Distributor Volume Detected. Base 40%
@@ -1213,7 +1213,7 @@
   const cCity = fetchedCity ? sanitizeText(fetchedCity, 40) : '-';
   const cState = fetchedState ? sanitizeText(fetchedState, 40) : '-';
 
-  if (qty < 500) {
+  if (qty < 10) {
     qtyError.style.display = 'block';
     distNotice.style.display = 'none';
   } else {
