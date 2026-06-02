@@ -896,7 +896,11 @@
             <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter address"
               oninput="calculateQuote()"></textarea>
           </div>
-
+<div class="form-group">
+  <label for="customerGST">GST Number <span style="font-weight:400; color:var(--ink-3); font-size:12px;">(Optional)</span></label>
+  <input type="text" id="customerGST" class="form-control" placeholder="e.g. 27AAPCA8177N1ZQ" maxlength="15"
+    oninput="this.value = this.value.toUpperCase(); calculateQuote()">
+</div>
           <div class="form-group">
             <label for="customerPincode">Pincode</label>
             <input type="text" id="customerPincode" class="form-control" placeholder="Enter 6-digit pincode"
@@ -950,7 +954,10 @@
               <span id="outCustomerPincode">-</span>
             </div>
           </div>
-
+<div class="quote-line" id="gstNumberRow" style="display:none;">
+  <span>GST Number</span>
+  <span id="outCustomerGST">-</span>
+</div>
           <div class="quote-line">
             <span style="font-weight:600; color:var(--ink);" id="outProductName">Product Name</span>
           </div>
@@ -975,7 +982,10 @@
                 style="font-size:12px;opacity:0.8;font-weight:400;margin-left:4px;">(0%)</span></span>
             <span id="outDiscountAmt">- ₹0</span>
           </div>
-
+<div class="quote-line" id="shippingRow">
+  <span>Shipping</span>
+  <span id="outShipping">₹0</span>
+</div>
           <div class="quote-line" style="border-top: 1px solid var(--paper); padding-top:16px; margin-top:16px;">
             <span>Net Taxable Value</span>
             <span id="outNet">₹0</span>
@@ -1164,154 +1174,150 @@
     }
 
     function calculateQuote() {
-      const productSelect = document.getElementById('productSelect');
-      const qtyInput = document.getElementById('qtyInput');
-      const qtyError = document.getElementById('qtyError');
-      const distNotice = document.getElementById('distributorNotice');
-      const includeGst = document.getElementById('gstCheck').checked;
-      const selectedOption = productSelect.options[productSelect.selectedIndex];
+  const productSelect = document.getElementById('productSelect');
+  const qtyInput = document.getElementById('qtyInput');
+  const qtyError = document.getElementById('qtyError');
+  const distNotice = document.getElementById('distributorNotice');
+  const includeGst = document.getElementById('gstCheck').checked;
+  const selectedOption = productSelect.options[productSelect.selectedIndex];
 
-      const sanitizeText = (value, max = 80) => {
-        return String(value || '')
-          .replace(/[^\w\s.,\-/#&()]/gi, '')
-          .trim()
-          .substring(0, max);
-      };
+  const sanitizeText = (value, max = 80) => {
+    return String(value || '')
+      .replace(/[^\w\s.,\-/#&()]/gi, '')
+      .trim()
+      .substring(0, max);
+  };
 
-      const safeNumber = (value) => {
-        const num = parseInt(value, 10);
-        return isNaN(num) ? 0 : num;
-      };
+  const safeNumber = (value) => {
+    const num = parseInt(value, 10);
+    return isNaN(num) ? 0 : num;
+  };
 
-      const formatQty = (value) => {
-        return Number(value).toLocaleString('en-IN');
-      };
+  const formatQty = (value) => {
+    return Number(value).toLocaleString('en-IN');
+  };
 
-      const productName = sanitizeText(
-        selectedOption.getAttribute('data-name') || 'Product',
-        50
-      );
+  const productName = sanitizeText(selectedOption.getAttribute('data-name') || 'Product', 50);
+  const prodID = sanitizeText(selectedOption.getAttribute('data-code') || 'PROD', 10);
+  const unitPrice = parseFloat(selectedOption.getAttribute('data-price') || 0);
 
-      const prodID = sanitizeText(
-        selectedOption.getAttribute('data-code') || 'PROD',
-        10
-      );
+  let qty = safeNumber(qtyInput.value);
 
-      const unitPrice = parseFloat(
-        selectedOption.getAttribute('data-price') || 0
-      );
+  const rawCustomerName = document.getElementById('customerName').value;
+  const cName = sanitizeText(rawCustomerName, 60) || '-';
+  const cNumber = sanitizeText(document.getElementById('customerNumber').value, 20) || '-';
+  const cAddress = sanitizeText(document.getElementById('customerAddress').value, 120) || '-';
+  const cPincode = sanitizeText(document.getElementById('customerPincode').value, 10) || '-';
+  const cGST = document.getElementById('customerGST').value.trim().toUpperCase();
 
-      let qty = safeNumber(qtyInput.value);
+  const cCity = fetchedCity ? sanitizeText(fetchedCity, 40) : '-';
+  const cState = fetchedState ? sanitizeText(fetchedState, 40) : '-';
 
-      const rawCustomerName = document.getElementById('customerName').value;
-      const cName = sanitizeText(rawCustomerName, 60) || '-';
-      const cNumber = sanitizeText(document.getElementById('customerNumber').value, 20) || '-';
-      const cAddress = sanitizeText(document.getElementById('customerAddress').value, 120) || '-';
-      const cPincode = sanitizeText(document.getElementById('customerPincode').value, 10) || '-';
+  if (qty < 500) {
+    qtyError.style.display = 'block';
+    distNotice.style.display = 'none';
+  } else {
+    qtyError.style.display = 'none';
+    if (qty >= 10000) {
+      distNotice.style.display = 'block';
+    } else {
+      distNotice.style.display = 'none';
+    }
+  }
 
-      // Assign mapped state and city strings safely
-      const cCity = fetchedCity ? sanitizeText(fetchedCity, 40) : '-';
-      const cState = fetchedState ? sanitizeText(fetchedState, 40) : '-';
+  let discountPercent = 0;
+  if (qty >= 500 && qty <= 999) discountPercent = 10;
+  else if (qty >= 1000 && qty <= 4999) discountPercent = 25;
+  else if (qty >= 5000) discountPercent = 40;
 
-      if (qty < 500) {
-        qtyError.style.display = 'block';
-        distNotice.style.display = 'none';
-      } else {
-        qtyError.style.display = 'none';
-        if (qty >= 10000) {
-          distNotice.style.display = 'block';
-        } else {
-          distNotice.style.display = 'none';
-        }
-      }
+  const subtotal = unitPrice * qty;
+  const discountAmount = subtotal * (discountPercent / 100);
+  const netValue = subtotal - discountAmount;
 
-      let discountPercent = 0;
-      if (qty >= 500 && qty <= 999) {
-        discountPercent = 10;
-      } else if (qty >= 1000 && qty <= 4999) {
-        discountPercent = 25;
-      } else if (qty >= 5000) {
-        discountPercent = 40;
-      }
+  // ── SHIPPING LOGIC ──
+  // Only applies when state is known; free if order is large enough
+  let shippingCharge = 0;
+  if (cState !== '-') {
+    const isMaharashtra = cState.toLowerCase().includes('maharashtra');
+    shippingCharge = isMaharashtra ? 40 : 80;
+    // Free shipping above ₹2000 net value (matches the top-strip promo)
+    if (netValue >= 2000) shippingCharge = 0;
+  }
 
-      const subtotal = unitPrice * qty;
-      const discountAmount = subtotal * (discountPercent / 100);
-      const netValue = subtotal - discountAmount;
-      const gstAmount = includeGst ? netValue * 0.18 : 0;
-      const grandTotal = Number((netValue + gstAmount).toFixed(2));
+  const gstAmount = includeGst ? netValue * 0.18 : 0;
+  const grandTotal = Number((netValue + gstAmount + shippingCharge).toFixed(2));
 
-      document.getElementById('outCustomerName').textContent = cName;
-      document.getElementById('outCustomerNumber').textContent = cNumber;
-      document.getElementById('outCustomerAddress').textContent = cAddress;
-      document.getElementById('outCustomerPincode').textContent = cPincode;
+  // ── UPDATE DOM ──
+  document.getElementById('outCustomerName').textContent = cName;
+  document.getElementById('outCustomerNumber').textContent = cNumber;
+  document.getElementById('outCustomerAddress').textContent = cAddress;
+  document.getElementById('outCustomerPincode').textContent = cPincode;
+  document.getElementById('outProductName').textContent = productName;
+  document.getElementById('outBasePrice').textContent = formatMoney(unitPrice);
+  document.getElementById('outQty').textContent = `${formatQty(qty)} pcs`;
+  document.getElementById('outSubtotal').textContent = formatMoney(subtotal);
+  document.getElementById('outDiscountLabel').textContent = `(${discountPercent}%)`;
+  document.getElementById('outDiscountAmt').textContent = `- ${formatMoney(discountAmount)}`;
+  document.getElementById('outNet').textContent = formatMoney(netValue);
 
-      document.getElementById('outProductName').textContent = productName;
-      document.getElementById('outBasePrice').textContent = formatMoney(unitPrice);
-      document.getElementById('outQty').textContent = `${formatQty(qty)} pcs`;
-      document.getElementById('outSubtotal').textContent = formatMoney(subtotal);
-      document.getElementById('outDiscountLabel').textContent = `(${discountPercent}%)`;
-      document.getElementById('outDiscountAmt').textContent = `- ${formatMoney(discountAmount)}`;
-      document.getElementById('outNet').textContent = formatMoney(netValue);
+  // Shipping row
+  const shippingRow = document.getElementById('shippingRow');
+  const outShipping = document.getElementById('outShipping');
+  if (shippingCharge === 0 && cState !== '-') {
+    outShipping.textContent = 'FREE';
+    outShipping.style.color = '#16A34A';
+  } else {
+    outShipping.textContent = shippingCharge > 0 ? `+ ${formatMoney(shippingCharge)}` : '—';
+    outShipping.style.color = '';
+  }
+  shippingRow.style.display = cState !== '-' ? 'flex' : 'none';
 
-      const gstRow = document.getElementById('gstRow');
-      if (includeGst) {
-        gstRow.style.display = 'flex';
-        document.getElementById('outGst').textContent = `+ ${formatMoney(gstAmount)}`;
-      } else {
-        gstRow.style.display = 'none';
-      }
+  // GST row
+  const gstRow = document.getElementById('gstRow');
+  if (includeGst) {
+    gstRow.style.display = 'flex';
+    document.getElementById('outGst').textContent = `+ ${formatMoney(gstAmount)}`;
+  } else {
+    gstRow.style.display = 'none';
+  }
 
-      document.getElementById('outTotal').textContent = formatMoney(grandTotal);
+  // GST number row
+  const gstNumberRow = document.getElementById('gstNumberRow');
+  if (cGST.length >= 15) {
+    document.getElementById('outCustomerGST').textContent = cGST;
+    gstNumberRow.style.display = 'flex';
+  } else {
+    gstNumberRow.style.display = 'none';
+  }
 
-      // ==========================================
-      // UPI GENERATION WITH EXTRACTED DATA-CODE
-      // ==========================================
-      const upiVpa = '7385856545@ibl';
-      const merchantName = 'Ambivert Electronics';
+  document.getElementById('outTotal').textContent = formatMoney(grandTotal);
 
-      let upiSafeName = 'Cust';
+  // ── UPI ──
+  const upiVpa = '7385856545@ibl';
+  const merchantName = 'Ambivert Electronics';
+  let upiSafeName = 'Cust';
+  if (cNumber !== '-' && cNumber.trim() !== '') {
+    const filteredNumber = cNumber.replace(/[^0-9]/g, '').trim();
+    if (filteredNumber !== '') upiSafeName = filteredNumber;
+  }
+  const upiSafePincode = cPincode.replace(/[^0-9]/g, '').substring(0, 6);
+  const formattedPincode = upiSafePincode !== '' ? upiSafePincode : '000000';
+  const rawNote = `${upiSafeName} ${prodID} ${qty} qty ${formattedPincode}`;
+  const upiNote = rawNote.substring(0, 50).trim();
+  const upiParams = new URLSearchParams({
+    pa: upiVpa,
+    pn: merchantName,
+    am: grandTotal.toFixed(2),
+    cu: 'INR',
+    tn: upiNote
+  });
+  const upiString = `upi://pay?${upiParams.toString()}`;
+  document.getElementById('upiLink').href = upiString;
+  qrcodeContainer.clear();
+  if (grandTotal > 0) qrcodeContainer.makeCode(upiString);
 
-      // Check if cNumber is valid and not just a hyphen or empty space
-      if (cNumber !== '-' && cNumber.trim() !== '') {
-        // Remove any character that isn't a digit (keeps it safe for UPI/systems)
-        const filteredNumber = cNumber.replace(/[^0-9]/g, '').trim();
-
-        if (filteredNumber !== '') {
-          upiSafeName = filteredNumber;
-        }
-      }
-
-      // Update the DOM element with the customer number
-      document.getElementById('outCustomerNumber').textContent = cNumber;
-
-      const upiSafePincode = cPincode.replace(/[^0-9]/g, '').substring(0, 6);
-      const formattedPincode = upiSafePincode !== '' ? upiSafePincode : '000000';
-
-      const rawNote = `${upiSafeName} ${prodID} ${qty} qty ${formattedPincode}`;
-      const upiNote = rawNote.substring(0, 50).trim();
-
-      const upiParams = new URLSearchParams({
-        pa: upiVpa,
-        pn: merchantName,
-        am: grandTotal.toFixed(2),
-        cu: 'INR',
-        tn: upiNote
-      });
-
-      const upiString = `upi://pay?${upiParams.toString()}`;
-
-      const upiLink = document.getElementById('upiLink');
-      upiLink.href = upiString;
-
-      qrcodeContainer.clear();
-      if (grandTotal > 0) {
-        qrcodeContainer.makeCode(upiString);
-      }
-
-      // =========================
-      // WHATSAPP MESSAGE
-      // =========================
-      const waMessage = `Hello Ambivert Electronics,
+  // ── WHATSAPP ──
+  const waMessage = `Hello Ambivert Electronics,
 
 I would like to proceed with the following bulk order quotation.
 
@@ -1319,7 +1325,7 @@ CUSTOMER DETAILS
 Name: ${cName}
 Phone: ${cNumber}
 Address: ${cAddress}
-Pincode: ${cPincode}
+Pincode: ${cPincode}${cGST.length >= 15 ? `\nGST Number: ${cGST}` : ''}
 
 ORDER DETAILS
 Product: ${productName} (ID: ${prodID})
@@ -1327,14 +1333,14 @@ Quantity: ${formatQty(qty)} pcs
 Unit Price: ${formatMoney(unitPrice)}
 Discount: ${discountPercent}%
 Net Value: ${formatMoney(netValue)}
+Shipping: ${shippingCharge === 0 && cState !== '-' ? 'FREE' : formatMoney(shippingCharge)}
 GST: ${includeGst ? '18% Applied' : 'Not Applied'}
 Grand Total: ${formatMoney(grandTotal)}
 
 Please share the next process for confirmation and dispatch.`;
 
-      document.getElementById('waLink').href = `https://wa.me/919960160016?text=${encodeURIComponent(waMessage)}`;
-    }
-    calculateQuote();
+  document.getElementById('waLink').href = `https://wa.me/919960160016?text=${encodeURIComponent(waMessage)}`;
+}
   </script>
 
 </body>
