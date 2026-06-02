@@ -225,6 +225,17 @@
       box-shadow: 0 8px 24px rgba(37, 211, 102, .3);
     }
 
+    .btn-bank {
+      background: #1a56db;
+      color: #fff;
+    }
+
+    .btn-bank:hover {
+      background: #1447c0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26, 86, 219, .3);
+    }
+
     .btn-outline {
       background: transparent;
       border: 1.5px solid var(--paper);
@@ -1059,6 +1070,198 @@
       mix-blend-mode: multiply;
     }
 
+    /* Payment method tabs */
+    .pay-tabs {
+      display: flex;
+      background: var(--warm);
+      border: 1px solid var(--paper);
+      border-radius: var(--r);
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .pay-tab {
+      flex: 1;
+      padding: 9px 8px;
+      border-radius: 8px;
+      font-family: var(--ff-head);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-3);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all .2s var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .pay-tab.active {
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+    }
+
+    .pay-tab.active.tab-upi {
+      color: var(--teal);
+    }
+
+    .pay-tab.active.tab-bank {
+      color: #1a56db;
+    }
+
+    .pay-panel {
+      display: none;
+    }
+
+    .pay-panel.active {
+      display: block;
+    }
+
+    /* UPI limit notice */
+    .upi-limit-notice {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: var(--r);
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-family: var(--ff-head);
+      font-weight: 600;
+      color: #92400e;
+    }
+
+    .upi-limit-notice.show {
+      display: flex;
+    }
+
+    /* Bank transfer details card */
+    .bank-card {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: var(--r);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .bank-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .bank-card-icon {
+      width: 32px;
+      height: 32px;
+      background: #1a56db;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .bank-card-title {
+      font-family: var(--ff-head);
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e3a8a;
+      line-height: 1.2;
+    }
+
+    .bank-card-subtitle {
+      font-size: 10px;
+      color: #3b82f6;
+      font-family: var(--ff-head);
+      font-weight: 500;
+    }
+
+    .bank-details-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bank-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #dbeafe;
+      gap: 8px;
+    }
+
+    .bank-detail-label {
+      font-family: var(--ff-head);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      flex-shrink: 0;
+    }
+
+    .bank-detail-value {
+      font-family: var(--ff-head);
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-align: right;
+      word-break: break-all;
+    }
+
+    .bank-copy-btn {
+      background: #dbeafe;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 8px;
+      font-family: var(--ff-head);
+      font-size: 10px;
+      font-weight: 700;
+      color: #1a56db;
+      cursor: pointer;
+      transition: all .15s;
+      flex-shrink: 0;
+      letter-spacing: .02em;
+    }
+
+    .bank-copy-btn:hover {
+      background: #bfdbfe;
+    }
+
+    .bank-copy-btn.copied {
+      background: var(--green-lt);
+      color: var(--green);
+    }
+
+    .bank-transfer-note {
+      background: #fff;
+      border: 1px dashed #93c5fd;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 11px;
+      color: #3b82f6;
+      font-family: var(--ff-head);
+      font-weight: 500;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .bank-transfer-note strong {
+      color: #1e3a8a;
+    }
+
     .quote-actions {
       display: flex;
       flex-direction: column;
@@ -1306,7 +1509,40 @@
       .page-header,
       .quote-actions,
       .upi-qr-wrapper,
+      .pay-tabs,
+      .upi-limit-notice,
+      #panelUpi,
+      .qc-pay>.quote-actions {
+        display: none !important;
+      }
+
       .qc-pay {
+        padding: 0 !important;
+      }
+
+      .pay-panel {
+        display: none !important;
+      }
+
+      #panelBank {
+        display: block !important;
+        padding: 0 24px 16px !important;
+      }
+
+      .bank-card {
+        background: #eff6ff !important;
+        border: 1.5px solid #bfdbfe !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .bank-detail-row {
+        background: #fff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .bank-copy-btn {
         display: none !important;
       }
 
@@ -1716,18 +1952,96 @@
 
           <!-- QR + Pay -->
           <div class="qc-pay">
-            <div class="upi-qr-wrapper">
-              <div id="qrcode"></div>
-              <p>Scan QR to instantly pay via any UPI App</p>
-            </div>
-            <div class="quote-actions">
-              <a href="#" id="upiLink" class="btn btn-upi btn-lg btn-block">
-                <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24">
+
+            <!-- Payment method tabs -->
+            <div class="pay-tabs">
+              <button class="pay-tab tab-upi active" id="tabUpi" onclick="switchPayTab('upi')">
+                <svg style="width:13px;height:13px;fill:currentColor;flex-shrink:0;" viewBox="0 0 24 24">
                   <path
                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
                 </svg>
-                Pay via UPI App
-              </a>
+                UPI / QR
+              </button>
+              <button class="pay-tab tab-bank" id="tabBank" onclick="switchPayTab('bank')">
+                <svg style="width:13px;height:13px;fill:currentColor;flex-shrink:0;" viewBox="0 0 24 24">
+                  <path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zm-3 10h14v3H7v-3zm9-10v7h3v-7h-3zm-2-8L3 7v1h18V7L12 2z" />
+                </svg>
+                Bank Transfer
+              </button>
+            </div>
+
+            <!-- UPI limit warning (shows when total > 1,00,000) -->
+            <div class="upi-limit-notice" id="upiLimitNotice">
+              <svg style="width:16px;height:16px;fill:#92400e;flex-shrink:0;" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v5z" />
+              </svg>
+              UPI limit is ₹1,00,000 — this order exceeds it. Please use Bank Transfer.
+            </div>
+
+            <!-- UPI Panel -->
+            <div class="pay-panel active" id="panelUpi">
+              <div class="upi-qr-wrapper">
+                <div id="qrcode"></div>
+                <p>Scan QR to instantly pay via any UPI App</p>
+              </div>
+              <div class="quote-actions">
+                <a href="#" id="upiLink" class="btn btn-upi btn-lg btn-block">
+                  <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+                  </svg>
+                  Pay via UPI App
+                </a>
+              </div>
+            </div>
+
+            <!-- Bank Transfer Panel -->
+            <div class="pay-panel" id="panelBank">
+              <div class="bank-card">
+                <div class="bank-card-header">
+                  <div class="bank-card-icon">
+                    <svg style="width:17px;height:17px;fill:#fff;" viewBox="0 0 24 24">
+                      <path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zm-3 10h14v3H7v-3zm9-10v7h3v-7h-3zm-2-8L3 7v1h18V7L12 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="bank-card-title">ICICI Bank — NEFT / RTGS / IMPS</div>
+                    <div class="bank-card-subtitle">Ambivert Technologies Pvt Ltd</div>
+                  </div>
+                </div>
+                <div class="bank-details-grid">
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">Account Name</span>
+                    <span class="bank-detail-value">AMBIVERT TECHNOLOGIES PVT LTD</span>
+                    <button class="bank-copy-btn"
+                      onclick="copyBankDetail(this,'AMBIVERT TECHNOLOGIES PVT LTD')">Copy</button>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">Account No.</span>
+                    <span class="bank-detail-value">187705003857</span>
+                    <button class="bank-copy-btn" onclick="copyBankDetail(this,'187705003857')">Copy</button>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">IFSC Code</span>
+                    <span class="bank-detail-value">ICIC0001877</span>
+                    <button class="bank-copy-btn" onclick="copyBankDetail(this,'ICIC0001877')">Copy</button>
+                  </div>
+                  <div class="bank-detail-row">
+                    <span class="bank-detail-label">BIC / SWIFT</span>
+                    <span class="bank-detail-value">ICICINBB</span>
+                    <button class="bank-copy-btn" onclick="copyBankDetail(this,'ICICINBB')">Copy</button>
+                  </div>
+                </div>
+                <div class="bank-transfer-note">
+                  📌 <strong>Add your Quote No.</strong> (<span id="bankQuoteRef">QT-000000</span>) as the payment
+                  reference/remarks so we can match your transfer instantly.
+                </div>
+              </div>
+            </div>
+
+            <!-- Shared actions always visible -->
+            <div class="quote-actions" style="margin-top:12px;">
               <a href="#" id="waLink" target="_blank" class="btn btn-wa btn-lg btn-block">
                 <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24">
                   <path
@@ -2098,6 +2412,19 @@
       document.getElementById('outNet').textContent = fmt(netValue);
       document.getElementById('outTotal').textContent = fmtNum(grandTotal);
 
+      /* ── UPI limit notice (>1 lakh) ── */
+      const upiNotice = document.getElementById('upiLimitNotice');
+      if (grandTotal > 100000) {
+        upiNotice.classList.add('show');
+        // Auto-switch to bank tab
+        switchPayTab('bank');
+      } else {
+        upiNotice.classList.remove('show');
+      }
+
+      /* ── Bank quote ref ── */
+      document.getElementById('bankQuoteRef').textContent = quoteNum;
+
       /* Shipping row */
       const shRow = document.getElementById('shippingRow');
       const outSh = document.getElementById('outShipping');
@@ -2203,6 +2530,34 @@ Grand Total:    ${fmt(grandTotal)}
 Please share the next steps for confirmation and dispatch.`;
 
       document.getElementById('waLink').href = `https://wa.me/919960160016?text=${encodeURIComponent(waMsg)}`;
+    }
+
+    /* ── PAYMENT TAB SWITCH ── */
+    function switchPayTab(tab) {
+      document.getElementById('tabUpi').classList.toggle('active', tab === 'upi');
+      document.getElementById('tabBank').classList.toggle('active', tab === 'bank');
+      document.getElementById('panelUpi').classList.toggle('active', tab === 'upi');
+      document.getElementById('panelBank').classList.toggle('active', tab === 'bank');
+    }
+
+    /* ── COPY BANK DETAIL ── */
+    function copyBankDetail(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓ Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+      }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+      });
     }
 
     /* ── INIT ── */
