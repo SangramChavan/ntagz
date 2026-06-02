@@ -1,1418 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Order Now — ntagz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root {
       --cream: #FAF7F2;
-      --warm: #F2EDE4;
+      --warm:  #F2EDE4;
       --paper: #ECEADF;
-      --ink: #1A1714;
+      --ink:   #1A1714;
       --ink-2: #4A4540;
       --ink-3: #8A837A;
-      --tagz: #FF4500;
+      --tagz:    #FF4500;
       --tagz-lt: #FFF0EB;
       --tagz-dk: #CC3700;
-      --teal: #007A6B;
+      --teal:    #007A6B;
       --teal-lt: #E6F4F2;
-      --gold: #C8960C;
-      --green: #16A34A;
+      --gold:    #C8960C;
+      --green:   #16A34A;
       --ff-head: 'Familjen Grotesk', sans-serif;
-      --ff-serif: 'Instrument Serif', serif;
+      --ff-serif:'Instrument Serif', serif;
       --ff-body: 'Manrope', sans-serif;
-      --ease: cubic-bezier(0.22, 1, 0.36, 1);
-      --r: 14px;
-      --r-lg: 22px;
-      --r-xl: 32px;
-    }
-
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--cream);
-      color: var(--ink);
-      font-family: var(--ff-body);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    /* ── TOP STRIP ── */
-    .top-strip {
-      background: var(--ink);
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-      font-size: 12px;
-      font-family: var(--ff-head);
-      letter-spacing: .02em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .top-strip span {
-      opacity: .6;
-      font-size: 10px;
-    }
-
-    .top-strip b {
-      color: var(--tagz);
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 800;
-      background: rgba(250, 247, 242, .92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--paper);
-    }
-
-    .nav-inner {
-      max-width: 1320px;
-      margin: auto;
-      padding: 0 20px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .logo {
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: 20px;
-      letter-spacing: -.03em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-icon {
-      width: 30px;
-      height: 30px;
-      background: var(--tagz);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .logo-icon svg {
-      width: 16px;
-      height: 16px;
-      fill: #fff;
-    }
-
-    .logo-text em {
-      color: var(--tagz);
-      font-style: normal;
-    }
-
-    .nav-links {
-      display: none;
-      gap: 32px;
-      align-items: center;
-    }
-
-    .nav-links a {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink-2);
-      transition: color .2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--ink);
-    }
-
-    .nav-ctas {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: var(--ff-head);
-      font-weight: 600;
-      font-size: 13px;
-      padding: 10px 18px;
-      border-radius: var(--r);
-      transition: all .25s var(--ease);
-      letter-spacing: .01em;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .btn-tagz {
-      background: var(--tagz);
-      color: #fff;
-    }
-
-    .btn-tagz:hover {
-      background: var(--tagz-dk);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(255, 69, 0, .3);
-    }
-
-    .btn-upi {
-      background: #007A6B;
-      color: #fff;
-    }
-
-    .btn-upi:hover {
-      background: #005c51;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 122, 107, .3);
-    }
-
-    .btn-wa {
-      background: #25D366;
-      color: #fff;
-    }
-
-    .btn-wa:hover {
-      background: #1EB85A;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(37, 211, 102, .3);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--ink);
-      color: var(--ink);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--tagz);
-      color: var(--tagz);
-    }
-
-    .btn-lg {
-      padding: 14px 28px;
-      font-size: 15px;
-      border-radius: var(--r-lg);
-    }
-
-    .btn-block {
-      width: 100%;
-    }
-
-    /* ── LAYOUT ── */
-    .wrap {
-      max-width: 1320px;
-      margin: auto;
-      padding: 0 20px;
-    }
-
-    section {
-      padding: 40px 0 80px;
-    }
-
-    .page-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .page-header h1 {
-      font-family: var(--ff-head);
-      font-size: clamp(32px, 6vw, 48px);
-      font-weight: 700;
-      letter-spacing: -.03em;
-      margin-bottom: 12px;
-    }
-
-    .page-header p {
-      color: var(--ink-2);
-      font-size: 15px;
-      max-width: 600px;
-      margin: auto;
-      line-height: 1.6;
-    }
-
-    .calc-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 32px;
-      align-items: flex-start;
-    }
-
-    /* ── FORM CARD ── */
-    .calc-form-card {
-      background: #fff;
-      border: 1px solid var(--paper);
-      border-radius: var(--r-lg);
-      padding: 24px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, .04);
-    }
-
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    .form-group label {
-      display: block;
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: var(--ink);
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1.5px solid var(--paper);
-      border-radius: var(--r);
-      font-family: var(--ff-body);
-      font-size: 15px;
-      color: var(--ink);
-      background: var(--cream);
-      transition: all .2s;
-      appearance: none;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--tagz);
-      background: #fff;
-      box-shadow: 0 0 0 4px var(--tagz-lt);
-    }
-
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .checkbox-group input {
-      width: 20px;
-      height: 20px;
-      accent-color: var(--tagz);
-      cursor: pointer;
-    }
-
-    .checkbox-group span {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink-2);
-    }
-
-    .error-msg {
-      color: #DC2626;
-      font-size: 13px;
-      margin-top: 8px;
-      display: none;
-      font-weight: 600;
-    }
-
-    /* ── PRODUCT GRID ── */
-    .section-label {
-      font-family: var(--ff-head);
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 14px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .prod-card {
-      border: 2px solid var(--paper);
-      border-radius: var(--r);
-      padding: 14px;
-      cursor: pointer;
-      transition: all .2s var(--ease);
-      position: relative;
-      background: var(--cream);
-      user-select: none;
-    }
-
-    .prod-card:hover {
-      border-color: var(--tagz);
-      background: #fff;
-    }
-
-    .prod-card.selected {
-      border-color: var(--tagz);
-      background: var(--tagz-lt);
-      box-shadow: 0 0 0 4px rgba(255, 69, 0, .08);
-    }
-
-    .prod-card .check {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid var(--paper);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .2s;
-      background: #fff;
-    }
-
-    .prod-card.selected .check {
-      background: var(--tagz);
-      border-color: var(--tagz);
-    }
-
-    .prod-card.selected .check svg {
-      display: block;
-    }
-
-    .prod-card .check svg {
-      display: none;
-      width: 10px;
-      height: 10px;
-      fill: #fff;
-    }
-
-    .prod-card .prod-name {
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--ink);
-      margin-bottom: 4px;
-      padding-right: 24px;
-      line-height: 1.3;
-    }
-
-    .prod-card .prod-code {
-      font-size: 10px;
-      letter-spacing: .06em;
-      color: var(--ink-3);
-      font-family: var(--ff-head);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .prod-card .prod-price {
-      font-family: var(--ff-head);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--tagz);
-    }
-
-    .prod-card .prod-price span {
-      font-size: 11px;
-      color: var(--ink-3);
-      font-weight: 400;
-    }
-
-    /pc
-    /* ── ITEM ROWS (selected products qty inputs) ── */
-    .selected-items {
-      margin-bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .item-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--cream);
-      border: 1.5px solid var(--paper);
-      border-radius: var(--r);
-      padding: 10px 14px;
-      transition: border-color .2s;
-    }
-
-    .item-row:focus-within {
-      border-color: var(--tagz);
-    }
-
-    .item-row .item-label {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .item-row .item-label .iname {
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: 13px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .item-row .item-label .iprice {
-      font-size: 11px;
-      color: var(--ink-3);
-    }
-
-    .item-row .qty-ctrl {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .qty-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      border: 1.5px solid var(--paper);
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 16px;
-      line-height: 1;
-      color: var(--ink-2);
-      transition: all .15s;
-    }
-
-    .qty-btn:hover {
-      border-color: var(--tagz);
-      color: var(--tagz);
-    }
-
-    .qty-input {
-      width: 64px;
-      text-align: center;
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: 14px;
-      border: 1.5px solid var(--paper);
-      border-radius: 8px;
-      padding: 5px 4px;
-      background: #fff;
-      color: var(--ink);
-    }
-
-    .qty-input:focus {
-      outline: none;
-      border-color: var(--tagz);
-    }
-
-    .item-row .item-total {
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--ink);
-      flex-shrink: 0;
-      min-width: 56px;
-      text-align: right;
-    }
-
-    .empty-hint {
-      text-align: center;
-      padding: 20px;
-      color: var(--ink-3);
-      font-size: 13px;
-      border: 2px dashed var(--paper);
-      border-radius: var(--r);
-    }
-
-    /* ── TIER GUIDE ── */
-    .tier-guide {
-      background: var(--warm);
-      border-radius: var(--r);
-      padding: 16px;
-      margin-top: 24px;
-    }
-
-    .tier-guide h4 {
-      font-family: var(--ff-head);
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 12px;
-    }
-
-    .tier-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      margin-bottom: 8px;
-      color: var(--ink-2);
-    }
-
-    .tier-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .tier-row b {
-      color: var(--tagz);
-      font-family: var(--ff-head);
-      font-weight: 700;
-    }
-
-    /* ── QUOTE CARD ── */
-    .quote-card {
-      background: #fff;
-      border: 1px solid var(--paper);
-      border-radius: var(--r-lg);
-      padding: 32px 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .08);
-      position: sticky;
-      top: 90px;
-    }
-
-    .quote-header {
-      border-bottom: 1.5px dashed var(--paper);
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .quote-header h2 {
-      font-family: var(--ff-head);
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .quote-header p {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-top: 4px;
-    }
-
-    .quote-line {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin-bottom: 16px;
-      color: var(--ink-2);
-    }
-
-    .quote-line span:last-child {
-      font-weight: 600;
-      color: var(--ink);
-      font-family: var(--ff-head);
-      font-size: 15px;
-    }
-
-    .quote-line.discount span:last-child {
-      color: var(--green);
-    }
-
-    .quote-total {
-      border-top: 1.5px dashed var(--paper);
-      padding-top: 20px;
-      margin-top: 20px;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .quote-total span:first-child {
-      font-family: var(--ff-head);
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .quote-total span:last-child {
-      font-family: var(--ff-head);
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--tagz);
-    }
-
-    .upi-qr-wrapper {
-      background: var(--cream);
-      border: 1px dashed var(--paper);
-      border-radius: var(--r);
-      padding: 16px;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .upi-qr-wrapper p {
-      font-size: 11px;
-      color: var(--ink-3);
-      margin-top: 8px;
-      font-weight: 500;
-    }
-
-    #qrcode {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      mix-blend-mode: multiply;
-    }
-
-    .quote-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    /* Items summary in quote */
-    .q-items-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 18px;
-    }
-
-    .q-items-table th {
-      font-family: var(--ff-head);
-      font-size: 10px;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      padding: 0 0 8px;
-      text-align: left;
-      border-bottom: 1px solid var(--paper);
-    }
-
-    .q-items-table th:last-child {
-      text-align: right;
-    }
-
-    .q-items-table td {
-      font-size: 13px;
-      padding: 8px 0;
-      color: var(--ink-2);
-      border-bottom: 1px solid var(--paper);
-    }
-
-    .q-items-table td:last-child {
-      text-align: right;
-      font-family: var(--ff-head);
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .q-items-table .td-name {
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .q-items-table .td-sub {
-      font-size: 10px;
-      color: var(--ink-3);
-    }
-
-    /* Discount badge */
-    .discount-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(22, 163, 74, .1);
-      color: #16A34A;
-      border-radius: 99px;
-      padding: 3px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      font-family: var(--ff-head);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--ink);
-      color: rgba(255, 255, 255, .6);
-      padding: 48px 0 24px;
-      border-top: 1px solid rgba(255, 255, 255, .06);
-    }
-
-    .footer-top {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-
-    .footer-brand p {
-      font-size: 13px;
-      line-height: 1.6;
-      margin-top: 12px;
-      font-weight: 300;
-    }
-
-    .footer-col h4 {
-      font-family: var(--ff-head);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .35);
-      margin-bottom: 16px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-    }
-
-    .footer-col li {
-      margin-bottom: 10px;
-    }
-
-    .footer-col a {
-      font-size: 13px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, .5);
-      transition: color .2s;
-    }
-
-    .footer-col a:hover {
-      color: #fff;
-    }
-
-    .footer-bottom {
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, .06);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      text-align: center;
-    }
-
-    .footer-bottom-l {
-      font-family: var(--ff-head);
-      font-size: 11px;
-      letter-spacing: .04em;
-    }
-
-    .footer-bottom-r {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-    }
-
-    .footer-bottom-r a {
-      font-family: var(--ff-head);
-      font-size: 11px;
-      color: rgba(255, 255, 255, .3);
-    }
-
-    .footer-bottom-r a:hover {
-      color: rgba(255, 255, 255, .7);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media(min-width:768px) {
-      .nav-links {
-        display: flex;
-      }
-
-      .calc-form-card {
-        padding: 32px;
-      }
-    }
-
-    @media(min-width:1024px) {
-      section {
-        padding: 60px 0 120px;
-      }
-
-      .calc-grid {
-        grid-template-columns: 1fr 420px;
-        gap: 60px;
-      }
-
-      .footer-top {
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 48px;
-      }
-
-      .footer-bottom {
-        flex-direction: row;
-        justify-content: space-between;
-        text-align: left;
-      }
-
-      .footer-bottom-r {
-        justify-content: flex-end;
-      }
-    }
-
-    /* ── PRINT ── */
-    @media print {
-
-      nav,
-      footer,
-      .top-strip,
-      .calc-form-card,
-      .page-header,
-      .quote-actions,
-      .upi-qr-wrapper {
-        display: none !important;
-      }
-
-      body {
-        background: #fff;
-        color: #000;
-        padding: 0;
-        margin: 0;
-      }
-
-      .wrap {
-        padding: 0;
-        max-width: 100%;
-      }
-
-      section {
-        padding: 0;
-      }
-
-      .calc-grid {
-        display: block;
-      }
-
-      .quote-card {
-        box-shadow: none;
-        border: none;
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 40px;
-      }
-
-      .quote-card::after {
-        content: "Thank you for choosing ntagz. This is a system generated quotation. Valid for 15 days.";
-        display: block;
-        margin-top: 60px;
-        text-align: center;
-        font-size: 12px;
-        color: #666;
-        border-top: 1px solid #ccc;
-        padding-top: 20px;
-      }
-    }
+      --ease: cubic-bezier(0.22,1,0.36,1);
+      --r: 14px; --r-lg: 22px; --r-xl: 32px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--cream);color:var(--ink);font-family:var(--ff-body);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    a{text-decoration:none;color:inherit;}
+    button{border:none;cursor:pointer;font-family:inherit;}
+    img{display:block;max-width:100%;}
+
+    /* TOP STRIP */
+    .top-strip{background:var(--ink);color:#fff;text-align:center;padding:10px;font-size:12px;font-family:var(--ff-head);letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;}
+    .top-strip span{opacity:.6;font-size:10px;}
+    .top-strip b{color:var(--tagz);}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:800;background:rgba(250,247,242,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--paper);}
+    .nav-inner{max-width:1320px;margin:auto;padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .logo{font-family:var(--ff-head);font-weight:700;font-size:20px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px;}
+    .logo-icon{width:30px;height:30px;background:var(--tagz);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .logo-icon svg{width:16px;height:16px;fill:#fff;}
+    .logo-text em{color:var(--tagz);font-style:normal;}
+    .nav-links{display:none;gap:32px;align-items:center;}
+    .nav-links a{font-size:14px;font-weight:500;color:var(--ink-2);transition:color .2s;}
+    .nav-links a:hover{color:var(--ink);}
+    .nav-ctas{display:flex;gap:8px;align-items:center;}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--ff-head);font-weight:600;font-size:13px;padding:10px 18px;border-radius:var(--r);transition:all .25s var(--ease);letter-spacing:.01em;cursor:pointer;text-align:center;}
+    .btn-tagz{background:var(--tagz);color:#fff;}
+    .btn-tagz:hover{background:var(--tagz-dk);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,69,0,.3);}
+    .btn-upi{background:#007A6B;color:#fff;}
+    .btn-upi:hover{background:#005c51;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,122,107,.3);}
+    .btn-wa{background:#25D366;color:#fff;}
+    .btn-wa:hover{background:#1EB85A;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.3);}
+    .btn-outline{background:transparent;border:1.5px solid var(--ink);color:var(--ink);}
+    .btn-outline:hover{border-color:var(--tagz);color:var(--tagz);}
+    .btn-lg{padding:14px 28px;font-size:15px;border-radius:var(--r-lg);}
+    .btn-block{width:100%;}
+
+    /* LAYOUT */
+    .wrap{max-width:1320px;margin:auto;padding:0 20px;}
+    section{padding:40px 0 80px;}
+    .page-header{text-align:center;margin-bottom:40px;}
+    .page-header h1{font-family:var(--ff-head);font-size:clamp(32px,6vw,48px);font-weight:700;letter-spacing:-.03em;margin-bottom:12px;}
+    .page-header p{color:var(--ink-2);font-size:15px;max-width:600px;margin:auto;line-height:1.6;}
+    .calc-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:flex-start;}
+
+    /* FORM CARD */
+    .calc-form-card{background:#fff;border:1px solid var(--paper);border-radius:var(--r-lg);padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.04);}
+    .form-group{margin-bottom:24px;}
+    .form-group label{display:block;font-family:var(--ff-head);font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);}
+    .form-control{width:100%;padding:14px 16px;border:1.5px solid var(--paper);border-radius:var(--r);font-family:var(--ff-body);font-size:15px;color:var(--ink);background:var(--cream);transition:all .2s;appearance:none;}
+    .form-control:focus{outline:none;border-color:var(--tagz);background:#fff;box-shadow:0 0 0 4px var(--tagz-lt);}
+    .checkbox-group{display:flex;align-items:center;gap:10px;cursor:pointer;}
+    .checkbox-group input{width:20px;height:20px;accent-color:var(--tagz);cursor:pointer;}
+    .checkbox-group span{font-size:14px;font-weight:500;color:var(--ink-2);}
+    .error-msg{color:#DC2626;font-size:13px;margin-top:8px;display:none;font-weight:600;}
+
+    /* PRODUCT GRID */
+    .section-label{font-family:var(--ff-head);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;}
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:28px;}
+    .prod-card{border:2px solid var(--paper);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s var(--ease);position:relative;background:var(--cream);user-select:none;}
+    .prod-card:hover{border-color:var(--tagz);background:#fff;}
+    .prod-card.selected{border-color:var(--tagz);background:var(--tagz-lt);box-shadow:0 0 0 4px rgba(255,69,0,.08);}
+    .prod-card.bundle-card{border-color:var(--teal);background:var(--teal-lt);}
+    .prod-card.bundle-card:hover{border-color:var(--teal);background:#d4eeeb;}
+    .prod-card.bundle-card.selected{border-color:var(--teal);background:#c0e8e3;box-shadow:0 0 0 4px rgba(0,122,107,.1);}
+    .prod-card.bundle-card.selected .check{background:var(--teal);border-color:var(--teal);}
+    .prod-card .check{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;border:2px solid var(--paper);display:flex;align-items:center;justify-content:center;transition:all .2s;background:#fff;}
+    .prod-card.selected .check{background:var(--tagz);border-color:var(--tagz);}
+    .prod-card.selected .check svg{display:block;}
+    .prod-card .check svg{display:none;width:10px;height:10px;fill:#fff;}
+    .bundle-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,122,107,.12);color:var(--teal);border-radius:99px;padding:2px 8px;font-size:9px;font-weight:700;font-family:var(--ff-head);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
+    .prod-card .prod-name{font-family:var(--ff-head);font-weight:700;font-size:13px;color:var(--ink);margin-bottom:4px;padding-right:24px;line-height:1.3;}
+    .prod-card .prod-code{font-size:10px;letter-spacing:.06em;color:var(--ink-3);font-family:var(--ff-head);text-transform:uppercase;margin-bottom:8px;}
+    .prod-card .prod-price{font-family:var(--ff-head);font-size:18px;font-weight:700;color:var(--tagz);}
+    .prod-card.bundle-card .prod-price{color:var(--teal);}
+    .prod-card .prod-price span{font-size:11px;color:var(--ink-3);font-weight:400;}
+
+    /* ITEM ROWS */
+    .selected-items{margin-bottom:24px;display:flex;flex-direction:column;gap:10px;}
+    .item-row{display:flex;align-items:center;gap:10px;background:var(--cream);border:1.5px solid var(--paper);border-radius:var(--r);padding:10px 14px;transition:border-color .2s;}
+    .item-row:focus-within{border-color:var(--tagz);}
+    .item-row.bundle-row{background:var(--teal-lt);border-color:rgba(0,122,107,.25);}
+    .item-row .item-label{flex:1;min-width:0;}
+    .item-row .item-label .iname{font-family:var(--ff-head);font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .item-row .item-label .iprice{font-size:11px;color:var(--ink-3);}
+    .item-row .qty-ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+    .qty-btn{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--paper);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;line-height:1;color:var(--ink-2);transition:all .15s;}
+    .qty-btn:hover{border-color:var(--tagz);color:var(--tagz);}
+    .qty-input{width:64px;text-align:center;font-family:var(--ff-head);font-weight:700;font-size:14px;border:1.5px solid var(--paper);border-radius:8px;padding:5px 4px;background:#fff;color:var(--ink);}
+    .qty-input:focus{outline:none;border-color:var(--tagz);}
+    .fixed-qty-label{font-size:12px;font-family:var(--ff-head);font-weight:600;color:var(--teal);padding:0 4px;white-space:nowrap;}
+    .item-row .item-total{font-family:var(--ff-head);font-weight:700;font-size:13px;color:var(--ink);flex-shrink:0;min-width:56px;text-align:right;}
+    .empty-hint{text-align:center;padding:20px;color:var(--ink-3);font-size:13px;border:2px dashed var(--paper);border-radius:var(--r);}
+
+    /* TIER GUIDE */
+    .tier-guide{background:var(--warm);border-radius:var(--r);padding:16px;margin-top:24px;}
+    .tier-guide h4{font-family:var(--ff-head);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;}
+    .tier-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:var(--ink-2);}
+    .tier-row:last-child{margin-bottom:0;}
+    .tier-row b{color:var(--tagz);font-family:var(--ff-head);font-weight:700;}
+
+    /* QUOTE CARD */
+    .quote-card{background:#fff;border:1px solid var(--paper);border-radius:var(--r-lg);padding:32px 24px;box-shadow:0 20px 60px rgba(0,0,0,.08);position:sticky;top:90px;}
+    .quote-header{border-bottom:1.5px dashed var(--paper);padding-bottom:20px;margin-bottom:20px;text-align:center;}
+    .quote-header h2{font-family:var(--ff-head);font-size:24px;font-weight:700;}
+    .quote-header p{font-size:12px;color:var(--ink-3);margin-top:4px;}
+    .quote-line{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;color:var(--ink-2);}
+    .quote-line span:last-child{font-weight:600;color:var(--ink);font-family:var(--ff-head);font-size:15px;}
+    .quote-line.discount span:last-child{color:var(--green);}
+    .quote-total{border-top:1.5px dashed var(--paper);padding-top:20px;margin-top:20px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;}
+    .quote-total span:first-child{font-family:var(--ff-head);font-size:16px;font-weight:700;}
+    .quote-total span:last-child{font-family:var(--ff-head);font-size:28px;font-weight:700;color:var(--tagz);}
+    .upi-qr-wrapper{background:var(--cream);border:1px dashed var(--paper);border-radius:var(--r);padding:16px;margin-bottom:24px;text-align:center;}
+    .upi-qr-wrapper p{font-size:11px;color:var(--ink-3);margin-top:8px;font-weight:500;}
+    #qrcode{display:flex;justify-content:center;align-items:center;mix-blend-mode:multiply;}
+    .quote-actions{display:flex;flex-direction:column;gap:12px;}
+
+    /* Items table in quote */
+    .q-items-table{width:100%;border-collapse:collapse;margin-bottom:18px;}
+    .q-items-table th{font-family:var(--ff-head);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);padding:0 0 8px;text-align:left;border-bottom:1px solid var(--paper);}
+    .q-items-table th:last-child{text-align:right;}
+    .q-items-table td{font-size:13px;padding:8px 0;color:var(--ink-2);border-bottom:1px solid var(--paper);}
+    .q-items-table td:last-child{text-align:right;font-family:var(--ff-head);font-weight:600;color:var(--ink);}
+    .q-items-table .td-name{font-weight:600;color:var(--ink);}
+    .q-items-table .td-sub{font-size:10px;color:var(--ink-3);}
+
+    /* FOOTER */
+    footer{background:var(--ink);color:rgba(255,255,255,.6);padding:48px 0 24px;border-top:1px solid rgba(255,255,255,.06);}
+    .footer-top{display:grid;grid-template-columns:1fr;gap:40px;margin-bottom:40px;}
+    .footer-brand p{font-size:13px;line-height:1.6;margin-top:12px;font-weight:300;}
+    .footer-col h4{font-family:var(--ff-head);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px;}
+    .footer-col ul{list-style:none;}
+    .footer-col li{margin-bottom:10px;}
+    .footer-col a{font-size:13px;font-weight:400;color:rgba(255,255,255,.5);transition:color .2s;}
+    .footer-col a:hover{color:#fff;}
+    .footer-bottom{padding-top:20px;border-top:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;gap:16px;text-align:center;}
+    .footer-bottom-l{font-family:var(--ff-head);font-size:11px;letter-spacing:.04em;}
+    .footer-bottom-r{display:flex;justify-content:center;gap:16px;}
+    .footer-bottom-r a{font-family:var(--ff-head);font-size:11px;color:rgba(255,255,255,.3);}
+    .footer-bottom-r a:hover{color:rgba(255,255,255,.7);}
+
+    /* RESPONSIVE */
+    @media(min-width:768px){.nav-links{display:flex;}.calc-form-card{padding:32px;}}
+    @media(min-width:1024px){section{padding:60px 0 120px;}.calc-grid{grid-template-columns:1fr 420px;gap:60px;}.footer-top{grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;}.footer-bottom{flex-direction:row;justify-content:space-between;text-align:left;}.footer-bottom-r{justify-content:flex-end;}}
+
+    /* PRINT */
+    @media print{nav,footer,.top-strip,.calc-form-card,.page-header,.quote-actions,.upi-qr-wrapper{display:none!important;}body{background:#fff;color:#000;padding:0;margin:0;}.wrap{padding:0;max-width:100%;}section{padding:0;}.calc-grid{display:block;}.quote-card{box-shadow:none;border:none;width:100%;max-width:800px;margin:0 auto;padding:40px;}.quote-card::after{content:"Thank you for choosing ntagz. This is a system generated quotation. Valid for 15 days.";display:block;margin-top:60px;text-align:center;font-size:12px;color:#666;border-top:1px solid #ccc;padding-top:20px;}}
   </style>
 </head>
-
 <body>
 
-  <div class="top-strip">
-    <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
-    <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
+<div class="top-strip">
+  <span>🚚</span> <b>Free shipping</b> on orders above ₹2,000 &nbsp;|&nbsp;
+  <span>💬</span> WhatsApp support: <b>+91 9960 160016</b>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="logo-text">N<em>tagz</em></div>
+    </a>
+    <div class="nav-links">
+      <a href="#products">Products</a>
+      <a href="nfc-check.html">NFC Check</a>
+      <a href="programmer.html">NFC Programmer</a>
+      <a href="quote.html">Order Now</a>
+      <a href="track.html">Track Order</a>
+      <a href="about.html">About Us</a>
+    </div>
+    <div class="nav-ctas">
+      <a href="https://wa.me/919960160016?text=Hi%20ntagz!%20I'd%20like%20to%20place%20an%20order." target="_blank" class="btn btn-tagz">Help →</a>
+    </div>
   </div>
+</nav>
 
-  <nav>
-    <div class="nav-inner">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
-              stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
-          </svg>
-        </div>
-        <div class="logo-text">N<em>tagz</em></div>
-      </a>
-      <div class="nav-links">
-        <a href="#products">Products</a>
-        <a href="nfc-check.html">NFC Check</a>
-        <a href="programmer.html">NFC Programmer</a>
-        <a href="quote.html">Order Now</a>
-        <a href="track.html">Track Order</a>
-        <a href="about.html">About Us</a>
-      </div>
-      <div class="nav-ctas">
-        <a href="https://wa.me/919960160016?text=Hi%20ntagz!%20I'd%20like%20to%20place%20an%20order." target="_blank"
-          class="btn btn-tagz">Help →</a>
-      </div>
+<section>
+  <div class="wrap">
+    <div class="page-header">
+      <h1>Order Now</h1>
+      <p>Pick one or more products and set quantities to get an instant bulk wholesale quote. Mix and match — the more you order, the more you save.</p>
     </div>
-  </nav>
 
-  <section>
-    <div class="wrap">
-      <div class="page-header">
-        <h1>Order Now</h1>
-        <p>Pick one or more products and set quantities to get an instant bulk wholesale quote. Mix and match — the more
-          you order, the more you save.</p>
+    <div class="calc-grid">
+
+      <!-- LEFT: FORM -->
+      <div class="calc-form-card">
+
+        <div class="form-group">
+          <div class="section-label">Choose Products (Select Multiple)</div>
+          <div class="product-grid" id="productGrid"></div>
+        </div>
+
+        <div class="form-group" id="selectedSection" style="display:none;">
+          <div class="section-label">Set Quantities</div>
+          <div class="selected-items" id="selectedItems"></div>
+        </div>
+
+        <div id="emptyHint" class="empty-hint" style="margin-bottom:24px;">
+          👆 Select at least one product above to get started
+        </div>
+
+        <div class="form-group" style="margin-top:8px;">
+          <label class="checkbox-group">
+            <input type="checkbox" id="gstCheck" checked onchange="calculateQuote()">
+            <span>Include 18% GST (Required for Input Tax Credit)</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="customerName">Customer Name</label>
+          <input type="text" id="customerName" class="form-control" placeholder="Enter customer name" oninput="calculateQuote()">
+        </div>
+        <div class="form-group">
+          <label for="customerNumber">Customer Phone</label>
+          <input type="text" id="customerNumber" class="form-control" placeholder="Enter phone number" oninput="calculateQuote()">
+        </div>
+        <div class="form-group">
+          <label for="customerAddress">Address</label>
+          <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter address" oninput="calculateQuote()"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="customerGST">GST Number <span style="font-weight:400;color:var(--ink-3);font-size:12px;">(Optional)</span></label>
+          <input type="text" id="customerGST" class="form-control" placeholder="e.g. 27AAPCA8177N1ZQ" maxlength="15" oninput="this.value=this.value.toUpperCase();calculateQuote()">
+        </div>
+        <div class="form-group">
+          <label for="customerPincode">Pincode</label>
+          <input type="text" id="customerPincode" class="form-control" placeholder="Enter 6-digit pincode" oninput="checkPincodeLength(this.value)">
+          <div id="pincodeLoader" class="error-msg" style="color:var(--teal);font-weight:500;display:none;">🔍 Fetching city and state...</div>
+        </div>
+
+        <div class="tier-guide">
+          <h4>Auto-Applied Bulk Tiers (per item)</h4>
+          <div class="tier-row"><span>500 – 999 pcs</span><b>10% OFF</b></div>
+          <div class="tier-row"><span>1,000 – 4,999 pcs</span><b>25% OFF</b></div>
+          <div class="tier-row"><span>5,000 – 9,999 pcs</span><b>40% OFF</b></div>
+          <div class="tier-row"><span>10,000+ pcs</span><b>Custom Rate</b></div>
+        </div>
       </div>
 
-      <div class="calc-grid">
+      <!-- RIGHT: QUOTE CARD -->
+      <div class="quote-card" id="quote-card">
+        <div class="quote-header">
+          <h2>Quotation</h2>
+          <p id="quoteDate">Date: --</p>
+        </div>
 
-        <!-- LEFT: FORM -->
-        <div class="calc-form-card">
+        <div style="border-bottom:1px solid var(--paper);padding-bottom:16px;margin-bottom:20px;">
+          <div class="quote-line"><span>Customer Name</span><span id="outCustomerName">-</span></div>
+          <div class="quote-line"><span>Customer Number</span><span id="outCustomerNumber">-</span></div>
+          <div class="quote-line"><span>Address</span><span id="outCustomerAddress" style="max-width:220px;text-align:right;">-</span></div>
+          <div class="quote-line"><span>Pincode</span><span id="outCustomerPincode">-</span></div>
+          <div class="quote-line" id="gstNumberRow" style="display:none;"><span>GST Number</span><span id="outCustomerGST">-</span></div>
+        </div>
 
-          <!-- Product picker -->
-          <div class="form-group">
-            <div class="section-label">Choose Products (Select Multiple)</div>
-            <div class="product-grid" id="productGrid"></div>
-          </div>
+        <div id="itemsTableWrap">
+          <div style="text-align:center;color:var(--ink-3);font-size:13px;padding:12px 0;">No products selected yet.</div>
+        </div>
 
-          <!-- Selected items + qty -->
-          <div class="form-group" id="selectedSection" style="display:none;">
-            <div class="section-label">Set Quantities</div>
-            <div class="selected-items" id="selectedItems"></div>
+        <div style="margin-top:16px;">
+          <div class="quote-line" style="border-top:1px solid var(--paper);padding-top:16px;margin-top:8px;">
+            <span>Subtotal</span><span id="outSubtotal">₹0</span>
           </div>
-
-          <div id="emptyHint" class="empty-hint" style="margin-bottom:24px;">
-            👆 Select at least one product above to get started
+          <div class="quote-line discount">
+            <span>Bulk Discount</span><span id="outDiscountAmt">- ₹0</span>
           </div>
-
-          <!-- GST -->
-          <div class="form-group" style="margin-top:8px;">
-            <label class="checkbox-group">
-              <input type="checkbox" id="gstCheck" checked onchange="calculateQuote()">
-              <span>Include 18% GST (Required for Input Tax Credit)</span>
-            </label>
+          <div class="quote-line" id="shippingRow" style="display:none;">
+            <span>Shipping</span><span id="outShipping">₹0</span>
           </div>
-
-          <!-- Customer details -->
-          <div class="form-group">
-            <label for="customerName">Customer Name</label>
-            <input type="text" id="customerName" class="form-control" placeholder="Enter customer name"
-              oninput="calculateQuote()">
+          <div class="quote-line">
+            <span>Net Taxable Value</span><span id="outNet">₹0</span>
           </div>
-          <div class="form-group">
-            <label for="customerNumber">Customer Phone</label>
-            <input type="text" id="customerNumber" class="form-control" placeholder="Enter phone number"
-              oninput="calculateQuote()">
-          </div>
-          <div class="form-group">
-            <label for="customerAddress">Address</label>
-            <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter address"
-              oninput="calculateQuote()"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="customerGST">GST Number <span
-                style="font-weight:400;color:var(--ink-3);font-size:12px;">(Optional)</span></label>
-            <input type="text" id="customerGST" class="form-control" placeholder="e.g. 27AAPCA8177N1ZQ" maxlength="15"
-              oninput="this.value=this.value.toUpperCase();calculateQuote()">
-          </div>
-          <div class="form-group">
-            <label for="customerPincode">Pincode</label>
-            <input type="text" id="customerPincode" class="form-control" placeholder="Enter 6-digit pincode"
-              oninput="checkPincodeLength(this.value)">
-            <div id="pincodeLoader" class="error-msg" style="color:var(--teal);font-weight:500;display:none;">🔍
-              Fetching city and state...</div>
-          </div>
-
-          <!-- Tier guide -->
-          <div class="tier-guide">
-            <h4>Auto-Applied Bulk Tiers (per item)</h4>
-            <div class="tier-row"><span>500 – 999 pcs</span><b>10% OFF</b></div>
-            <div class="tier-row"><span>1,000 – 4,999 pcs</span><b>25% OFF</b></div>
-            <div class="tier-row"><span>5,000 – 9,999 pcs</span><b>40% OFF</b></div>
-            <div class="tier-row"><span>10,000+ pcs</span><b>Custom Rate</b></div>
+          <div class="quote-line" id="gstRow" style="display:none;">
+            <span>GST (18%)</span><span id="outGst">+ ₹0</span>
           </div>
         </div>
 
-        <!-- RIGHT: QUOTE CARD -->
-        <div class="quote-card" id="quote-card">
-          <div class="quote-header">
-            <h2>Quotation</h2>
-            <p id="quoteDate">Date: --</p>
-          </div>
-
-          <!-- Customer block -->
-          <div style="border-bottom:1px solid var(--paper);padding-bottom:16px;margin-bottom:20px;">
-            <div class="quote-line"><span>Customer Name</span><span id="outCustomerName">-</span></div>
-            <div class="quote-line"><span>Customer Number</span><span id="outCustomerNumber">-</span></div>
-            <div class="quote-line"><span>Address</span><span id="outCustomerAddress"
-                style="max-width:220px;text-align:right;">-</span></div>
-            <div class="quote-line"><span>Pincode</span><span id="outCustomerPincode">-</span></div>
-            <div class="quote-line" id="gstNumberRow" style="display:none;"><span>GST Number</span><span
-                id="outCustomerGST">-</span></div>
-          </div>
-
-          <!-- Items table -->
-          <div id="itemsTableWrap">
-            <div style="text-align:center;color:var(--ink-3);font-size:13px;padding:12px 0;">No products selected yet.
-            </div>
-          </div>
-
-          <!-- Totals -->
-          <div style="margin-top:16px;">
-            <div class="quote-line" style="border-top:1px solid var(--paper);padding-top:16px;margin-top:8px;">
-              <span>Subtotal</span><span id="outSubtotal">₹0</span>
-            </div>
-            <div class="quote-line discount">
-              <span>Bulk Discount</span><span id="outDiscountAmt">- ₹0</span>
-            </div>
-            <div class="quote-line" id="shippingRow" style="display:none;">
-              <span>Shipping</span><span id="outShipping">₹0</span>
-            </div>
-            <div class="quote-line">
-              <span>Net Taxable Value</span><span id="outNet">₹0</span>
-            </div>
-            <div class="quote-line" id="gstRow" style="display:none;">
-              <span>GST (18%)</span><span id="outGst">+ ₹0</span>
-            </div>
-          </div>
-
-          <div class="quote-total">
-            <span>Grand Total</span>
-            <span id="outTotal">₹0</span>
-          </div>
-
-          <div class="upi-qr-wrapper">
-            <div id="qrcode"></div>
-            <p>Scan QR to instantly pay via any UPI App</p>
-          </div>
-
-          <div class="quote-actions">
-            <a href="#" id="upiLink" class="btn btn-upi btn-lg btn-block">
-              <svg style="width:18px;height:18px;fill:currentColor;" viewBox="0 0 24 24">
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
-              </svg>
-              Pay via UPI App (Mobile Only)
-            </a>
-            <a href="#" id="waLink" target="_blank" class="btn btn-wa btn-lg btn-block">Confirm Order →</a>
-            <button class="btn btn-outline btn-lg btn-block" onclick="window.print()">
-              <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24">
-                <path
-                  d="M19 8H5V3H19V8ZM16 5H8V6H16V5ZM21 10C21.5523 10 22 10.4477 22 11V18H19V22H5V18H2V11C2 10.4477 2.44772 10 3 10H21ZM17 16H7V20H17V16ZM19 12C18.4477 12 18 12.4477 18 13C18 13.5523 18.4477 14 19 14C19.5523 14 20 13.5523 20 13C20 12.4477 19.5523 12 19 12Z" />
-              </svg>
-              Download PDF Quote
-            </button>
-          </div>
+        <div class="quote-total">
+          <span>Grand Total</span>
+          <span id="outTotal">₹0</span>
         </div>
 
-      </div>
-    </div>
-  </section>
+        <div class="upi-qr-wrapper">
+          <div id="qrcode"></div>
+          <p>Scan QR to instantly pay via any UPI App</p>
+        </div>
 
-  <footer>
-    <div class="wrap">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
-            <div class="logo-icon">
-              <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14"
-                  stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
-              </svg>
-            </div>
-            <div class="logo-text">N<em>tagz</em></div>
+        <div class="quote-actions">
+          <a href="#" id="upiLink" class="btn btn-upi btn-lg btn-block">
+            <svg style="width:18px;height:18px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+            Pay via UPI App (Mobile Only)
           </a>
-          <p>India's favourite NFC &amp; RFID product brand. We sell the physical hardware that makes contactless magic
-            happen — cards, tags, coins, and flex circuits.</p>
-        </div>
-        <div class="footer-col">
-          <h4>COMPANY</h4>
-          <ul>
-            <li><a href="about.html">About ntagz</a></li>
-            <li><a href="programmer.html">NFC Programmer</a></li>
-            <li><a href="nfc-check.html">NFC Check</a></li>
-            <li><a href="quote.html">Order Now</a></li>
-            <li><a href="track.html">Track Order</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>SUPPORT</h4>
-          <ul>
-            <li><a href="https://wa.me/919960160016">WhatsApp Us</a></li>
-            <li><a href="#">Shipping Policy</a></li>
-            <li><a href="#">Returns &amp; Refunds</a></li>
-            <li><a href="#">GST / Invoicing</a></li>
-          </ul>
+          <a href="#" id="waLink" target="_blank" class="btn btn-wa btn-lg btn-block">Confirm Order →</a>
+          <button class="btn btn-outline btn-lg btn-block" onclick="window.print()">
+            <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M19 8H5V3H19V8ZM16 5H8V6H16V5ZM21 10C21.5523 10 22 10.4477 22 11V18H19V22H5V18H2V11C2 10.4477 2.44772 10 3 10H21ZM17 16H7V20H17V16ZM19 12C18.4477 12 18 12.4477 18 13C18 13.5523 18.4477 14 19 14C19.5523 14 20 13.5523 20 13C20 12.4477 19.5523 12 19 12Z"/></svg>
+            Download PDF Quote
+          </button>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &nbsp;·&nbsp; GSTIN: 27AAPCA8177N1ZQ</div>
-        <div class="footer-bottom-r">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Shipping</a>
-        </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+          <div class="logo-icon">
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2C10 2 5 5.5 5 10C5 14.5 10 18 10 18M10 2C10 2 15 5.5 15 10C15 14.5 10 18 10 18M10 6C10 6 7.5 7.5 7.5 10C7.5 12.5 10 14 10 14M10 6C10 6 12.5 7.5 12.5 10C12.5 12.5 10 14 10 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="logo-text">N<em>tagz</em></div>
+        </a>
+        <p>India's favourite NFC &amp; RFID product brand. We sell the physical hardware that makes contactless magic happen — cards, tags, coins, and flex circuits.</p>
+      </div>
+      <div class="footer-col">
+        <h4>COMPANY</h4>
+        <ul>
+          <li><a href="about.html">About ntagz</a></li>
+          <li><a href="programmer.html">NFC Programmer</a></li>
+          <li><a href="nfc-check.html">NFC Check</a></li>
+          <li><a href="quote.html">Order Now</a></li>
+          <li><a href="track.html">Track Order</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="https://wa.me/919960160016">WhatsApp Us</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns &amp; Refunds</a></li>
+          <li><a href="#">GST / Invoicing</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <div class="footer-bottom-l">© 2026 ntagz — PUNE, MAHARASHTRA, INDIA &nbsp;·&nbsp; GSTIN: 27AAPCA8177N1ZQ</div>
+      <div class="footer-bottom-r">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Shipping</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-  <script>
-    /* ── PRODUCT DATA ── */
-    const PRODUCTS = [
-      { id: 'black-card', code: 'BNC30', name: 'Black NFC Card 215', price: 30, emoji: '🖤' },
-      { id: 'white-card', code: 'WNC25', name: 'White NFC Card 216', price: 25, emoji: '🤍' },
-      { id: 'anti-metal', code: 'MNT20', name: 'Metal NFC Tag 25mm', price: 20, emoji: '🔩' },
-      { id: 'rfid-tag', code: 'RNT18', name: 'Round NFC Tag 216', price: 18, emoji: '📡' },
-      { id: 'nfc-coin', code: 'WNC15', name: 'White NFC Coin 215', price: 15, emoji: '🪙' },
-      { id: 'mini-tag', code: 'MNT11', name: 'Mini NFC Tag (Jewel)', price: 11, emoji: '💎' },
-      { id: 'flex-nfc', code: 'FNT75', name: 'Flex NFC Tag (Micro)', price: 75, emoji: '⚡' },
-    ];
+<script>
+  /* ── PRODUCT DATA ── */
+  const PRODUCTS = [
+    { id:'black-card',  code:'BNC30', name:'Black NFC Card 215',          price:30,   emoji:'🖤' },
+    { id:'white-card',  code:'WNC25', name:'White NFC Card 216',          price:25,   emoji:'🤍' },
+    { id:'anti-metal',  code:'MNT20', name:'Metal NFC Tag 25mm',          price:20,   emoji:'🔩' },
+    { id:'rfid-tag',    code:'RNT18', name:'Round NFC Tag 216',           price:18,   emoji:'📡' },
+    { id:'nfc-coin',    code:'WNC15', name:'White NFC Coin 215',          price:15,   emoji:'🪙' },
+    { id:'mini-tag',    code:'MNT11', name:'Mini NFC Tag (Jewel)',         price:11,   emoji:'💎' },
+    { id:'flex-nfc',    code:'FNT75', name:'Flex NFC Tag (Micro)',         price:75,   emoji:'⚡' },
+    { id:'sample-kit',  code:'SMPL',  name:'Complete NFC Sample Kit',     price:1940, emoji:'🎁',
+      fixed:true, fixedQty:70, fixedLabel:'1 kit · 70 pcs · All 7 types' },
+  ];
 
-    /* State */
-    let selectedIds = new Set();
-    let quantities = {};   // id → qty
-    let fetchedCity = '', fetchedState = '';
+  /* State */
+  let selectedIds = new Set();
+  let quantities  = {};
+  let fetchedCity = '', fetchedState = '';
 
-    /* Init QR */
-    const qrcodeContainer = new QRCode(document.getElementById('qrcode'), {
-      width: 160, height: 160,
-      colorDark: '#1A1714', colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
+  /* Init QR */
+  const qrcodeContainer = new QRCode(document.getElementById('qrcode'), {
+    width:160, height:160,
+    colorDark:'#1A1714', colorLight:'#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
 
-    document.getElementById('quoteDate').textContent =
-      `Date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  document.getElementById('quoteDate').textContent =
+    `Date: ${new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`;
 
-    /* ── RENDER PRODUCT GRID ── */
-    function renderGrid() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = PRODUCTS.map(p => `
-      <div class="prod-card ${selectedIds.has(p.id) ? 'selected' : ''}" 
+  /* ── RENDER PRODUCT GRID ── */
+  function renderGrid() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = PRODUCTS.map(p => `
+      <div class="prod-card ${p.fixed ? 'bundle-card' : ''} ${selectedIds.has(p.id) ? 'selected' : ''}"
            onclick="toggleProduct('${p.id}')" data-id="${p.id}">
         <div class="check">
           <svg viewBox="0 0 10 8"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </div>
+        ${p.fixed ? '<div class="bundle-badge">★ Bundle</div>' : ''}
         <div class="prod-name">${p.emoji} ${p.name}</div>
-        <div class="prod-code">${p.code}</div>
-        <div class="prod-price">₹${p.price}<span>/pc</span></div>
+        <div class="prod-code">${p.code}${p.fixed ? ' · 70 pcs' : ''}</div>
+        <div class="prod-price">₹${p.price.toLocaleString('en-IN')}<span>/${p.fixed ? 'kit' : 'pc'}</span></div>
       </div>
     `).join('');
+  }
+
+  /* ── RENDER SELECTED ITEMS (qty inputs) ── */
+  function renderSelectedItems() {
+    const section   = document.getElementById('selectedSection');
+    const hint      = document.getElementById('emptyHint');
+    const container = document.getElementById('selectedItems');
+
+    if (selectedIds.size === 0) {
+      section.style.display = 'none';
+      hint.style.display    = 'block';
+      return;
     }
+    section.style.display = 'block';
+    hint.style.display    = 'none';
 
-    /* ── RENDER SELECTED ITEMS (qty inputs) ── */
-    function renderSelectedItems() {
-      const section = document.getElementById('selectedSection');
-      const hint = document.getElementById('emptyHint');
-      const container = document.getElementById('selectedItems');
-
-      if (selectedIds.size === 0) {
-        section.style.display = 'none';
-        hint.style.display = 'block';
-        return;
-      }
-      section.style.display = 'block';
-      hint.style.display = 'none';
-
-      container.innerHTML = [...selectedIds].map(id => {
-        const p = PRODUCTS.find(x => x.id === id);
-        const qty = quantities[id] || 0;
-        const subtotal = p.price * qty;
-        return `
-        <div class="item-row" id="row-${id}">
+    container.innerHTML = [...selectedIds].map(id => {
+      const p        = PRODUCTS.find(x => x.id === id);
+      const qty      = p.fixed ? 1 : (quantities[id] || 0);
+      const subtotal = p.price * qty;
+      return `
+        <div class="item-row ${p.fixed ? 'bundle-row' : ''}" id="row-${id}">
           <div class="item-label">
             <div class="iname">${p.emoji} ${p.name}</div>
-            <div class="iprice">₹${p.price}/pc · ${p.code}</div>
+            <div class="iprice">${p.fixed
+              ? `₹${p.price.toLocaleString('en-IN')}/kit · ${p.fixedLabel}`
+              : `₹${p.price}/pc · ${p.code}`
+            }</div>
           </div>
           <div class="qty-ctrl">
-            <button class="qty-btn" onclick="adjustQty('${id}',-1)">−</button>
-            <input class="qty-input" type="number" min="0" value="${qty}" 
-                   oninput="setQty('${id}',this.value)" id="qty-${id}">
-            <button class="qty-btn" onclick="adjustQty('${id}',1)">+</button>
+            ${p.fixed
+              ? `<div class="fixed-qty-label">Fixed · 1 kit</div>`
+              : `<button class="qty-btn" onclick="adjustQty('${id}',-1)">−</button>
+                 <input class="qty-input" type="number" min="0" value="${qty}"
+                        oninput="setQty('${id}',this.value)" id="qty-${id}">
+                 <button class="qty-btn" onclick="adjustQty('${id}',1)">+</button>`
+            }
           </div>
           <div class="item-total" id="total-${id}">${subtotal > 0 ? '₹' + subtotal.toLocaleString('en-IN') : '-'}</div>
         </div>
       `;
-      }).join('');
-    }
+    }).join('');
+  }
 
-    /* ── TOGGLE PRODUCT ── */
-    function toggleProduct(id) {
-      if (selectedIds.has(id)) {
-        selectedIds.delete(id);
-        delete quantities[id];
-      } else {
-        selectedIds.add(id);
-        if (!quantities[id]) quantities[id] = 10;
-      }
-      renderGrid();
-      renderSelectedItems();
-      calculateQuote();
-    }
-
-    /* ── QTY CONTROLS ── */
-    function adjustQty(id, delta) {
-      const current = quantities[id] || 0;
-      quantities[id] = Math.max(0, current + delta);
-      const inp = document.getElementById('qty-' + id);
-      if (inp) inp.value = quantities[id];
-      updateItemTotal(id);
-      calculateQuote();
-    }
-
-    function setQty(id, val) {
-      quantities[id] = Math.max(0, parseInt(val, 10) || 0);
-      updateItemTotal(id);
-      calculateQuote();
-    }
-
-    function updateItemTotal(id) {
+  /* ── TOGGLE PRODUCT ── */
+  function toggleProduct(id) {
+    if (selectedIds.has(id)) {
+      selectedIds.delete(id);
+      delete quantities[id];
+    } else {
+      selectedIds.add(id);
       const p = PRODUCTS.find(x => x.id === id);
-      const qty = quantities[id] || 0;
-      const el = document.getElementById('total-' + id);
-      if (el) el.textContent = qty > 0 ? '₹' + (p.price * qty).toLocaleString('en-IN') : '-';
+      if (!p.fixed && !quantities[id]) quantities[id] = 10;
     }
+    renderGrid();
+    renderSelectedItems();
+    calculateQuote();
+  }
 
-    /* ── PINCODE ── */
-    function checkPincodeLength(val) {
-      const clean = val.replace(/[^0-9]/g, '');
-      if (clean.length === 6) fetchLocationData(clean);
-      else { fetchedCity = ''; fetchedState = ''; calculateQuote(); }
-    }
+  /* ── QTY CONTROLS ── */
+  function adjustQty(id, delta) {
+    const current = quantities[id] || 0;
+    quantities[id] = Math.max(0, current + delta);
+    const inp = document.getElementById('qty-' + id);
+    if (inp) inp.value = quantities[id];
+    updateItemTotal(id);
+    calculateQuote();
+  }
 
-    async function fetchLocationData(pincode) {
-      const loader = document.getElementById('pincodeLoader');
-      loader.style.display = 'block';
-      loader.style.color = 'var(--teal)';
-      loader.textContent = '🔍 Fetching city and state...';
-      try {
-        const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
-        const data = await res.json();
-        if (data[0]?.Status === 'Success') {
-          const po = data[0].PostOffice[0];
-          fetchedCity = po.District;
-          fetchedState = po.State;
-          loader.textContent = '✅ Location updated!';
-          setTimeout(() => { loader.style.display = 'none'; }, 2000);
-        } else {
-          loader.style.color = '#DC2626';
-          loader.textContent = '⚠️ Invalid Pincode. Please verify.';
-          fetchedCity = ''; fetchedState = '';
-        }
-      } catch (e) {
+  function setQty(id, val) {
+    quantities[id] = Math.max(0, parseInt(val, 10) || 0);
+    updateItemTotal(id);
+    calculateQuote();
+  }
+
+  function updateItemTotal(id) {
+    const p   = PRODUCTS.find(x => x.id === id);
+    const qty = p.fixed ? 1 : (quantities[id] || 0);
+    const el  = document.getElementById('total-' + id);
+    if (el) el.textContent = qty > 0 ? '₹' + (p.price * qty).toLocaleString('en-IN') : '-';
+  }
+
+  /* ── PINCODE ── */
+  function checkPincodeLength(val) {
+    const clean = val.replace(/[^0-9]/g, '');
+    if (clean.length === 6) fetchLocationData(clean);
+    else { fetchedCity = ''; fetchedState = ''; calculateQuote(); }
+  }
+
+  async function fetchLocationData(pincode) {
+    const loader = document.getElementById('pincodeLoader');
+    loader.style.display = 'block';
+    loader.style.color   = 'var(--teal)';
+    loader.textContent   = '🔍 Fetching city and state...';
+    try {
+      const res  = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+      const data = await res.json();
+      if (data[0]?.Status === 'Success') {
+        const po = data[0].PostOffice[0];
+        fetchedCity  = po.District;
+        fetchedState = po.State;
+        loader.textContent = '✅ Location updated!';
+        setTimeout(() => { loader.style.display = 'none'; }, 2000);
+      } else {
         loader.style.color = '#DC2626';
-        loader.textContent = '⚠️ Could not fetch pincode info.';
+        loader.textContent = '⚠️ Invalid Pincode. Please verify.';
+        fetchedCity = ''; fetchedState = '';
       }
-      calculateQuote();
+    } catch(e) {
+      loader.style.color = '#DC2626';
+      loader.textContent = '⚠️ Could not fetch pincode info.';
+    }
+    calculateQuote();
+  }
+
+  /* ── HELPERS ── */
+  const fmt = (n) => new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',minimumFractionDigits:0,maximumFractionDigits:0}).format(n);
+  const sanitize = (v, max=80) => String(v||'').replace(/[^\w\s.,\-/#&()]/gi,'').trim().substring(0,max);
+
+  function discountFor(qty) {
+    if (qty >= 5000) return 40;
+    if (qty >= 1000) return 25;
+    if (qty >= 500)  return 10;
+    return 0;
+  }
+
+  /* ── MAIN CALCULATE ── */
+  function calculateQuote() {
+    const includeGst = document.getElementById('gstCheck').checked;
+    const cName    = sanitize(document.getElementById('customerName').value, 60) || '-';
+    const cNumber  = sanitize(document.getElementById('customerNumber').value, 20) || '-';
+    const cAddress = sanitize(document.getElementById('customerAddress').value, 120) || '-';
+    const cPincode = sanitize(document.getElementById('customerPincode').value, 10) || '-';
+    const cGST     = document.getElementById('customerGST').value.trim().toUpperCase();
+    const cState   = fetchedState ? sanitize(fetchedState, 40) : '-';
+
+    /* Customer block */
+    document.getElementById('outCustomerName').textContent    = cName;
+    document.getElementById('outCustomerNumber').textContent  = cNumber;
+    document.getElementById('outCustomerAddress').textContent = cAddress;
+    document.getElementById('outCustomerPincode').textContent = cPincode;
+    const gstNumRow = document.getElementById('gstNumberRow');
+    if (cGST.length >= 15) {
+      document.getElementById('outCustomerGST').textContent = cGST;
+      gstNumRow.style.display = 'flex';
+    } else {
+      gstNumRow.style.display = 'none';
     }
 
-    /* ── HELPERS ── */
-    const fmt = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
-    const sanitize = (v, max = 80) => String(v || '').replace(/[^\w\s.,\-/#&()]/gi, '').trim().substring(0, max);
+    /* Build line items */
+    const lineItems = [];
+    let totalSubtotal = 0, totalDiscount = 0;
 
-    function discountFor(qty) {
-      if (qty >= 5000) return 40;
-      if (qty >= 1000) return 25;
-      if (qty >= 500) return 10;
-      return 0;
+    [...selectedIds].forEach(id => {
+      const p    = PRODUCTS.find(x => x.id === id);
+      const qty  = p.fixed ? 1 : (quantities[id] || 0);
+      if (qty <= 0) return;
+      const disc    = p.fixed ? 0 : discountFor(qty);
+      const sub     = p.price * qty;
+      const discAmt = sub * disc / 100;
+      const net     = sub - discAmt;
+      lineItems.push({ p, qty, sub, disc, discAmt, net });
+      totalSubtotal += sub;
+      totalDiscount += discAmt;
+    });
+
+    const netValue = totalSubtotal - totalDiscount;
+
+    /* Shipping */
+    let shippingCharge = 0;
+    if (cState !== '-') {
+      const isMH = cState.toLowerCase().includes('maharashtra');
+      shippingCharge = isMH ? 40 : 80;
+      if (netValue >= 2000) shippingCharge = 0;
     }
 
-    /* ── MAIN CALCULATE ── */
-    function calculateQuote() {
-      const includeGst = document.getElementById('gstCheck').checked;
-      const cName = sanitize(document.getElementById('customerName').value, 60) || '-';
-      const cNumber = sanitize(document.getElementById('customerNumber').value, 20) || '-';
-      const cAddress = sanitize(document.getElementById('customerAddress').value, 120) || '-';
-      const cPincode = sanitize(document.getElementById('customerPincode').value, 10) || '-';
-      const cGST = document.getElementById('customerGST').value.trim().toUpperCase();
-      const cCity = fetchedCity ? sanitize(fetchedCity, 40) : '-';
-      const cState = fetchedState ? sanitize(fetchedState, 40) : '-';
+    /* GST */
+    const gstAmount  = includeGst ? netValue * 0.18 : 0;
+    const grandTotal = Number((netValue + gstAmount + shippingCharge).toFixed(2));
 
-      /* Customer block */
-      document.getElementById('outCustomerName').textContent = cName;
-      document.getElementById('outCustomerNumber').textContent = cNumber;
-      document.getElementById('outCustomerAddress').textContent = cAddress;
-      document.getElementById('outCustomerPincode').textContent = cPincode;
-      const gstNumRow = document.getElementById('gstNumberRow');
-      if (cGST.length >= 15) {
-        document.getElementById('outCustomerGST').textContent = cGST;
-        gstNumRow.style.display = 'flex';
-      } else {
-        gstNumRow.style.display = 'none';
-      }
+    /* Update totals */
+    document.getElementById('outSubtotal').textContent    = fmt(totalSubtotal);
+    document.getElementById('outDiscountAmt').textContent = totalDiscount > 0 ? `- ${fmt(totalDiscount)}` : '- ₹0';
+    document.getElementById('outNet').textContent         = fmt(netValue);
+    document.getElementById('outTotal').textContent       = fmt(grandTotal);
 
-      /* Build line items */
-      const lineItems = [];
-      let totalSubtotal = 0, totalDiscount = 0;
+    const shRow = document.getElementById('shippingRow');
+    const outSh = document.getElementById('outShipping');
+    if (cState !== '-') {
+      shRow.style.display = 'flex';
+      outSh.textContent   = shippingCharge === 0 ? 'FREE' : `+ ${fmt(shippingCharge)}`;
+      outSh.style.color   = shippingCharge === 0 ? 'var(--green)' : '';
+    } else {
+      shRow.style.display = 'none';
+    }
 
-      [...selectedIds].forEach(id => {
-        const p = PRODUCTS.find(x => x.id === id);
-        const qty = quantities[id] || 0;
-        if (qty <= 0) return;
-        const disc = discountFor(qty);
-        const sub = p.price * qty;
-        const discAmt = sub * disc / 100;
-        const net = sub - discAmt;
-        lineItems.push({ p, qty, sub, disc, discAmt, net });
-        totalSubtotal += sub;
-        totalDiscount += discAmt;
-      });
+    const gstRow = document.getElementById('gstRow');
+    if (includeGst) {
+      gstRow.style.display = 'flex';
+      document.getElementById('outGst').textContent = `+ ${fmt(gstAmount)}`;
+    } else {
+      gstRow.style.display = 'none';
+    }
 
-      const netValue = totalSubtotal - totalDiscount;
-
-      /* Shipping */
-      let shippingCharge = 0;
-      if (cState !== '-') {
-        const isMH = cState.toLowerCase().includes('maharashtra');
-        shippingCharge = isMH ? 40 : 80;
-        if (netValue >= 2000) shippingCharge = 0;
-      }
-
-      /* GST */
-      const gstAmount = includeGst ? netValue * 0.18 : 0;
-      const grandTotal = Number((netValue + gstAmount + shippingCharge).toFixed(2));
-
-      /* Update summary totals */
-      document.getElementById('outSubtotal').textContent = fmt(totalSubtotal);
-      document.getElementById('outDiscountAmt').textContent = totalDiscount > 0 ? `- ${fmt(totalDiscount)}` : '- ₹0';
-      document.getElementById('outNet').textContent = fmt(netValue);
-      document.getElementById('outTotal').textContent = fmt(grandTotal);
-
-      const shRow = document.getElementById('shippingRow');
-      const outSh = document.getElementById('outShipping');
-      if (cState !== '-') {
-        shRow.style.display = 'flex';
-        outSh.textContent = shippingCharge === 0 ? 'FREE' : `+ ${fmt(shippingCharge)}`;
-        outSh.style.color = shippingCharge === 0 ? 'var(--green)' : '';
-      } else {
-        shRow.style.display = 'none';
-      }
-
-      const gstRow = document.getElementById('gstRow');
-      if (includeGst) {
-        gstRow.style.display = 'flex';
-        document.getElementById('outGst').textContent = `+ ${fmt(gstAmount)}`;
-      } else {
-        gstRow.style.display = 'none';
-      }
-
-      /* Items table in quote */
-      const wrap = document.getElementById('itemsTableWrap');
-      if (lineItems.length === 0) {
-        wrap.innerHTML = `<div style="text-align:center;color:var(--ink-3);font-size:13px;padding:12px 0;">No products selected yet.</div>`;
-      } else {
-        wrap.innerHTML = `
+    /* Items table */
+    const wrap = document.getElementById('itemsTableWrap');
+    if (lineItems.length === 0) {
+      wrap.innerHTML = `<div style="text-align:center;color:var(--ink-3);font-size:13px;padding:12px 0;">No products selected yet.</div>`;
+    } else {
+      wrap.innerHTML = `
         <table class="q-items-table">
           <thead><tr>
             <th>Product</th><th>Qty</th><th>Unit</th><th>Net</th>
@@ -1422,35 +641,35 @@
               <tr>
                 <td>
                   <div class="td-name">${li.p.name}</div>
-                  <div class="td-sub">${li.p.code}${li.disc > 0 ? ` · <span style="color:var(--green)">${li.disc}% off</span>` : ''}</div>
+                  <div class="td-sub">${li.p.fixed ? li.p.fixedLabel : li.p.code + (li.disc > 0 ? ` · <span style="color:var(--green)">${li.disc}% off</span>` : '')}</div>
                 </td>
-                <td>${li.qty.toLocaleString('en-IN')}</td>
-                <td>${fmt(li.p.price)}</td>
+                <td>${li.p.fixed ? '1 kit' : li.qty.toLocaleString('en-IN')}</td>
+                <td>${li.p.fixed ? fmt(li.p.price)+'/kit' : fmt(li.p.price)}</td>
                 <td>${fmt(li.net)}</td>
               </tr>
             `).join('')}
           </tbody>
         </table>
       `;
-      }
+    }
 
-      /* UPI */
-      const upiVpa = '7385856545@ibl';
-      const merchant = 'Ambivert Electronics';
-      const upiNote = `Order ${[...selectedIds].map(id => id.substring(0, 4)).join('+')} ${cPincode.replace(/\D/g, '').substring(0, 6) || '000000'}`.substring(0, 50);
-      const upiParams = new URLSearchParams({ pa: upiVpa, pn: merchant, am: grandTotal.toFixed(2), cu: 'INR', tn: upiNote });
-      const upiString = `upi://pay?${upiParams.toString()}`;
-      document.getElementById('upiLink').href = upiString;
-      qrcodeContainer.clear();
-      if (grandTotal > 0) qrcodeContainer.makeCode(upiString);
+    /* UPI */
+    const upiVpa    = '7385856545@ibl';
+    const merchant  = 'Ambivert Electronics';
+    const upiNote   = `Order ${[...selectedIds].map(id => id.substring(0,4)).join('+')} ${cPincode.replace(/\D/g,'').substring(0,6)||'000000'}`.substring(0,50);
+    const upiParams = new URLSearchParams({ pa:upiVpa, pn:merchant, am:grandTotal.toFixed(2), cu:'INR', tn:upiNote });
+    const upiString = `upi://pay?${upiParams.toString()}`;
+    document.getElementById('upiLink').href = upiString;
+    qrcodeContainer.clear();
+    if (grandTotal > 0) qrcodeContainer.makeCode(upiString);
 
-      /* WhatsApp */
-      const itemLines = lineItems.map(li =>
-        `• ${li.p.name} (${li.p.code}) × ${li.qty.toLocaleString('en-IN')} pcs @ ${fmt(li.p.price)}/pc` +
-        (li.disc > 0 ? ` [-${li.disc}%]` : '') + ` = ${fmt(li.net)}`
-      ).join('\n');
+    /* WhatsApp */
+    const itemLines = lineItems.map(li =>
+      `• ${li.p.name} (${li.p.code}) × ${li.p.fixed ? '1 kit (70 pcs)' : li.qty.toLocaleString('en-IN') + ' pcs'} @ ${fmt(li.p.price)}/${li.p.fixed ? 'kit' : 'pc'}` +
+      (li.disc > 0 ? ` [-${li.disc}%]` : '') + ` = ${fmt(li.net)}`
+    ).join('\n');
 
-      const waMsg = `Hello Ambivert Electronics,
+    const waMsg = `Hello Ambivert Electronics,
 
 I would like to proceed with the following bulk order quotation.
 
@@ -1473,13 +692,12 @@ Grand Total: ${fmt(grandTotal)}
 
 Please share the next steps for confirmation and dispatch.`;
 
-      document.getElementById('waLink').href = `https://wa.me/919960160016?text=${encodeURIComponent(waMsg)}`;
-    }
+    document.getElementById('waLink').href = `https://wa.me/919960160016?text=${encodeURIComponent(waMsg)}`;
+  }
 
-    /* ── INIT ── */
-    renderGrid();
-    calculateQuote();
-  </script>
+  /* ── INIT ── */
+  renderGrid();
+  calculateQuote();
+</script>
 </body>
-
 </html>
