@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ══════════════════════════════════════════
+       HOME PAGE — highest priority, weekly check
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.ntagz.com/assets/og-image.jpg</image:loc>
+      <image:title>ntagz NFC Cards and RFID Tags India</image:title>
+      <image:caption>India's favourite NFC &amp; RFID product brand — smart business cards, tags, coins and labels</image:caption>
+    </image:image>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       ORDER / QUOTE — high commercial intent
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/quote.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       NFC PROGRAMMER TOOL — high utility page
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/programmer.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       NFC CHECK TOOL — high utility / SEO traffic
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/nfc-check.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       ABOUT — brand / trust page
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/about.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       TRACK ORDER — support utility
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/track.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       SHIPPING POLICY — policy / trust page
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/shipping.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════
+       TERMS / RETURNS — policy page
+  ══════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.ntagz.com/terms.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+</urlset>
