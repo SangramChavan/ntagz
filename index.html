@@ -1832,6 +1832,253 @@
       box-shadow: 0 8px 32px rgba(0, 122, 107, 0.06);
     }
 
+    /* ── TECH BADGE (NFC vs RFID — always visible, never mixed) ── */
+    .tech-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 3;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-family: var(--ff-head);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      backdrop-filter: blur(4px);
+    }
+
+    .tech-badge.tech-nfc {
+      background: rgba(255, 69, 0, 0.92);
+      color: #fff;
+    }
+
+    .tech-badge.tech-rfid {
+      background: rgba(0, 122, 107, 0.92);
+      color: #fff;
+    }
+
+    /* ── IMAGE FALLBACK ILLUSTRATIONS ──
+       Used automatically via onerror="imgFallback(this)" whenever a real
+       product photo (assets/*.jpg) is missing or fails to load, so the
+       grid never shows a broken-image icon. Drop the real photo into
+       /assets with the same filename and it will display instead. */
+    .prod-illo {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-img.img-fallback .prod-illo {
+      display: flex;
+    }
+
+    .product-img.img-fallback .img-carousel,
+    .product-img.img-fallback>.product-photo {
+      display: none !important;
+    }
+
+    .illo-shape {
+      transition: transform 0.5s var(--ease);
+    }
+
+    .product-card:hover .illo-shape {
+      transform: scale(1.08) rotate(-3deg);
+    }
+
+    .illo-card {
+      width: 132px;
+      height: 84px;
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+    }
+
+    .illo-card.illo-card-dark {
+      background: linear-gradient(135deg, #1A1714, #2D2420);
+    }
+
+    .illo-card.illo-card-light {
+      background: linear-gradient(145deg, #fff, #ECEADF);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .illo-card::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 30px;
+      height: 22px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #E8C44A, #B8962E);
+    }
+
+    .illo-card::after {
+      content: '))) ';
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      font-family: var(--ff-head);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: rgba(255, 69, 0, 0.55);
+    }
+
+    .illo-card.illo-card-dark::after {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .illo-disc {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fff, #E8E5DD);
+      border: 3px solid #D6D3CB;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-head);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--ink-3);
+      letter-spacing: 0.05em;
+    }
+
+    .illo-disc.illo-disc-metal {
+      border: 5px solid #9C9C9C;
+      background: #ECEADF;
+    }
+
+    .illo-disc.illo-disc-rfid {
+      border-color: rgba(0, 122, 107, 0.4);
+      color: var(--teal);
+    }
+
+    .illo-tag {
+      width: 80px;
+      height: 44px;
+      border-radius: 6px;
+      background: #fff;
+      border: 1.5px solid var(--paper);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-head);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--ink-3);
+    }
+
+    .illo-tag::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1.5px dashed rgba(255, 69, 0, 0.4);
+      border-radius: 3px;
+    }
+
+    .illo-tag.illo-tag-rfid::before {
+      border-color: rgba(0, 122, 107, 0.4);
+    }
+
+    .illo-label {
+      margin-top: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    .illo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── DUAL PRICE (blank vs printed) ── */
+    .price-options {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .price-opt {
+      flex: 1;
+      background: var(--warm);
+      border: 1px solid var(--paper);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .price-opt-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .price-opt-val {
+      font-family: var(--ff-head);
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .price-opt-val span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-3);
+    }
+
+    /* ── CUSTOM REQUEST / "NOT LISTED" CARD ── */
+    .product-card.custom-card {
+      border: 1.5px dashed rgba(74, 69, 64, 0.3);
+      background: var(--warm);
+      box-shadow: none;
+    }
+
+    .custom-card .product-img {
+      background: transparent;
+      height: auto;
+      padding: 36px 24px 0;
+    }
+
+    .custom-card .custom-icon-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .custom-card .custom-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px dashed var(--ink-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .custom-card .custom-plus {
+      font-family: var(--ff-head);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink-3);
+    }
+
     /* ── HOW IT WORKS ── */
     .how-section {
       background: var(--warm);
@@ -3152,18 +3399,19 @@
           <div class="sec-eyebrow">IN STOCK NOW</div>
           <h2 class="sec-head">Everything NFC & RFID.<br>Built for India.</h2>
           <p class="sec-sub">From smart business cards to micro FPC tags — we make the physical hardware that powers
-            contactless connections.</p>
+            contactless connections. NFC (13.56MHz, phone-readable) and RFID (UHF/HF, reader-based) are different
+            technologies — we keep them in separate tabs below so you order the right one.</p>
         </div>
 
         <div class="filter-tabs reveal" role="tablist" aria-label="Filter products by category">
           <button class="ftab active" onclick="filterProducts('all',this)" role="tab" aria-selected="true"
             aria-controls="productsGrid">All Products</button>
           <button class="ftab" onclick="filterProducts('nfc',this)" role="tab" aria-selected="false"
-            aria-controls="productsGrid">NFC Cards</button>
+            aria-controls="productsGrid">📱 NFC Cards</button>
           <button class="ftab" onclick="filterProducts('tag',this)" role="tab" aria-selected="false"
-            aria-controls="productsGrid">Tags, Coins & Stickers</button>
+            aria-controls="productsGrid">📱 NFC Tags, Coins & Stickers</button>
           <button class="ftab" onclick="filterProducts('rfid',this)" role="tab" aria-selected="false"
-            aria-controls="productsGrid">RFID</button>
+            aria-controls="productsGrid">📡 RFID</button>
           <button class="ftab" onclick="filterProducts('sample',this)" role="tab" aria-selected="false"
             aria-controls="productsGrid">🎁 Sample Kit</button>
         </div>
@@ -3200,7 +3448,7 @@
               <div class="product-name">Complete NFC Sample Kit</div>
               <div class="product-desc">
                 Not sure which product fits your use case? Get 10 pieces of every product in one box — Black Card, White
-                Card, Anti-Metal Tag, RFID Tag, NFC Coin, Mini Tag, and Micro Flex. Perfect for testing before placing a
+                Card, Anti-Metal Tag, NFC Tag, NFC Coin, Mini Tag, and Micro Flex. Perfect for testing before placing a
                 large bulk order.
               </div>
               <div class="product-meta">
@@ -3217,18 +3465,25 @@
           <!-- BLACK NFC CARD -->
           <div class="product-card" data-cat="nfc">
             <span class="product-badge badge-hot">🔥 BESTSELLER</span>
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-dark">
               <div class="img-carousel" data-carousel>
-                <img class="product-photo active" src="assets/NFC_Cards.jpg"
+                <img class="product-photo active" src="assets/NFC_Cards.jpg" onerror="imgFallback(this)"
                   alt="ntagz Black NFC PVC business card with gold chip, product photo" loading="lazy" width="400"
                   height="220" />
-                <img class="product-photo" src="assets/Ntag216_Card.jpeg"
+                <img class="product-photo" src="assets/Ntag216_Card.jpeg" onerror="imgFallback(this)"
                   alt="NTAG215/216 chip specification sheet printed on the back of the ntagz NFC card" loading="lazy"
                   width="400" height="220" />
                 <span class="carousel-label">Real Photo</span>
                 <div class="carousel-dots" role="tablist" aria-label="Black NFC card image gallery">
                   <button class="active" aria-label="Show product photo" onclick="setSlide(this,0)"></button>
                   <button aria-label="Show chip specifications" onclick="setSlide(this,1)"></button>
+                </div>
+              </div>
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-card illo-card-dark"></div>
+                  <div class="illo-label">Black PVC · NTAG215</div>
                 </div>
               </div>
             </div>
@@ -3252,17 +3507,24 @@
           <!-- WHITE NFC CARD -->
           <div class="product-card" data-cat="nfc">
             <span class="product-badge badge-dark">✦ CLASSIC</span>
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-light">
               <div class="img-carousel" data-carousel>
-                <img class="product-photo active" src="assets/NFC_Cards.jpg"
+                <img class="product-photo active" src="assets/NFC_Cards.jpg" onerror="imgFallback(this)"
                   alt="ntagz white PVC NFC business card, product photo" loading="lazy" width="400" height="220" />
-                <img class="product-photo" src="assets/Ntag216_Card.jpeg"
+                <img class="product-photo" src="assets/Ntag216_Card.jpeg" onerror="imgFallback(this)"
                   alt="NTAG216 chip specification sheet for ntagz white NFC card" loading="lazy" width="400"
                   height="220" />
                 <span class="carousel-label">Real Photo</span>
                 <div class="carousel-dots" role="tablist" aria-label="White NFC card image gallery">
                   <button class="active" aria-label="Show product photo" onclick="setSlide(this,0)"></button>
                   <button aria-label="Show chip specifications" onclick="setSlide(this,1)"></button>
+                </div>
+              </div>
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-card illo-card-light"></div>
+                  <div class="illo-label">White PVC · NTAG216</div>
                 </div>
               </div>
             </div>
@@ -3283,20 +3545,65 @@
             </div>
           </div>
 
+          <!-- WHITE BLANK NTAG215 — INKJET PRINTABLE (NEW) -->
+          <div class="product-card" data-cat="nfc">
+            <span class="product-badge badge-new">✦ NEW</span>
+            <span class="tech-badge tech-nfc">NFC</span>
+            <div class="product-img img-bg-light">
+              <img class="product-photo" src="assets/Ntag215_Blank_Inkjet.jpg" onerror="imgFallback(this)"
+                alt="ntagz white blank NTAG215 inkjet-printable PVC card, product photo" loading="lazy" width="400"
+                height="220" />
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-card illo-card-light"></div>
+                  <div class="illo-label">Inkjet Printable · NTAG215</div>
+                </div>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-tags"><span class="ptag">NFC</span><span class="ptag">NTAG215</span><span
+                  class="ptag">Inkjet Printable</span></div>
+              <div class="product-name">White Blank NTAG215 Card</div>
+              <div class="product-desc">Inkjet-printable white PVC card with NTAG215 chip — compatible with Epson
+                L8050 and other PVC-tray inkjet card printers. Order blank, or let us print your design in-house
+                before dispatch.</div>
+              <div class="product-meta">
+                <div class="price-options">
+                  <div class="price-opt">
+                    <div class="price-opt-label">Blank</div>
+                    <div class="price-opt-val">₹32.80<span> / card</span></div>
+                  </div>
+                  <div class="price-opt">
+                    <div class="price-opt-label">Printed by us</div>
+                    <div class="price-opt-val">₹50<span> / card</span></div>
+                  </div>
+                </div>
+                <div class="price-gst" style="margin-bottom:4px;">+GST · Min. 10 pcs</div>
+                <a href="quote.html" class="add-btn">Order Now →</a>
+              </div>
+            </div>
+          </div>
+
           <!-- ANTI-METAL TAG -->
           <div class="product-card" data-cat="tag">
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-tagz">
-              <img class="product-photo" src="assets/NFC-sticker-Tag.jpg"
+              <img class="product-photo" src="assets/NFC-sticker-Tag.jpg" onerror="imgFallback(this)"
                 alt="ntagz anti-metal NFC tag, round adhesive sticker product photo" loading="lazy" width="400"
                 height="220" />
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-disc illo-disc-metal">25mm</div>
+                  <div class="illo-label">Anti-Metal · NTAG213</div>
+                </div>
+              </div>
             </div>
             <div class="product-info">
               <div class="product-tags"><span class="ptag">NFC</span><span class="ptag">Anti-Metal</span><span
                   class="ptag">Adhesive</span></div>
               <div class="product-name">Anti-Metal NFC Tag</div>
               <div class="product-desc">Specialized tags with an isolating ferrite layer. Designed specifically to work
-                on
-                metal surfaces like machinery, laptops, and phones.</div>
+                on metal surfaces like machinery, laptops, and phones.</div>
               <div class="product-meta">
                 <div class="product-price">
                   <div class="price-from">Price</div>
@@ -3308,19 +3615,27 @@
             </div>
           </div>
 
-          <!-- RFID TAG (legacy NFC/RFID hybrid tag) -->
-          <div class="product-card" data-cat="rfid">
+          <!-- NTAG216 ADHESIVE NFC TAG (was mislabeled "216 NFC RFID Tag" — NTAG216 is an HF NFC chip,
+               not UHF RFID, so it belongs with NFC, not RFID. Renamed for accuracy. -->
+          <div class="product-card" data-cat="tag">
             <span class="product-badge badge-bulk">📦 BULK POPULAR</span>
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-teal">
-              <img class="product-photo" src="assets/NFC-sticker-Tag.jpg" alt="ntagz NFC RFID hang tag, product photo"
-                loading="lazy" width="400" height="220" />
+              <img class="product-photo" src="assets/NFC-sticker-Tag.jpg" onerror="imgFallback(this)"
+                alt="ntagz NTAG216 adhesive NFC hang tag, product photo" loading="lazy" width="400" height="220" />
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-tag">NTAG216</div>
+                  <div class="illo-label">Adhesive · High-Capacity</div>
+                </div>
+              </div>
             </div>
             <div class="product-info">
-              <div class="product-tags"><span class="ptag">RFID</span><span class="ptag">NTAG216</span><span
+              <div class="product-tags"><span class="ptag">NFC</span><span class="ptag">NTAG216</span><span
                   class="ptag">Asset Tracking</span></div>
-              <div class="product-name">216 NFC RFID Tag</div>
-              <div class="product-desc">High capacity NFC/RFID tags engineered for rapid inventory scanning and robust
-                data encoding for commercial tracking.</div>
+              <div class="product-name">NTAG216 Adhesive NFC Tag</div>
+              <div class="product-desc">High-capacity (888 byte) adhesive NFC tags, phone-readable up to a few cm.
+                Engineered for asset tagging, equipment logs and commercial tracking workflows.</div>
               <div class="product-meta">
                 <div class="product-price">
                   <div class="price-from">Price</div>
@@ -3332,21 +3647,28 @@
             </div>
           </div>
 
-          <!-- UHF RFID LABEL STICKER — NEW CATEGORY -->
+          <!-- UHF RFID LABEL STICKER — RFID ONLY, never mixed with NFC tabs -->
           <div class="product-card rfid-card" data-cat="rfid" id="rfid">
             <span class="product-badge" style="background:var(--teal);color:#fff;">📡 NEW · UHF RFID</span>
+            <span class="tech-badge tech-rfid">RFID</span>
             <div class="product-img img-bg-teal">
-              <img class="product-photo" src="assets/NFC21x11mm.jpeg"
-                alt="UHF RFID label sticker roll, 27 by 15mm, self adhesive, product photo" loading="lazy" width="400"
-                height="220" />
+              <img class="product-photo" src="assets/UHF_RFID_Sticker_27x15mm_KU7.jpg" onerror="imgFallback(this)"
+                alt="UHF RFID label sticker roll, 27 by 15mm, KU7 chip, self adhesive, product photo" loading="lazy"
+                width="400" height="220" />
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-tag illo-tag-rfid">KU7</div>
+                  <div class="illo-label">27×15mm · UHF EPC Gen2</div>
+                </div>
+              </div>
             </div>
             <div class="product-info">
               <div class="product-tags"><span class="ptag">UHF RFID</span><span class="ptag">EPC Gen2</span><span
                   class="ptag">KU7 Chip</span><span class="ptag">860–960MHz</span></div>
               <div class="product-name">UHF RFID Label Sticker 27×15mm</div>
               <div class="product-desc">Self-adhesive UHF RFID label with KU7 chip, EPC Gen2 protocol, 860–960MHz
-                frequency band and ~2m long read range. Supplied on a roll for high-speed inventory tracking and
-                warehouse scanning. Sold in packs of 10.</div>
+                frequency band and ~2m long read range. Reader-based only — not readable by phone NFC. Supplied on a
+                roll for high-speed inventory tracking and warehouse scanning. Sold in packs of 10.</div>
               <div class="product-meta">
                 <div class="product-price">
                   <div class="price-from">Price</div>
@@ -3360,16 +3682,23 @@
 
           <!-- NFC COIN -->
           <div class="product-card" data-cat="tag">
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-light">
               <div class="img-carousel" data-carousel>
-                <img class="product-photo active" src="assets/NFC_coin.jpg"
+                <img class="product-photo active" src="assets/NFC_coin.jpg" onerror="imgFallback(this)"
                   alt="ntagz NFC coin, 25mm round tag, product photo" loading="lazy" width="400" height="220" />
-                <img class="product-photo" src="assets/Ntag215_coin.jpeg"
+                <img class="product-photo" src="assets/Ntag215_coin.jpeg" onerror="imgFallback(this)"
                   alt="NTAG215 chip specification sheet for ntagz NFC coin" loading="lazy" width="400" height="220" />
                 <span class="carousel-label">Real Photo</span>
                 <div class="carousel-dots" role="tablist" aria-label="NFC coin image gallery">
                   <button class="active" aria-label="Show product photo" onclick="setSlide(this,0)"></button>
                   <button aria-label="Show chip specifications" onclick="setSlide(this,1)"></button>
+                </div>
+              </div>
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-disc">25mm</div>
+                  <div class="illo-label">NFC Coin · NTAG215</div>
                 </div>
               </div>
             </div>
@@ -3378,8 +3707,7 @@
                   class="ptag">NTAG215</span></div>
               <div class="product-name">NTAG 215 Coin 25mm</div>
               <div class="product-desc">Highly durable, 25mm coin-shaped NFC tags. Great for inventory management,
-                outdoor
-                tracking, and embedding directly into physical objects.</div>
+                outdoor tracking, and embedding directly into physical objects.</div>
               <div class="product-meta">
                 <div class="product-price">
                   <div class="price-from">Price</div>
@@ -3394,9 +3722,16 @@
           <!-- MINI TAG -->
           <div class="product-card" data-cat="tag">
             <span class="product-badge badge-new">✦ NEW</span>
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-tagz">
-              <img class="product-photo" src="assets/NFC21x11mm.jpeg" alt="ntagz mini NFC tag 21x11mm, product photo"
-                loading="lazy" width="400" height="220" />
+              <img class="product-photo" src="assets/NFC21x11mm.jpeg" onerror="imgFallback(this)"
+                alt="ntagz mini NFC tag 21x11mm, product photo" loading="lazy" width="400" height="220" />
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape illo-tag" style="width:60px;height:32px;">21×11mm</div>
+                  <div class="illo-label">Mini · NTAG213</div>
+                </div>
+              </div>
             </div>
             <div class="product-info">
               <div class="product-tags"><span class="ptag">NFC</span><span class="ptag">Mini</span><span
@@ -3418,9 +3753,18 @@
           <!-- MICRO FLEX -->
           <div class="product-card" data-cat="tag">
             <span class="product-badge badge-hot">🔬 MICRO TECH</span>
+            <span class="tech-badge tech-nfc">NFC</span>
             <div class="product-img img-bg-teal">
-              <img class="product-photo" src="assets/NFC-sticker-Tag.jpg"
+              <img class="product-photo" src="assets/NFC-sticker-Tag.jpg" onerror="imgFallback(this)"
                 alt="ntagz micro flex FPC NFC tag, product photo" loading="lazy" width="400" height="220" />
+              <div class="prod-illo">
+                <div class="illo-wrap">
+                  <div class="illo-shape"
+                    style="width:22px;height:46px;border-radius:3px;background:linear-gradient(145deg,#DE9C32,#C48520);box-shadow:0 8px 18px rgba(0,0,0,0.2);">
+                  </div>
+                  <div class="illo-label">Micro Flex FPC</div>
+                </div>
+              </div>
             </div>
             <div class="product-info">
               <div class="product-tags"><span class="ptag">Flex FPC</span><span class="ptag">Multi-Size</span><span
@@ -3435,6 +3779,30 @@
                   <div class="price-gst">+GST · Min. 10 pcs</div>
                 </div>
                 <a href="quote.html" class="add-btn">Order Now →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- CUSTOM / NOT LISTED — open to NFC & RFID opportunities beyond the catalogue -->
+          <div class="product-card custom-card" data-cat="always">
+            <div class="product-img">
+              <div class="custom-icon-row">
+                <div class="custom-icon">📱</div>
+                <div class="custom-plus">+</div>
+                <div class="custom-icon">📡</div>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-tags"><span class="ptag">Custom NFC</span><span class="ptag">Custom RFID</span><span
+                  class="ptag">OEM &amp; Bulk</span></div>
+              <div class="product-name">Don't see what you need?</div>
+              <div class="product-desc">The NFC & RFID market moves fast — new chip types, form factors and
+                frequencies launch every year, and not everything is on this page yet. Wristbands, keyfobs, HF
+                RFID, custom inlays, specific chip families (NTAG21x, ICODE, MIFARE, EPC Gen2 and more) — if you
+                have a use case we don't list, tell us. We regularly onboard new SKUs for bulk and OEM orders.</div>
+              <div class="product-meta">
+                <a href="https://wa.me/919960160016?text=Hi%20ntagz!%20I'm%20looking%20for%20an%20NFC%2FRFID%20product%20that's%20not%20on%20your%20website.%20Can%20we%20discuss%3F"
+                  target="_blank" rel="noopener noreferrer" class="add-btn-wa">Discuss your requirement →</a>
               </div>
             </div>
           </div>
