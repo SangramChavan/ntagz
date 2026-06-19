@@ -404,6 +404,87 @@
       margin-bottom: 20px;
     }
 
+    /* CATEGORY TOGGLE — NFC / RFID segmented control */
+    .cat-toggle {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      max-width: 280px;
+      background: var(--warm);
+      border: 1.5px solid var(--paper);
+      border-radius: 999px;
+      padding: 4px;
+      margin-bottom: 14px;
+      gap: 0;
+    }
+
+    .cat-tab-slider {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: calc(50% - 4px);
+      height: calc(100% - 8px);
+      background: #fff;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .1), 0 0 0 1px rgba(255, 69, 0, .12);
+      transition: transform .32s var(--ease);
+      z-index: 0;
+    }
+
+    .cat-toggle.rfid-active .cat-tab-slider {
+      transform: translateX(100%);
+    }
+
+    .cat-tab {
+      position: relative;
+      z-index: 1;
+      border: none;
+      background: transparent;
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: .02em;
+      color: var(--ink-3);
+      padding: 9px 0;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color .25s var(--ease);
+    }
+
+    .cat-tab.active {
+      color: var(--tagz);
+    }
+
+    .cat-tab:hover:not(.active) {
+      color: var(--ink-2);
+    }
+
+    /* PRODUCT GRID — smooth filter transition */
+    .product-grid {
+      transition: opacity .2s var(--ease);
+    }
+
+    .product-grid.switching {
+      opacity: 0;
+    }
+
+    .prod-card {
+      animation: prodFadeIn .35s var(--ease);
+    }
+
+    @keyframes prodFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* PRODUCT GRID — responsive horizontal scroll guard */
     .product-grid {
       display: grid;
@@ -1746,7 +1827,411 @@
     </div>
   </nav>
 
-  <section>
+  <!-- ════════════════════════════════════════
+       TAP HERO — dark tech-forward hero section
+  ════════════════════════════════════════ -->
+  <style>
+    .tap-hero {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 80% 0%, rgba(56, 189, 248, .18), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 10% 100%, rgba(168, 85, 247, .16), transparent 60%),
+        linear-gradient(180deg, #06070d 0%, #0a0e1a 60%, #0c1020 100%);
+      padding: 64px 0 88px;
+      isolation: isolate;
+    }
+
+    .tap-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black, transparent 80%);
+      pointer-events: none;
+    }
+
+    .tap-hero .wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    @media (max-width: 880px) {
+      .tap-hero .wrap {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    .tap-hero-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+    }
+
+    .tap-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-family: var(--ff-body);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: #a5e9ff;
+      background: rgba(56, 189, 248, .1);
+      border: 1px solid rgba(56, 189, 248, .35);
+      box-shadow: 0 0 24px rgba(56, 189, 248, .15);
+    }
+
+    .tap-h1 {
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -.02em;
+      color: #f5f7fb;
+      margin: 0;
+    }
+
+    .tap-h1 .grad {
+      background: linear-gradient(92deg, #38bdf8 0%, #a855f7 55%, #38bdf8 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: tapGradShift 6s ease-in-out infinite;
+    }
+
+    @keyframes tapGradShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .tap-sub {
+      font-family: var(--ff-body);
+      font-size: 18px;
+      line-height: 1.6;
+      color: #aab2c5;
+      max-width: 540px;
+      font-weight: 400;
+    }
+
+    .tap-ctas {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .tap-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 30px;
+      border-radius: 14px;
+      font-family: var(--ff-body);
+      font-weight: 700;
+      font-size: 16px;
+      color: #06070d;
+      background: linear-gradient(92deg, #38bdf8, #a855f7);
+      box-shadow: 0 8px 30px rgba(56, 189, 248, .35), 0 4px 14px rgba(168, 85, 247, .25);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+    }
+
+    .tap-btn-primary:hover {
+      transform: translateY(-2px) scale(1.035);
+      box-shadow: 0 12px 38px rgba(56, 189, 248, .45), 0 6px 18px rgba(168, 85, 247, .32);
+    }
+
+    .tap-btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--ff-body);
+      font-weight: 600;
+      font-size: 15.5px;
+      color: #e7eaf3;
+      text-decoration: none;
+      padding: 14px 6px;
+      border-bottom: 1px solid transparent;
+      transition: border-color .25s var(--ease), color .25s var(--ease), gap .25s var(--ease);
+    }
+
+    .tap-btn-ghost:hover {
+      border-color: rgba(255, 255, 255, .45);
+      color: #ffffff;
+      gap: 13px;
+    }
+
+    .tap-btn-ghost .play {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .25);
+      flex-shrink: 0;
+    }
+
+    .tap-social {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .tap-stars {
+      display: flex;
+      gap: 2px;
+      color: #fbbf24;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    .tap-social-text {
+      font-family: var(--ff-body);
+      font-size: 13.5px;
+      color: #8b93a8;
+      font-weight: 500;
+    }
+
+    /* ── RIGHT: VISUAL HOOK ── */
+    .tap-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 420px;
+    }
+
+    .tap-ripple-stage {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tap-ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid rgba(56, 189, 248, .55);
+      animation: tapRipple 2.8s var(--ease) infinite;
+    }
+
+    .tap-ripple:nth-child(2) {
+      animation-delay: .7s;
+      border-color: rgba(168, 85, 247, .5);
+    }
+
+    .tap-ripple:nth-child(3) {
+      animation-delay: 1.4s;
+    }
+
+    @keyframes tapRipple {
+      0% {
+        width: 60px;
+        height: 60px;
+        opacity: .9;
+      }
+
+      100% {
+        width: 380px;
+        height: 380px;
+        opacity: 0;
+      }
+    }
+
+    .tap-card-3d {
+      position: relative;
+      z-index: 2;
+      width: 200px;
+      height: 126px;
+      border-radius: 16px;
+      background: linear-gradient(150deg, #1c2030 0%, #11131e 100%);
+      border: 1px solid rgba(255, 255, 255, .12);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(56, 189, 248, .08) inset,
+        0 0 50px rgba(56, 189, 248, .18);
+      transform: rotate(-9deg);
+      animation: tapFloat 5s ease-in-out infinite;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    @keyframes tapFloat {
+
+      0%,
+      100% {
+        transform: rotate(-9deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(-7deg) translateY(-12px);
+      }
+    }
+
+    .tap-card-3d .chip {
+      width: 30px;
+      height: 22px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #38bdf8, #a855f7);
+      opacity: .9;
+    }
+
+    .tap-card-3d .wave {
+      align-self: flex-end;
+      font-size: 16px;
+      opacity: .8;
+    }
+
+    .tap-card-3d .name {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 700;
+      color: #e7eaf3;
+      letter-spacing: .04em;
+    }
+
+    .tap-phone {
+      position: absolute;
+      right: -6px;
+      bottom: -8px;
+      z-index: 3;
+      width: 92px;
+      height: 188px;
+      border-radius: 24px;
+      background: linear-gradient(160deg, #2a2e3d, #14161f);
+      border: 2px solid rgba(255, 255, 255, .15);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, .6);
+      transform: rotate(8deg);
+      animation: tapPhoneFloat 5s ease-in-out infinite .3s;
+    }
+
+    @keyframes tapPhoneFloat {
+
+      0%,
+      100% {
+        transform: rotate(8deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(10deg) translateY(-10px);
+      }
+    }
+
+    .tap-phone::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 16px;
+      background: linear-gradient(200deg, rgba(56, 189, 248, .25), rgba(168, 85, 247, .15));
+    }
+
+    .tap-glow-dot {
+      position: absolute;
+      top: 10%;
+      left: 6%;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, .5), transparent 70%);
+      filter: blur(6px);
+      animation: tapFloat 6s ease-in-out infinite;
+    }
+
+    @media (max-width: 880px) {
+      .tap-hero {
+        padding: 48px 0 56px;
+        text-align: left;
+      }
+
+      .tap-hero-copy {
+        align-items: flex-start;
+      }
+
+      .tap-visual {
+        min-height: 320px;
+        margin-top: 8px;
+      }
+    }
+  </style>
+
+  <section class="tap-hero" aria-label="Order custom NFC tags — hero">
+    <div class="wrap">
+      <div class="tap-hero-copy">
+        <span class="tap-eyebrow">⚡ THE FUTURE OF CONNECTIVITY</span>
+        <h1 class="tap-h1">Unlock the Power of a<br><span class="grad">Single Tap.</span></h1>
+        <p class="tap-sub">Connect, share, and automate instantly. Design and order premium custom NFC tags
+          tailored for your business, events, or personal brand. No app required.</p>
+
+        <div class="tap-ctas">
+          <a href="#products" class="tap-btn-primary">
+            Customize Your Tags
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="index.html#how-it-works" class="tap-btn-ghost">
+            <span class="play" aria-hidden="true">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 1.5L10 6L2.5 10.5V1.5Z" fill="#e7eaf3" />
+              </svg>
+            </span>
+            See How It Works
+          </a>
+        </div>
+
+        <div class="tap-social" aria-label="Customer trust rating">
+          <span class="tap-stars" aria-hidden="true">★★★★★</span>
+          <span class="tap-social-text">Trusted by 10,000+ modern brands.</span>
+        </div>
+      </div>
+
+      <div class="tap-visual">
+        <div class="tap-ripple-stage">
+          <div class="tap-ripple"></div>
+          <div class="tap-ripple"></div>
+          <div class="tap-ripple"></div>
+          <div class="tap-glow-dot" aria-hidden="true"></div>
+          <div class="tap-card-3d" role="img" aria-label="Custom NFC card mockup">
+            <div class="chip" aria-hidden="true"></div>
+            <div class="name">YOUR BRAND</div>
+            <div class="wave" aria-hidden="true">))) </div>
+          </div>
+          <div class="tap-phone" role="img" aria-label="Smartphone tapping the NFC card" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="products">
     <div class="wrap">
       <div class="page-header">
         <h1>Order Now</h1>
@@ -1761,6 +2246,13 @@
 
           <div class="form-group">
             <div class="section-label">Choose Products (Select Multiple)</div>
+            <div class="cat-toggle" id="catToggle" role="tablist" aria-label="Filter products by technology">
+              <button type="button" class="cat-tab active" data-cat="nfc" role="tab" aria-selected="true"
+                onclick="setCategory('nfc')">NFC</button>
+              <button type="button" class="cat-tab" data-cat="rfid" role="tab" aria-selected="false"
+                onclick="setCategory('rfid')">RFID</button>
+              <span class="cat-tab-slider" aria-hidden="true"></span>
+            </div>
             <div class="product-grid" id="productGrid"></div>
           </div>
 
@@ -2117,18 +2609,27 @@
   <script>
     /* ── PRODUCT DATA ── */
     const PRODUCTS = [
-      { id: 'black-card', code: 'BNC30', name: 'Black NFC Card 215', price: 30, emoji: '🖤' },
-      { id: 'white-card', code: 'WNC25', name: 'White NFC Card 216', price: 25, emoji: '🤍' },
-      { id: 'anti-metal', code: 'MNT20', name: 'Anti-Metal NFC Tag', price: 20, emoji: '🔩' },
-      { id: 'rfid-tag', code: 'RNT18', name: 'Round NFC Tag 216', price: 18, emoji: '📡' },
-      { id: 'nfc-coin', code: 'WNC15', name: 'White NFC Coin 215', price: 15, emoji: '🪙' },
-      { id: 'mini-tag', code: 'MNT11', name: 'Mini NFC Tag (Jewel)', price: 11, emoji: '💎' },
-      { id: 'flex-nfc', code: 'FNT75', name: 'Flex NFC Tag (Micro)', price: 75, emoji: '⚡' },
+      { id: 'black-card', code: 'BNC30', name: 'Black NFC 215 Card', price: 30, emoji: '🖤', category: 'nfc' },
+      { id: 'white-card', code: 'WNC25', name: 'PVC NFC Business Card NTAG216', price: 30, emoji: '🤍', category: 'nfc' },
+      { id: 'blank-card', code: 'WBC33', name: 'White Inkjet NTAG215 Card', price: 32.80, emoji: '⬜', category: 'nfc' },
+      { id: 'anti-metal', code: 'MNT20', name: 'Anti-Metal NFC Tag', price: 20, emoji: '🔩', category: 'nfc' },
+      { id: 'rfid-tag', code: 'RNT18', name: 'NTAG216 Adhesive NFC Tag', price: 18, emoji: '📡', category: 'nfc' },
+      { id: 'nfc-coin', code: 'WNC15', name: 'NTAG 215 Coin 25mm', price: 15, emoji: '🪙', category: 'nfc' },
+      { id: 'mini-tag', code: 'MNT11', name: 'Mini NFC Tag (3D Printing / Jewellery)', price: 11, emoji: '💎', category: 'nfc' },
+      { id: 'flex-nfc', code: 'FNT75', name: 'Micro Flex NFC Tag (FPC)', price: 75, emoji: '⚡', category: 'nfc' },
+      { id: 'uhf-rfid', code: 'URL25', name: 'UHF RFID Label Sticker 27×15mm', price: 25, emoji: '🏷️', category: 'rfid' },
       {
-        id: 'sample-kit', code: 'SMPL', name: 'Complete Sample Kit', price: 1599, emoji: '🎁',
-        fixed: true, fixedQty: 70, fixedLabel: '1 kit · 70 pcs · All 7 types'
+        id: 'inkjet-print', code: 'INK50', name: 'NFC Custom Printing Service', price: 50, emoji: '🖨️',
+        category: 'both'
+      },
+      {
+        id: 'sample-kit', code: 'SMPL', name: 'Complete NFC Sample Kit', price: 1940, emoji: '🎁',
+        fixed: true, fixedQty: 70, fixedLabel: '1 kit · 70 pcs · All types', category: 'nfc'
       },
     ];
+
+    /* Active category filter: 'nfc' | 'rfid' */
+    let activeCategory = 'nfc';
 
     /* State */
     let selectedIds = new Set();
@@ -2167,7 +2668,8 @@
     /* ── RENDER PRODUCT GRID ── */
     function renderGrid() {
       const grid = document.getElementById('productGrid');
-      grid.innerHTML = PRODUCTS.map(p => `
+      const visible = PRODUCTS.filter(p => p.category === activeCategory || p.category === 'both');
+      grid.innerHTML = visible.map(p => `
       <div class="prod-card ${p.fixed ? 'bundle-card' : ''} ${selectedIds.has(p.id) ? 'selected' : ''}"
            onclick="toggleProduct('${p.id}')" data-id="${p.id}">
         <div class="check">
@@ -2179,6 +2681,27 @@
         <div class="prod-price">₹${p.price.toLocaleString('en-IN')}<span>/${p.fixed ? 'kit' : 'pc'}</span></div>
       </div>
     `).join('');
+    }
+
+    /* ── CATEGORY TOGGLE (NFC / RFID) ── */
+    function setCategory(cat) {
+      if (cat === activeCategory) return;
+      activeCategory = cat;
+
+      const toggle = document.getElementById('catToggle');
+      toggle.classList.toggle('rfid-active', cat === 'rfid');
+      toggle.querySelectorAll('.cat-tab').forEach(btn => {
+        const isActive = btn.dataset.cat === cat;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      const grid = document.getElementById('productGrid');
+      grid.classList.add('switching');
+      setTimeout(() => {
+        renderGrid();
+        grid.classList.remove('switching');
+      }, 180);
     }
 
     /* ── RENDER SELECTED ITEMS (qty inputs) ── */
