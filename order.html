@@ -3004,8 +3004,8 @@
       }
 
       /* ── UPI ── */
-      const upiVpa = '7385856545@ibl';
-      const merchant = 'Ambivert Electronics';
+      const upiVpa = '87222401@ubin';
+      const merchant = 'Sanjivani Chavan';
       const upiNote = `Order ${[...selectedIds].map(id => id.substring(0, 4)).join('+')} ${cPincode.replace(/\D/g, '').substring(0, 6) || '000000'}`.substring(0, 50);
       const upiParams = new URLSearchParams({ pa: upiVpa, pn: merchant, am: grandTotal.toFixed(2), cu: 'INR', tn: upiNote });
       const upiString = `upi://pay?${upiParams.toString()}`;
@@ -3023,7 +3023,7 @@
         ? `GST (18%): + ${fmt(gstAmount)}\n  CGST (9%): ${fmt(cgst)}\n  SGST (9%): ${fmt(sgst)}`
         : `GST: Not Applied`;
 
-      const waMsg = `Hello Ambivert Electronics,
+      const waMsg = `Hello,
 
 I would like to proceed with the following bulk order quotation.
 
