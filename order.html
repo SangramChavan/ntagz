@@ -1835,8 +1835,8 @@
     .tap-hero {
       position: relative;
       overflow: hidden;
-      background: radial-gradient(ellipse 80% 60% at 80% 0%, rgba(56, 189, 248, .18), transparent 60%),
-        radial-gradient(ellipse 60% 50% at 10% 100%, rgba(168, 85, 247, .16), transparent 60%),
+      background: radial-gradient(ellipse 80% 60% at 80% 0%, rgba(255, 69, 0, .18), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 10% 100%, rgba(200, 150, 12, .16), transparent 60%),
         linear-gradient(180deg, #06070d 0%, #0a0e1a 60%, #0c1020 100%);
       padding: 64px 0 88px;
       isolation: isolate;
@@ -1887,10 +1887,10 @@
       font-size: 12.5px;
       font-weight: 700;
       letter-spacing: .06em;
-      color: #a5e9ff;
-      background: rgba(56, 189, 248, .1);
-      border: 1px solid rgba(56, 189, 248, .35);
-      box-shadow: 0 0 24px rgba(56, 189, 248, .15);
+      color: #FFCBAF;
+      background: rgba(255, 69, 0, .1);
+      border: 1px solid rgba(255, 69, 0, .35);
+      box-shadow: 0 0 24px rgba(255, 69, 0, .15);
     }
 
     .tap-h1 {
@@ -1904,7 +1904,7 @@
     }
 
     .tap-h1 .grad {
-      background: linear-gradient(92deg, #38bdf8 0%, #a855f7 55%, #38bdf8 100%);
+      background: linear-gradient(92deg, #FF4500 0%, #C8960C 55%, #FF4500 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
@@ -1951,8 +1951,8 @@
       font-weight: 700;
       font-size: 16px;
       color: #06070d;
-      background: linear-gradient(92deg, #38bdf8, #a855f7);
-      box-shadow: 0 8px 30px rgba(56, 189, 248, .35), 0 4px 14px rgba(168, 85, 247, .25);
+      background: linear-gradient(92deg, #FF4500, #C8960C);
+      box-shadow: 0 8px 30px rgba(255, 69, 0, .35), 0 4px 14px rgba(200, 150, 12, .25);
       text-decoration: none;
       border: none;
       cursor: pointer;
@@ -1961,7 +1961,7 @@
 
     .tap-btn-primary:hover {
       transform: translateY(-2px) scale(1.035);
-      box-shadow: 0 12px 38px rgba(56, 189, 248, .45), 0 6px 18px rgba(168, 85, 247, .32);
+      box-shadow: 0 12px 38px rgba(255, 69, 0, .45), 0 6px 18px rgba(200, 150, 12, .32);
     }
 
     .tap-btn-ghost {
@@ -2040,13 +2040,13 @@
     .tap-ripple {
       position: absolute;
       border-radius: 50%;
-      border: 1.5px solid rgba(56, 189, 248, .55);
+      border: 1.5px solid rgba(255, 69, 0, .55);
       animation: tapRipple 2.8s var(--ease) infinite;
     }
 
     .tap-ripple:nth-child(2) {
       animation-delay: .7s;
-      border-color: rgba(168, 85, 247, .5);
+      border-color: rgba(200, 150, 12, .5);
     }
 
     .tap-ripple:nth-child(3) {
@@ -2075,8 +2075,8 @@
       border-radius: 16px;
       background: linear-gradient(150deg, #1c2030 0%, #11131e 100%);
       border: 1px solid rgba(255, 255, 255, .12);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(56, 189, 248, .08) inset,
-        0 0 50px rgba(56, 189, 248, .18);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 69, 0, .08) inset,
+        0 0 50px rgba(255, 69, 0, .18);
       transform: rotate(-9deg);
       animation: tapFloat 5s ease-in-out infinite;
       padding: 16px;
@@ -2101,7 +2101,7 @@
       width: 30px;
       height: 22px;
       border-radius: 4px;
-      background: linear-gradient(135deg, #38bdf8, #a855f7);
+      background: linear-gradient(135deg, #FF4500, #C8960C);
       opacity: .9;
     }
 
@@ -2151,7 +2151,7 @@
       position: absolute;
       inset: 8px;
       border-radius: 16px;
-      background: linear-gradient(200deg, rgba(56, 189, 248, .25), rgba(168, 85, 247, .15));
+      background: linear-gradient(200deg, rgba(255, 69, 0, .25), rgba(200, 150, 12, .15));
     }
 
     .tap-glow-dot {
@@ -2161,7 +2161,7 @@
       width: 70px;
       height: 70px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(56, 189, 248, .5), transparent 70%);
+      background: radial-gradient(circle, rgba(255, 69, 0, .5), transparent 70%);
       filter: blur(6px);
       animation: tapFloat 6s ease-in-out infinite;
     }
@@ -2259,6 +2259,8 @@
 
           <div class="form-group" id="selectedSection" style="display:none;">
             <div class="section-label">Set Quantities</div>
+            <div style="font-size:12px;color:var(--ink-3);font-weight:500;margin-bottom:8px;">Minimum order quantity
+              (MOQ) is <b style="color:var(--ink-2);">10 pcs</b> per product.</div>
             <div class="selected-items" id="selectedItems"></div>
           </div>
 
@@ -2266,12 +2268,12 @@
             👆 Select at least one product above to get started
           </div>
 
-          <!-- GST Toggle -->
+          <!-- GST Mandatory Notice (18% GST is compulsory on every order, cannot be disabled) -->
           <div class="form-group">
-            <label class="checkbox-group">
-              <input type="checkbox" id="gstCheck" checked onchange="toggleGstField();calculateQuote()">
-              <span>Include 18% GST &nbsp;<span style="color:var(--ink-3);font-weight:400;">(Required for Input Tax
-                  Credit)</span></span>
+            <label class="checkbox-group" style="cursor:default;">
+              <input type="checkbox" id="gstCheck" checked disabled aria-disabled="true">
+              <span>18% GST is mandatory on all orders &nbsp;<span
+                  style="color:var(--ink-3);font-weight:400;">(cannot be removed — required by law)</span></span>
             </label>
           </div>
 
@@ -2326,6 +2328,7 @@
 
           <div class="tier-guide">
             <h4>Auto-Applied Bulk Tiers (per item)</h4>
+            <div class="tier-row"><span>10 – 499 pcs</span><b>MOQ · No discount</b></div>
             <div class="tier-row"><span>500 – 999 pcs</span><b>10% OFF</b></div>
             <div class="tier-row"><span>1,000 – 4,999 pcs</span><b>25% OFF</b></div>
             <div class="tier-row"><span>5,000 – 9,999 pcs</span><b>40% OFF</b></div>
@@ -2736,8 +2739,8 @@
             ${p.fixed
             ? `<div class="fixed-qty-label">Fixed · 1 kit</div>`
             : `<button class="qty-btn" onclick="adjustQty('${id}',-1)">−</button>
-                 <input class="qty-input" type="number" min="0" value="${qty}"
-                        oninput="setQty('${id}',this.value)" id="qty-${id}">
+                 <input class="qty-input" type="number" min="10" step="1" value="${qty}"
+                        oninput="setQty('${id}',this.value)" onblur="enforceMoq('${id}')" id="qty-${id}">
                  <button class="qty-btn" onclick="adjustQty('${id}',1)">+</button>`
           }
           </div>
@@ -2755,17 +2758,19 @@
       } else {
         selectedIds.add(id);
         const p = PRODUCTS.find(x => x.id === id);
-        if (!p.fixed && !quantities[id]) quantities[id] = 10;
+        if (!p.fixed && !quantities[id]) quantities[id] = MOQ;
       }
       renderGrid();
       renderSelectedItems();
       calculateQuote();
     }
 
-    /* ── QTY CONTROLS ── */
+    /* ── QTY CONTROLS (MOQ = 10 pcs per product) ── */
+    const MOQ = 10;
+
     function adjustQty(id, delta) {
-      const current = quantities[id] || 0;
-      quantities[id] = Math.max(0, current + delta);
+      const current = quantities[id] || MOQ;
+      quantities[id] = Math.max(MOQ, current + delta);
       const inp = document.getElementById('qty-' + id);
       if (inp) inp.value = quantities[id];
       updateItemTotal(id);
@@ -2773,9 +2778,22 @@
     }
 
     function setQty(id, val) {
-      quantities[id] = Math.max(0, parseInt(val, 10) || 0);
+      // Allow free typing (so users can type multi-digit numbers), but never let it go negative.
+      const parsed = parseInt(val, 10);
+      quantities[id] = isNaN(parsed) ? 0 : Math.max(0, parsed);
       updateItemTotal(id);
       calculateQuote();
+    }
+
+    function enforceMoq(id) {
+      // Snap back up to the MOQ once the user leaves the field if they typed below it.
+      if ((quantities[id] || 0) < MOQ) {
+        quantities[id] = MOQ;
+        const inp = document.getElementById('qty-' + id);
+        if (inp) inp.value = MOQ;
+        updateItemTotal(id);
+        calculateQuote();
+      }
     }
 
     function updateItemTotal(id) {
@@ -2859,7 +2877,8 @@
 
     /* ── MAIN CALCULATE ── */
     function calculateQuote() {
-      const includeGst = document.getElementById('gstCheck').checked;
+      // GST is mandatory on every order — always applied, regardless of any checkbox state.
+      const includeGst = true;
       const cName = sanitize(document.getElementById('customerName').value, 60) || '—';
       const cNumber = sanitize(document.getElementById('customerNumber').value, 20) || '—';
       const cAddress = sanitize(document.getElementById('customerAddress').value, 120) || '—';
