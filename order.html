@@ -3062,7 +3062,7 @@
       }
 
       /* ── UPI ── */
-      const upiVpa = '87222401@ubin';
+      const upiVpa = '9960160016@superyes';
       const merchant = 'Sanjivani Chavan';
       const upiNote = `Order ${[...selectedIds].map(id => id.substring(0, 4)).join('+')} ${cPincode.replace(/\D/g, '').substring(0, 6) || '000000'}`.substring(0, 50);
       const upiParams = new URLSearchParams({ pa: upiVpa, pn: merchant, am: grandTotal.toFixed(2), cu: 'INR', tn: upiNote });
