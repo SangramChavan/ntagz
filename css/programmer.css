@@ -1,0 +1,487 @@
+/* ── DESIGN TOKENS ── */
+
+    /* ── WHATSAPP FLOATING ── */
+    .wa-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s;
+      animation: waPulse 3s ease-in-out infinite;
+    }
+
+    .wa-float:hover {
+      transform: scale(1.15) rotate(-5deg);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+    }
+
+    .wa-float svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    @keyframes waPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45), 0 0 0 0 rgba(37, 211, 102, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45), 0 0 0 12px rgba(37, 211, 102, 0);
+      }
+    }
+
+    /* ── TOP STRIP ── */
+
+    /* ── STICKY NAVIGATION HEADER ── */
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--tagz);
+      transition: width 0.3s var(--ease);
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ── GLOBAL ACTIONS BUTTONS ── */
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--paper);
+      color: var(--ink);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--ink);
+      background: var(--warm);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      max-width: 1320px;
+      margin: auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    section {
+      padding: 80px 0;
+      flex: 1;
+    }
+
+    .sec-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--ff-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--tagz);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .sec-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--tagz);
+      border-radius: 999px;
+    }
+
+    .sec-head {
+      font-family: var(--ff-head);
+      font-size: clamp(36px, 8vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .sec-head em {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--tagz);
+      letter-spacing: -0.02em;
+    }
+
+    .sec-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      margin-bottom: 40px;
+      max-width: 650px;
+      font-weight: 400;
+    }
+
+    /* ── NFC PROGRAMMER TOOL ── */
+    .tool-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      background: #fff;
+      border: 1px solid var(--paper);
+      border-radius: var(--r-xl);
+      padding: 32px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.03);
+    }
+
+    @media (min-width: 900px) {
+      .tool-container {
+        grid-template-columns: 1fr 1fr;
+        padding: 48px;
+      }
+    }
+
+    /* Status Banner */
+    .status-banner {
+      padding: 16px;
+      border-radius: var(--r);
+      margin-bottom: 32px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-banner.unsupported {
+      background: var(--tagz-lt);
+      color: var(--tagz-dk);
+      border: 1px solid rgba(255, 69, 0, 0.2);
+    }
+
+    .status-banner.supported {
+      background: var(--teal-lt);
+      color: var(--teal);
+      border: 1px solid rgba(0, 122, 107, 0.2);
+    }
+
+    /* Form Layout */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--ff-head);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: var(--ff-body);
+      font-size: 15px;
+      background: var(--warm);
+      border: 1px solid var(--paper);
+      border-radius: var(--r);
+      color: var(--ink);
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--tagz);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--tagz-lt);
+    }
+
+    .form-control::placeholder {
+      color: var(--ink-3);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Preview Card */
+    .preview-card {
+      background: var(--ink);
+      color: #fff;
+      border-radius: var(--r-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .preview-header {
+      font-family: var(--ff-head);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--tagz);
+    }
+
+    .payload-display {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: var(--r);
+      font-family: monospace;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      word-break: break-all;
+      margin-bottom: 32px;
+      min-height: 120px;
+    }
+
+    .payload-type {
+      display: inline-block;
+      background: var(--tagz);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-family: var(--ff-head);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Log Screen */
+    #action-log {
+      margin-top: 20px;
+      font-size: 13px;
+      padding: 14px;
+      border-radius: var(--r);
+      display: none;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .log-success {
+      background: var(--teal-lt);
+      color: var(--teal);
+      border: 1px solid rgba(0, 122, 107, 0.2);
+      display: block !important;
+    }
+
+    .log-error {
+      background: var(--tagz-lt);
+      color: var(--tagz-dk);
+      border: 1px solid rgba(255, 69, 0, 0.2);
+      display: block !important;
+    }
+
+    .log-wait {
+      background: var(--warm);
+      color: var(--ink-2);
+      border: 1px solid var(--paper);
+      display: block !important;
+    }
+
+    /* ── TRUST BADGES SYSTEM ── */
+    .badges-section {
+      background: var(--ink);
+      padding: 60px 0;
+    }
+
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .badge-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--r-xl);
+      padding: 24px 16px;
+      text-align: center;
+      transition: all 0.3s var(--ease);
+    }
+
+    .badge-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .badge-title {
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .badge-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER SYSTEM ── */
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 16px;
+      font-weight: 400;
+      max-width: 100%;
+    }
+
+    .footer-address {
+      font-size: 12px;
+      margin-top: 16px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+    }
+
+    .footer-address strong {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--ff-head);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 12px;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+      transition: color 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .wa-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      border-radius: var(--r);
+      padding: 12px 20px;
+      margin-top: 24px;
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: #25D366;
+      transition: all 0.3s var(--ease);
+    }
+
+    .wa-footer:hover {
+      background: rgba(37, 211, 102, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .wa-footer svg {
+      width: 18px;
+      height: 18px;
+      fill: #25D366;
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (min-width: 600px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 768px) {
+
+      .badges-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .footer-top {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 60px;
+      }
+
+      .footer-brand p {
+        max-width: 320px;
+      }
+
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    @media (hover: hover) {
+      .badge-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 69, 0, 0.4);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      }
+    }
